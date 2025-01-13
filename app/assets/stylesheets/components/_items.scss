@@ -1,0 +1,81 @@
+// Container pour tous les items
+.items-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px; // Espace entre les boîtes d'items
+  padding: 20px;
+}
+
+// Chaque boîte d'item
+.item-box {
+  background-color: #fff;
+  width: 300px; // Largeur fixe de chaque boîte
+  padding: 20px;
+  border-radius: 8px; // Coins arrondis pour un design plus doux
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); // Ombre subtile pour l'effet carte
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center; // Aligner le texte au centre
+  position: relative; // Nécessaire pour rendre la card entièrement cliquable
+  cursor: pointer; // Changer le curseur en main pour indiquer que la card est cliquable
+
+  // Ajout d'un effet visuel lors du survol
+  &:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); // Ombre plus prononcée
+  }
+}
+
+// Image de l'item
+.item-image {
+  width: 100%; // L'image prend toute la largeur de la card
+  height: 200px; // Hauteur fixe pour l'image
+  object-fit: cover; // S'assurer que l'image couvre bien la zone sans déformation
+  margin-bottom: 15px; // Espacement entre l'image et le titre
+}
+
+// Détails de l'item
+.item-details {
+  flex-grow: 1;
+  margin-bottom: 20px;
+  font-size: 14px; // Taille de police pour les détails
+}
+
+// Actions (les liens de supprimer et supprimer de la liste)
+.item-actions {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding-top: 10px;
+}
+
+// Liens d'actions (icônes)
+.action-icon {
+  color: #007bff; // Couleur de l'icône
+  text-decoration: none;
+  font-size: 18px;
+  cursor: pointer;
+
+  &:hover {
+    color: #0056b3; // Couleur au survol
+  }
+}
+
+// Spécifique pour chaque action
+.delete-item {
+  color: #d9534f;
+}
+
+// Lien pour la card entière
+.item-link {
+  text-decoration: none; // Enlever la décoration de texte du lien
+  color: inherit; // Garder la couleur du texte originale
+  display: block; // Rendre le lien un bloc pour couvrir toute la card
+  padding-bottom: 20px; // Espacement sous le lien (pour les éléments sous le lien)
+}
+
+// Désactiver le soulignement des liens au survol
+.item-link:hover {
+  text-decoration: none; // Pas de soulignement lors du survol
+}

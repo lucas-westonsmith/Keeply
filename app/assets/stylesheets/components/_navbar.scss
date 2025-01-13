@@ -1,12 +1,118 @@
 .navbar-lewagon {
   justify-content: space-between;
-  background: white;
-}
+  background: rgba(0, 0, 0, 0.825); /* Transparent background */
+  backdrop-filter: blur(10px); /* Blurring effect */
+  position: sticky;
+  top: 0;
+  z-index: 1030;
+  height: 80px;
 
-.navbar-lewagon .navbar-collapse {
-  flex-grow: 0;
-}
+  .navbar-brand {
+    text-decoration: none;
 
-.navbar-lewagon .navbar-brand img {
-  width: 40px;
+    &:hover {
+      text-decoration: none; /* Prevent underline on hover */
+    }
+
+    .navbar-brand-text {
+      font-family: "Audiowide", serif;
+      font-size: 30px;
+      font-weight: 400;
+      color: #fff;
+      margin-right: 20px;
+      text-decoration: none; /* Prevent underline */
+    }
+  }
+
+  .navbar-center {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+
+    .nav-separator {
+      height: 40px;
+      width: 1px;
+      background-color: #6E2DF0; /* Separator color */
+    }
+
+    .search-bar {
+      display: flex;
+      gap: 10px;
+
+      input {
+        width: 200px;
+      }
+    }
+  }
+
+  .nav-link {
+    position: relative;
+    text-decoration: none;
+    font-size: 18px;
+    margin-right: 20px;
+    color: #fff;
+
+    &:hover {
+      color: #fff;
+    }
+
+    &::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: #6E2DF0;
+      transition: width 0.3s ease-in-out;
+    }
+
+    &.active::before,
+    &:hover::before {
+      width: 100%;
+    }
+  }
+
+  .dropdown .fa-globe {
+    margin-right: 10px;
+    color: #fff;
+    cursor: pointer;
+
+    &:hover {
+      color: #6E2DF0;
+    }
+  }
+
+  .avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    cursor: pointer;
+  }
+
+  .dropdown-menu {
+    background-color: rgba(255, 255, 255, 0.9);
+    border: none;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .dropdown-item {
+    color: #333;
+
+    &:hover {
+      background-color: #f1f1f1;
+      color: #6E2DF0;
+    }
+  }
+
+  .btn-primary {
+    background-color: #6E2DF0;
+    border-color: #6E2DF0;
+
+    &:hover {
+      background-color: #5638bf;
+      border-color: #5638bf;
+    }
+  }
 }

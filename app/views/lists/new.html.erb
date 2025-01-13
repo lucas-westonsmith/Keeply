@@ -1,0 +1,19 @@
+<h1>Create a new list</h1>
+
+<%= simple_form_for @list, local: true do |f| %>
+
+  <!-- Title -->
+  <%= f.input :title, label: 'Title', required: true %>
+
+  <!-- Description -->
+  <%= f.input :description, as: :text, label: 'Description' %>
+
+  <!-- Photo Upload -->
+  <%= f.input :photo, as: :file, label: 'Upload a Photo' %>
+
+  <!-- Submit Button -->
+  <%= f.submit 'Create List' %>
+
+<% end %>
+
+<%= link_to 'Cancel', lists_path %>

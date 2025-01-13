@@ -1,0 +1,38 @@
+<h1>Add a new item</h1>
+
+<%= simple_form_for (@list ? [@list, @item] : @item), url: (@list ? list_items_path(@list) : items_path), local: true, data: { turbo: false } do |f| %>
+
+  <!-- Title -->
+  <strong><%= f.input :title, as: :string, label: "Title", required: true %></strong>
+
+  <!-- Description -->
+  <%= f.input :description, as: :text, label: "Description" %>
+
+  <!-- Price -->
+  <%= f.input :price, as: :decimal, label: "Price" %>
+
+  <!-- Condition (Dropdown) -->
+  <%= f.input :condition, as: :select, label: "Condition", collection: ['poor', 'okay', 'good', 'excellent'], include_blank: 'Select condition' %>
+
+  <!-- Category -->
+  <%= f.input :category, as: :string, label: "Category" %>
+
+  <!-- Purchase Date -->
+  <%= f.input :purchase_date, as: :date, label: "Purchase date" %>
+
+  <!-- Warranty Expiry Date -->
+  <%= f.input :warranty_expiry_date, as: :date, label: "Warranty expiration date" %>
+
+  <!-- Select Existing Lists -->
+  <%= f.input :list_ids, as: :check_boxes, label: "Add to Lists", collection: List.all.map { |list| [list.title, list.id] } %>
+
+  <!-- Upload a Photo -->
+  <%= f.input :photo, as: :file, label: "Upload a Photo" %>
+
+  <!-- Upload PDF Invoice -->
+  <%= f.input :invoice, as: :file, label: "Upload Invoice (PDF or Image)" %>
+
+  <!-- Submit Button -->
+  <%= f.submit 'Submit' %>
+
+<% end %>
