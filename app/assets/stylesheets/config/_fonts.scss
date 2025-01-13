@@ -1,16 +1,61 @@
-// Import Google fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito:400,700|Work+Sans:400,700&display=swap');
+// Import Google fonts for Inter
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Audiowide&display=swap');
 
-// Define fonts for body and headers
-$body-font: "Work Sans", "Helvetica", "sans-serif";
-$headers-font: "Nunito", "Helvetica", "sans-serif";
+// Define fonts
+$body-font: 'Inter', 'Helvetica', 'sans-serif';
+$headers-font: 'Inter', 'Helvetica', 'sans-serif';
 
-// To use a font file (.woff) uncomment following lines
-// @font-face {
-//   font-family: "Font Name";
-//   src: font-url('FontFile.eot');
-//   src: font-url('FontFile.eot?#iefix') format('embedded-opentype'),
-//        font-url('FontFile.woff') format('woff'),
-//        font-url('FontFile.ttf') format('truetype')
-// }
-// $my-font: "Font Name";
+// Define font sizes
+$font-size-h1: 2.5rem;
+$font-size-h2: 2rem;
+$font-size-h3: 1.75rem;
+$font-size-h4: 1.5rem;
+$font-size-h5: 1.25rem;
+$font-size-h6: 1rem;
+$font-size-body: 1rem;
+
+// Define line heights
+$line-height-body: 1.6;
+$line-height-header: 1.3;
+
+// Global body styles
+body {
+  font-family: $body-font;
+  font-size: $font-size-body;
+  line-height: $line-height-body;
+  color: #333;
+  margin: 0;
+  padding: 0;
+  background-color: #f8f8f8;
+}
+
+// Global link styles
+a {
+  color: #007bff;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+// Header styles
+h1, h2, h3, h4, h5, h6 {
+  font-family: $headers-font;
+  line-height: $line-height-header;
+}
+
+h1 { font-size: $font-size-h1; font-weight: 700; }
+h2 { font-size: $font-size-h2; font-weight: 600; }
+h3 { font-size: $font-size-h3; font-weight: 600; }
+h4 { font-size: $font-size-h4; font-weight: 500; }
+h5 { font-size: $font-size-h5; font-weight: 500; }
+h6 { font-size: $font-size-h6; font-weight: 500; }
+
+// Paragraph styles
+p {
+  font-size: $font-size-body;
+  line-height: $line-height-body;
+  margin-bottom: 1em;
+}

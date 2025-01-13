@@ -1,0 +1,25 @@
+<h1>My Items</h1>
+
+<%= link_to 'Add an item', new_list_item_path(@list) if @list %> <!-- Si on a une liste contextuelle -->
+
+<ul class="items-list">
+  <% @items.each do |item| %>
+    <li class="item-box">
+      <%= link_to item_path(item), class: "item-link" do %> <!-- Lien cliquable pour accéder à la page de l'item -->
+        <div class="item-image">
+          <%= image_tag item.photo, size: "300x150", alt: "Item photo" if item.photo.attached? %>
+        </div>
+        <div class="item-details">
+          <h3><%= item.title %></h3>
+          <p><strong>Category:</strong> <%= item.category %></p>
+          <p><strong>Condition:</strong> <%= item.condition.capitalize %></p>
+        </div>
+      <% end %>
+      <div class="item-actions">
+        <%= link_to item_path(item), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: 'action-icon delete-item' do %>
+          <i class="fa fa-trash-alt"></i> Delete
+        <% end %>
+      </div>
+    </li>
+  <% end %>
+</ul>

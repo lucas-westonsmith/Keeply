@@ -1,0 +1,13 @@
+<h1>Invite another user to your list: <%= @list.title %></h1>
+
+<%= simple_form_for :list_user, url: list_users_path, local: true do |f| %>
+
+  <!-- User Email -->
+  <%= f.input :user_id, as: :email, label: 'Email address of the user', required: true %>
+
+  <!-- Submit Button -->
+  <%= f.submit 'Invite' %>
+
+<% end %>
+
+<%= link_to 'Back to list', @list %>

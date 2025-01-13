@@ -1,0 +1,45 @@
+<h1><%= @list.title %></h1>
+
+<% if @list.photo.attached? %>
+  <p><%= image_tag @list.photo, size: "300x300", alt: "List photo" %></p>
+<% end %>
+
+<p><%= @list.description %></p>
+
+<p>Shared with:</p>
+<ul>
+  <% @list.users.each do |user| %>
+    <li><%= user.email %></li>
+  <% end %>
+</ul>
+
+<%= link_to 'Edit', edit_list_path(@list) %> |
+<%= link_to 'Delete', @list, method: :delete, data: { confirm: 'Are you sure?' } %> |
+<%= link_to 'Back to lists', lists_path %>
+
+<%= link_to 'Add a new item', new_list_item_path(@list) %> |
+
+
+<h2>Items in this list</h2>
+<ul class="items-list">
+  <% @list.items.each do |item| %>
+    <li class="item-box">
+      <div class="item-image">
+        <%= image_tag item.photo, size: "100x100", alt: "Item photo" if item.photo.attached? %>
+      </div>
+      <div class="item-details">
+        <h3><%= item.title %></h3>
+        <p><strong>Category:</strong> <%= item.category %></p>
+        <p><strong>Condition:</strong> <%= item.condition.capitalize %></p>
+      </div>
+      <div class="item-actions">
+        <%= link_to remove_item_from_list_path(@list, item.id), method: :delete, data: { confirm: 'Are you sure?' }, class: 'action-icon remove-item' do %>
+          <i class="fa fa-times-circle"></i> Remove from list
+        <% end %>
+        <%= link_to item_path(item), method: :delete, data: { confirm: 'Are you sure?' }, class: 'action-icon delete-item' do %>
+          <i class="fa fa-trash-alt"></i> Delete
+        <% end %>
+      </div>
+    </li>
+  <% end %>
+</ul>
