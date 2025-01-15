@@ -1,6 +1,6 @@
 class Item < ApplicationRecord
   belongs_to :user
-  has_many :item_lists
+  has_many :item_lists, dependent: :destroy # Supprime les item_lists liés
   has_many :lists, through: :item_lists
   has_one_attached :photo
   has_one_attached :invoice

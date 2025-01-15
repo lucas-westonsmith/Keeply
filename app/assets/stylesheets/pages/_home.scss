@@ -1,70 +1,196 @@
-
 .hero {
-  background: $primary;
+  background: rgb(0,0,0);
+  background: linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(201,147,68,1) 50%, rgba(0,0,0,1) 100%);
   color: #fff;
   text-align: center;
-  padding: 4rem 2rem;
+  padding: 8rem 2rem;
 
   h1 {
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
+    font-size: 3.5rem;
+
+    .text-gradient {
+      background: linear-gradient(90deg, #ff9a9e 0%, #fad0c4 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
   }
 
   h2 {
-    margin-bottom: 2rem;
+    font-size: 1.75rem;
+    margin-bottom: 3rem;
   }
 
   .hero-buttons {
     display: flex;
     justify-content: center;
-    gap: 1rem;
+    gap: 2rem;
+    margin: 3rem 0;
 
     .btn {
-      padding: 0.75rem 1.5rem;
-      border-radius: 0.5rem;
-      text-decoration: none;
-      font-weight: 600;
+      padding: 0.75rem 2rem;
     }
+  }
 
-    .btn-primary {
-      background: $secondary;
-      color: #fff;
-    }
+  .check-homepage {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 2rem;
 
-    .btn-secondary {
-      background: $accent;
-      color: #fff;
+    .check-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 1.2rem;
     }
   }
 }
 
 .features-section {
-  background: $background;
-  padding: 4rem 2rem;
+  background: #f9fafb;
+  padding: 6rem 2rem;
+
+  .section-title {
+    text-align: center;
+
+    h2 {
+      margin-bottom: 1rem;
+    }
+
+    p {
+      margin: 0;
+      font-size: 1.25rem;
+      color: $text-secondary;
+    }
+  }
 
   .feature-cards {
     display: grid;
-    gap: 2rem;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 3rem;
 
     .feature-card {
       background: #fff;
-      border-radius: 0.5rem;
-      padding: 1.5rem;
+      padding: 2rem;
+      border-radius: 8px;
+      text-align: center;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      min-height: 300px; /* Augmenter la hauteur */
+
+      i {
+        margin-bottom: 1rem;
+        display: block;
+      }
+
+      h3 {
+        font-size: 1.75rem;
+        margin-bottom: 1rem;
+      }
+
+      p {
+        font-size: 1rem;
+        color: $text-secondary;
+      }
     }
   }
 }
 
 .how-it-works-section {
-  padding: 4rem 2rem;
+  background: #fff;
+  padding: 6rem 2rem;
+
+  .section-title {
+    text-align: center;
+
+    h2 {
+      margin-bottom: 3rem;
+    }
+  }
 
   .steps {
     display: grid;
-    gap: 2rem;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 3rem;
 
     .step {
+      background: #f9fafb;
+      border-radius: 8px;
+      padding: 2rem;
       text-align: center;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+      h3 {
+        font-size: 1.5rem;
+        color: $primary;
+        margin-bottom: 1rem;
+      }
+
+      h4 {
+        font-size: 1.25rem;
+        margin-bottom: 1rem;
+      }
+
+      p {
+        font-size: 1rem;
+        color: $text-secondary;
+      }
+    }
+  }
+}
+
+.container-explanation {
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 4rem 2rem;
+
+  .column-explanation {
+    flex: 1;
+    min-width: 300px;
+    background: #fff;
+    border-radius: 10px;
+    padding: 2rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+    .title-explanation {
+      text-align: center;
+      color: $primary;
+      font-size: 1.75rem;
+      margin-bottom: 2rem;
+    }
+
+    .card-row {
+      margin-bottom: 2rem;
+
+      .item-left, .item {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+
+        i {
+          font-size: 2rem;
+        }
+
+        p {
+          font-size: 1rem;
+          color: $text-secondary;
+        }
+      }
+    }
+  }
+
+  .arrow-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+
+    .arrow {
+      i {
+        font-size: 2rem;
+        color: $accent;
+      }
     }
   }
 }

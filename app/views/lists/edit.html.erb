@@ -1,19 +1,41 @@
-<h1>Edit List: <%= @list.title %></h1>
+<div class="form-container lists">
+  <h1 class="form-title">Edit list: <%= @list.title %></h1>
+  <p class="form-description">Make changes to your list below.</p>
 
-<%= simple_form_for @list, local: true do |f| %>
+  <%= simple_form_for @list, local: true do |f| %>
+    <div class="form-columns">
+      <!-- Colonne unique -->
+      <div class="form-column">
+        <!-- Title -->
+        <div class="form-group">
+          <%= f.label :title, "Title", class: "form-label" %>
+          <%= f.input :title, as: :string, placeholder: "Update the list's title", label: false, required: true, class: "form-input" %>
+        </div>
 
-  <!-- Title -->
-  <%= f.input :title, label: 'Title', required: true %>
+        <!-- Description -->
+        <div class="form-group">
+          <%= f.label :description, "Description", class: "form-label" %>
+          <%= f.input :description, as: :text, placeholder: "Update the description for the list", label: false, class: "form-input" %>
+        </div>
 
-  <!-- Description -->
-  <%= f.input :description, as: :text, label: 'Description' %>
+        <!-- Photo Upload -->
+        <div class="form-group">
+          <%= f.label :photo, "Upload a picture for the list", class: "form-label" %>
+          <% if @list.photo.attached? %>
+            <p class="file-info">Current file: <%= @list.photo.filename %></p>
+          <% end %>
+          <%= f.input :photo, as: :file, label: false, class: "form-input-file" %>
+        </div>
+      </div>
+    </div>
 
-  <!-- Photo Upload -->
-  <%= f.input :photo, as: :file, label: 'Upload a Photo' %>
+    <!-- Submit Button -->
+    <div class="form-actions">
+      <%= f.submit 'Update list', class: 'btn btn-primary' %>
+    </div>
+  <% end %>
 
-  <!-- Submit Button -->
-  <%= f.submit 'Update List' %>
-
-<% end %>
-
-<%= link_to 'Cancel', @list %>
+  <div class="form-cancel">
+    <%= link_to 'Cancel', @list, class: 'btn btn-secondary' %>
+  </div>
+</div>

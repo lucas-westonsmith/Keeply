@@ -1,38 +1,91 @@
-<h1>Add a new item</h1>
+<div class="form-container">
+  <h1 class="form-title">Add a new item</h1>
+  <p class="form-description">Fill out the details below to add a new item to your collection.</p>
 
-<%= simple_form_for (@list ? [@list, @item] : @item), url: (@list ? list_items_path(@list) : items_path), local: true, data: { turbo: false } do |f| %>
+  <%= simple_form_for (@list ? [@list, @item] : @item), local: true, data: { turbo: false } do |f| %>
+    <div class="form-columns">
+      <!-- Colonne gauche -->
+      <div class="form-column">
+        <!-- Title -->
+        <div class="form-group">
+          <%= f.label :title, "Title", class: "form-label" %>
+          <%= f.input :title, as: :string, placeholder: "Enter the item's title", label: false, required: true, class: "form-input" %>
+        </div>
 
-  <!-- Title -->
-  <strong><%= f.input :title, as: :string, label: "Title", required: true %></strong>
+        <!-- Description -->
+        <div class="form-group">
+          <%= f.label :description, "Description", class: "form-label" %>
+          <%= f.input :description, as: :text, placeholder: "Provide a short description of the item", label: false, class: "form-input" %>
+        </div>
 
-  <!-- Description -->
-  <%= f.input :description, as: :text, label: "Description" %>
+        <!-- Price -->
+        <div class="form-group">
+          <%= f.label :price, "Price (€)", class: "form-label" %>
+          <%= f.input :price, as: :decimal, placeholder: "Enter the price in euros", label: false, class: "form-input" %>
+        </div>
 
-  <!-- Price -->
-  <%= f.input :price, as: :decimal, label: "Price" %>
+        <!-- Condition -->
+        <div class="form-group">
+          <%= f.label :condition, "Condition", class: "form-label" %>
+          <%= f.input :condition, as: :select, collection: ['poor', 'okay', 'good', 'excellent'], include_blank: "Select condition", label: false, class: "form-select" %>
+        </div>
 
-  <!-- Condition (Dropdown) -->
-  <%= f.input :condition, as: :select, label: "Condition", collection: ['poor', 'okay', 'good', 'excellent'], include_blank: 'Select condition' %>
+        <!-- Category -->
+        <div class="form-group">
+          <%= f.label :category, "Category", class: "form-label" %>
+          <%= f.input :category, as: :string, placeholder: "e.g., Electronics, Furniture", label: false, class: "form-input" %>
+        </div>
+      </div>
 
-  <!-- Category -->
-  <%= f.input :category, as: :string, label: "Category" %>
+      <!-- Colonne droite -->
+      <div class="form-column">
+        <!-- Purchase date -->
+        <div class="form-group">
+          <%= f.label :purchase_date, "Purchase date", class: "form-label" %>
+          <%= f.input :purchase_date, as: :date, label: false, class: "form-input" %>
+        </div>
 
-  <!-- Purchase Date -->
-  <%= f.input :purchase_date, as: :date, label: "Purchase date" %>
+        <!-- Warranty Expiry Date -->
+        <div class="form-group">
+          <%= f.label :warranty_expiry_date, "Warranty expiry date", class: "form-label" %>
+          <%= f.input :warranty_expiry_date, as: :date, label: false, class: "form-input" %>
+        </div>
 
-  <!-- Warranty Expiry Date -->
-  <%= f.input :warranty_expiry_date, as: :date, label: "Warranty expiration date" %>
+        <!-- Add to Lists -->
+        <div class="form-group">
+          <label class="form-label">Add to lists</label>
+          <div class="form-checkbox-group">
+            <%= f.collection_check_boxes(:list_ids, List.all, :id, :title) do |list_check_box| %>
+              <div class="checkbox-item">
+                <%= list_check_box.check_box %>
+                <%= list_check_box.text %>
+              </div>
+            <% end %>
+          </div>
+        </div>
 
-  <!-- Select Existing Lists -->
-  <%= f.input :list_ids, as: :check_boxes, label: "Add to Lists", collection: List.all.map { |list| [list.title, list.id] } %>
+        <!-- Upload a picture -->
+        <div class="form-group">
+          <%= f.label :photo, "Upload a picture of the item", class: "form-label" %>
+          <%= f.input :photo, as: :file, label: false, class: "form-input-file" %>
+        </div>
 
-  <!-- Upload a Photo -->
-  <%= f.input :photo, as: :file, label: "Upload a Photo" %>
+        <!-- Upload Invoice -->
+        <div class="form-group">
+          <%= f.label :invoice, "Upload invoice (PDF or image)", class: "form-label" %>
+          <%= f.input :invoice, as: :file, label: false, class: "form-input-file" %>
+        </div>
+      </div>
+    </div>
 
-  <!-- Upload PDF Invoice -->
-  <%= f.input :invoice, as: :file, label: "Upload Invoice (PDF or Image)" %>
+    <!-- Submit Button -->
+    <div class="form-actions">
+      <%= f.submit 'Add item', class: 'btn btn-primary' %>
+    </div>
+  <% end %>
 
-  <!-- Submit Button -->
-  <%= f.submit 'Submit' %>
-
-<% end %>
+  <!-- Cancel Button -->
+  <div class="form-cancel">
+    <%= link_to 'Cancel', items_path, class: 'btn btn-secondary' %>
+  </div>
+</div>
