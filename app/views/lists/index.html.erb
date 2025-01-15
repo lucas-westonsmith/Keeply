@@ -1,12 +1,33 @@
-<h1>My Lists</h1>
-<%= link_to 'Create a New List', new_list_path %>
+<div class="container my-5 lists-index">
+  <h1 class="page-title">My lists</h1>
+  <p class="page-description">Browse through all your lists and keep everything organized.</p>
 
-<ul>
-  <% @lists.each do |list| %>
-    <li>
-      <%= link_to list.title, list_path(list) %> |
-      <%= link_to 'Edit', edit_list_path(list) %> |
-      <%= link_to 'Delete', list_path(list), method: :delete, data: { confirm: 'Are you sure?' } %>
-    </li>
-  <% end %>
-</ul>
+  <%= link_to 'Create a new list', new_list_path, class: 'btn btn-primary create-list-button' %>
+
+  <div class="lists-container">
+    <% @lists.each do |list| %>
+      <%= link_to list_path(list), class: "list-card-link" do %> <!-- Rendre la carte cliquable -->
+        <div class="list-card">
+          <!-- Image -->
+          <div class="list-image">
+            <% if list.photo.attached? %>
+              <%= image_tag list.photo, alt: "List photo" %>
+            <% else %>
+              <div class="placeholder-image">No image</div>
+            <% end %>
+          </div>
+
+          <!-- Details -->
+          <div class="list-details">
+            <h2 class="list-title"><%= list.title %></h2>
+            <p class="list-description"><%= truncate(list.description, length: 150) %></p>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+
+  <div class="list-actions">
+    <%= link_to 'Back', root_path, class: 'btn btn-secondary back-button' %>
+  </div>
+</div>

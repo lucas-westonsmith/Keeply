@@ -48,13 +48,17 @@ class ListsController < ApplicationController
 
   # Supprimer un item d'une liste
   def remove_item
+    Rails.logger.info "Trying to remove item #{params[:item_id]} from list #{params[:id]}"
     item = @list.items.find(params[:item_id])
     if @list.items.delete(item)
+      Rails.logger.info "Item #{params[:item_id]} successfully removed from list #{params[:id]}"
       redirect_to @list, notice: 'Item successfully removed from the list.'
     else
+      Rails.logger.info "Failed to remove item #{params[:item_id]} from list #{params[:id]}"
       redirect_to @list, alert: 'Failed to remove the item from the list.'
     end
   end
+
 
   private
 

@@ -1,28 +1,49 @@
 <div class="single-item-container">
-  <h1 class="single-item-title"><%= @item.title %></h1>
-
-  <div class="single-item-description">
-    <p><strong>Description:</strong> <%= @item.description %></p>
-    <p><strong>Price:</strong> <%= @item.price %>€</p>
-    <p><strong>Condition:</strong> <%= @item.condition.capitalize %></p>
-    <p><strong>Category:</strong> <%= @item.category %></p>
-    <p><strong>Purchase date:</strong> <%= @item.purchase_date %></p>
-    <p><strong>Warranty expiry date:</strong> <%= @item.warranty_expiry_date %></p>
-
-    <% if @item.photo.attached? %>
-      <%= image_tag @item.photo, alt: "Photo of #{@item.title}", size: "500x500" %>
-    <% else %>
-      <p><strong>No photo available.</strong></p>
-    <% end %>
-
-    <% if @item.invoice.attached? %>
-      <p><strong>Invoice:</strong></p>
-      <%= link_to 'Download Invoice', rails_blob_path(@item.invoice, disposition: "attachment"), target: "_blank" %>
-    <% else %>
-      <p><strong>Invoice:</strong> No invoice uploaded.</p>
-    <% end %>
+  <!-- Bouton Back en haut à gauche -->
+  <div class="single-item-back">
+    <%= link_to 'Back', items_path, class: 'back-link' %>
   </div>
 
+  <!-- Titre de l'item -->
+  <h1 class="single-item-title"><%= @item.title %></h1>
+
+  <!-- Conteneur principal des infos et de la photo -->
+  <div class="single-item-content">
+    <!-- Informations de l'item -->
+    <div class="single-item-info">
+      <p><strong>Description:</strong> <%= @item.description %></p>
+      <p><strong>Price:</strong> <%= @item.price %>€</p>
+      <p><strong>Condition:</strong> <%= @item.condition.capitalize %></p>
+      <p><strong>Category:</strong> <%= @item.category %></p>
+      <p><strong>Purchase date:</strong> <%= @item.purchase_date %></p>
+      <p><strong>Warranty expiry date:</strong> <%= @item.warranty_expiry_date %></p>
+
+      <% if @item.invoice.attached? %>
+        <p><strong>Invoice:</strong>
+          <%= link_to 'Download Invoice', rails_blob_path(@item.invoice, disposition: "attachment"), target: "_blank", class: 'invoice-link' %>
+        </p>
+
+        <!-- Prévisualisation de l'invoice -->
+        <div class="invoice-preview">
+          <%= tag.embed src: rails_blob_path(@item.invoice, disposition: "inline"), class: 'invoice-iframe' if @item.invoice.blob.content_type == 'application/pdf' %>
+          <%= image_tag @item.invoice, class: 'invoice-image' if @item.invoice.blob.content_type.start_with?('image/') %>
+        </div>
+      <% else %>
+        <p><strong>Invoice:</strong> No invoice uploaded.</p>
+      <% end %>
+    </div>
+
+    <!-- Photo de l'item -->
+    <div class="single-item-photo">
+      <% if @item.photo.attached? %>
+        <%= image_tag @item.photo, alt: "Photo of #{@item.title}" %>
+      <% else %>
+        <p><strong>No photo available.</strong></p>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Actions -->
   <div class="single-item-actions">
     <%= link_to edit_item_path(@item), class: 'action-icon modify-item' do %>
       <i class="fa fa-edit"></i> Modify
@@ -30,6 +51,5 @@
     <%= link_to item_path(@item), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: 'action-icon delete-item' do %>
       <i class="fa fa-trash-alt"></i> Delete
     <% end %>
-    <%= link_to 'Back', items_path, class: 'back-link' %>
   </div>
 </div>

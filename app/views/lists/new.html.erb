@@ -1,19 +1,38 @@
-<h1>Create a new list</h1>
+<div class="form-container">
+  <h1 class="form-title">Create a new list</h1>
+  <p class="form-description">Fill out the details below to create your list.</p>
 
-<%= simple_form_for @list, local: true do |f| %>
+  <%= simple_form_for @list, local: true do |f| %>
+    <div class="form-columns">
+      <!-- Colonne unique -->
+      <div class="form-column">
+        <!-- Title -->
+        <div class="form-group">
+          <%= f.label :title, "Title", class: "form-label" %>
+          <%= f.input :title, as: :string, placeholder: "Enter the list's title", label: false, required: true, class: "form-input" %>
+        </div>
 
-  <!-- Title -->
-  <%= f.input :title, label: 'Title', required: true %>
+        <!-- Description -->
+        <div class="form-group">
+          <%= f.label :description, "Description", class: "form-label" %>
+          <%= f.input :description, as: :text, placeholder: "Add a description for the list", label: false, class: "form-input" %>
+        </div>
 
-  <!-- Description -->
-  <%= f.input :description, as: :text, label: 'Description' %>
+        <!-- Photo Upload -->
+        <div class="form-group">
+          <%= f.label :photo, "Upload a picture for the list", class: "form-label" %>
+          <%= f.input :photo, as: :file, label: false, class: "form-input-file" %>
+        </div>
+      </div>
+    </div>
 
-  <!-- Photo Upload -->
-  <%= f.input :photo, as: :file, label: 'Upload a Photo' %>
+    <!-- Submit Button -->
+    <div class="form-actions">
+      <%= f.submit 'Create list', class: 'btn btn-primary' %>
+    </div>
+  <% end %>
 
-  <!-- Submit Button -->
-  <%= f.submit 'Create List' %>
-
-<% end %>
-
-<%= link_to 'Cancel', lists_path %>
+  <div class="form-cancel">
+    <%= link_to 'Cancel', lists_path, class: 'btn btn-secondary' %>
+  </div>
+</div>
