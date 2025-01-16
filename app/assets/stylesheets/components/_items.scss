@@ -346,3 +346,25 @@
     }
   }
 }
+
+.no-items-message {
+  margin-top: 70px; // Augmente la distance entre le bouton et le message
+  text-align: center;
+
+  h3 {
+    font-size: 2rem; // Taille légèrement augmentée
+    color: $primary; // Couleur principale
+    margin-bottom: 20px;
+  }
+
+  p {
+    font-size: 1.2rem;
+    color: $text-secondary; // Couleur secondaire pour le texte
+    line-height: 1.6; // Améliore la lisibilité
+    margin-bottom: 15px;
+  }
+
+  strong {
+    color: $primary; // Met en valeur le texte important
+  }
+}

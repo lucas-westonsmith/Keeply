@@ -1,25 +1,71 @@
-<h2>Sign up</h2>
+<div class="form-container">
+  <h1 class="form-title">Sign up</h1>
 
-<%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= f.error_notification %>
+  <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+    <%= f.error_notification %>
 
-  <div class="form-inputs">
-    <%= f.input :email,
-                required: true,
-                autofocus: true,
-                input_html: { autocomplete: "email" }%>
-    <%= f.input :password,
-                required: true,
-                hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length),
-                input_html: { autocomplete: "new-password" } %>
-    <%= f.input :password_confirmation,
-                required: true,
-                input_html: { autocomplete: "new-password" } %>
-  </div>
+    <div class="form-columns">
+      <!-- Colonne de gauche -->
+      <div class="form-column">
+        <div class="form-group">
+          <%= f.label :first_name, "First Name", class: "form-label" %>
+          <%= f.input :first_name, required: true, autofocus: true, label: false, class: "form-input" %>
+        </div>
 
-  <div class="form-actions">
-    <%= f.button :submit, "Sign up" %>
-  </div>
-<% end %>
+        <div class="form-group">
+          <%= f.label :last_name, "Last Name", class: "form-label" %>
+          <%= f.input :last_name, required: true, label: false, class: "form-input" %>
+        </div>
 
-<%= render "devise/shared/links" %>
+        <div class="form-group">
+          <%= f.label :email, "Email", class: "form-label" %>
+          <%= f.input :email, required: true, label: false, class: "form-input" %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :password, "Password", class: "form-label" %>
+          <%= f.input :password, required: true, hint: "#{@minimum_password_length} characters minimum", label: false, class: "form-input" %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :password_confirmation, "Confirm Password", class: "form-label" %>
+          <%= f.input :password_confirmation, required: true, label: false, class: "form-input" %>
+        </div>
+      </div>
+
+      <!-- Colonne de droite -->
+      <div class="form-column">
+        <div class="form-group">
+          <%= f.label :date_of_birth, "Date of Birth", class: "form-label" %>
+          <%= f.input :date_of_birth, as: :date, label: false, class: "form-input" %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :country, "Country", class: "form-label" %>
+          <%= f.input :country, as: :string, label: false, class: "form-input" %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :phone_number, "Phone Number", class: "form-label" %>
+          <%= f.input :phone_number, label: false, class: "form-input" %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :preferred_language, "Preferred Language", class: "form-label" %>
+          <%= f.input :preferred_language, as: :select, collection: ['English', 'French', 'Spanish'], include_blank: true, label: false, class: "form-select" %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :avatar, "Picture (Avatar)", class: "form-label" %>
+          <%= f.input :avatar, as: :file, label: false, class: "form-input-file" %>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <%= f.button :submit, "Sign up", class: "btn btn-primary" %>
+    </div>
+  <% end %>
+
+  <%= render "devise/shared/links" %>
+</div>

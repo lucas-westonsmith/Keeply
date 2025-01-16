@@ -1,0 +1,211 @@
+.auth-form {
+  max-width: 500px;
+  margin: 0 auto;
+  background: #f8f9fa;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+  h2 {
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    color: #333;
+  }
+
+  .form-inputs {
+    margin-bottom: 20px;
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    label {
+      font-weight: bold;
+      color: #555;
+    }
+
+    input,
+    select {
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      padding: 10px;
+      width: 100%;
+    }
+  }
+
+  .form-actions {
+    text-align: center;
+
+    .btn {
+      padding: 10px 20px;
+      border-radius: 6px;
+    }
+
+    .btn-primary {
+      background-color: #007bff;
+      color: #fff;
+      &:hover {
+        background-color: #0056b3;
+      }
+    }
+
+    .btn-danger {
+      background-color: #dc3545;
+      color: #fff;
+      &:hover {
+        background-color: #a71d2a;
+      }
+    }
+  }
+}
+
+.profile-card {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+
+  .profile-avatar {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+  }
+
+  .profile-details {
+    margin-top: 20px;
+
+    p {
+      font-size: 1rem;
+      margin-bottom: 10px;
+
+      strong {
+        color: #333;
+      }
+    }
+  }
+}
+
+.form-container {
+  max-width: 800px;
+  margin: 3rem auto;
+  padding: 2rem;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+  .form-title {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+
+  .form-description {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+
+  .form-columns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+
+    .form-column {
+      flex: 1;
+
+      .form-group {
+        margin-bottom: 1.5rem;
+
+        .form-label {
+          display: block;
+          font-size: 1rem;
+          color: #555;
+          margin-bottom: 0.5rem;
+        }
+
+        .form-input,
+        .form-select,
+        .form-input-file {
+          width: 100%;
+          padding: 0.75rem;
+          font-size: 1rem;
+          border: 1px solid #ccc;
+          border-radius: 6px;
+          transition: border-color 0.2s;
+
+          &:focus {
+            border-color: #007bff;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
+          }
+        }
+
+        .form-checkbox-group {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 1rem;
+
+          .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+
+            input[type="checkbox"] {
+              width: 16px;
+              height: 16px;
+            }
+
+            label {
+              font-size: 1rem;
+              color: #555;
+              margin: 0;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .form-actions {
+    text-align: center;
+
+    .btn-primary {
+      background: #007bff;
+      color: #fff;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+
+      &:hover {
+        background: #0056b3;
+        transform: translateY(-2px);
+      }
+    }
+  }
+
+  .form-cancel {
+    text-align: center;
+    margin-top: 1rem;
+
+    .btn-secondary {
+      background: #f8f9fa;
+      color: #555;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s;
+
+      &:hover {
+        background: #e2e6ea;
+      }
+    }
+  }
+}

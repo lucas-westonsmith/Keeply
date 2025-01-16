@@ -3,6 +3,10 @@
     <div class="list-image">
       <%= image_tag @list.photo, alt: "List photo" %>
     </div>
+  <% else %>
+    <div class="list-image">
+      <%= image_tag "default-list.avif", alt: "Default list photo" %>
+    </div>
   <% end %>
 
   <div class="list-details container">
@@ -12,10 +16,25 @@
     <div class="list-shared">
       <h3>Shared with:</h3>
       <ul>
-        <% @list.users.each do |user| %>
-          <li><%= user.email %></li>
+        <% @list.list_users.each do |list_user| %>
+          <li>
+            <%= list_user.user.email %>
+            <% if list_user.user != current_user %>
+              <%= link_to 'Remove', list_user_path(list_user), method: :delete, data: { turbo_method: :delete, confirm: 'Are you sure?' }, class: 'btn btn-sm btn-danger' %>
+            <% end %>
+          </li>
         <% end %>
       </ul>
+    </div>
+
+    <div class="add-user-form mt-4">
+      <h3>Invite a user to this list</h3>
+      <%= form_with url: list_list_users_path(@list), local: true, method: :post do %>
+        <div class="form-group">
+          <%= text_field_tag :email, nil, class: "form-control", placeholder: "Enter user's email" %>
+        </div>
+        <%= submit_tag "Invite", class: "btn btn-primary mt-2" %>
+      <% end %>
     </div>
 
     <div class="list-actions">
@@ -29,79 +48,40 @@
     <h2 class="list-items-title">Items in this list</h2>
     <%= link_to 'Add a new item', new_list_item_path(@list), class: 'btn btn-primary add-item-button' %>
 
-    <!-- Section de tri et filtrage -->
-    <div class="filter-sort-container">
-      <div class="filter-sort-box">
-        <h2 class="filter-sort-header">Filter and Sort</h2>
-        <form class="filter-sort-form" method="get">
-          <!-- Sorting Options -->
-          <div class="sort-options">
-            <label for="sort">Sort by:</label>
-            <select name="sort" id="sort" class="form-select">
-              <option value="" <%= params[:sort].blank? ? "selected" : "" %>>Select</option>
-              <option value="price_asc" <%= params[:sort] == "price_asc" ? "selected" : "" %>>Price: Low to High</option>
-              <option value="price_desc" <%= params[:sort] == "price_desc" ? "selected" : "" %>>Price: High to Low</option>
-            </select>
-          </div>
-
-          <!-- Filter by Category -->
-          <div class="filter-options">
-            <label for="category">Category:</label>
-            <select name="category" id="category" class="form-select">
-              <option value="" <%= params[:category].blank? ? "selected" : "" %>>All Categories</option>
-              <% @list.items.distinct.pluck(:category).each do |category| %>
-                <option value="<%= category %>" <%= params[:category] == category ? "selected" : "" %>><%= category %></option>
-              <% end %>
-            </select>
-          </div>
-
-          <!-- Filter by Condition -->
-          <div class="filter-options">
-            <label for="condition">Condition:</label>
-            <select name="condition" id="condition" class="form-select">
-              <option value="" <%= params[:condition].blank? ? "selected" : "" %>>All Conditions</option>
-              <% @list.items.distinct.pluck(:condition).each do |condition| %>
-                <option value="<%= condition %>" <%= params[:condition] == condition ? "selected" : "" %>><%= condition.capitalize %></option>
-              <% end %>
-            </select>
-          </div>
-
-          <!-- Buttons -->
-          <div class="filter-sort-actions">
-            <button type="submit" class="apply-button">Apply</button>
-            <%= link_to 'Reset', list_path(@list), class: 'reset-button' %>
-          </div>
-        </form>
-      </div>
-    </div>
-
-    <div class="items-list">
-      <% @list.items.each do |item| %>
-        <div class="item-card">
-          <%= link_to item_path(item), class: "item-link" do %>
-            <div class="item-image">
-              <% if item.photo.attached? %>
-                <%= image_tag item.photo, alt: "Item photo" %>
-              <% else %>
-                <div class="placeholder-image">No Image</div>
-              <% end %>
-            </div>
-            <div class="item-title">
-              <h3><%= item.title %></h3>
-            </div>
-            <div class="item-details">
-              <p class="item-price"><strong>Price:</strong> <%= item.price %>€</p>
-              <p class="item-category"><strong>Category:</strong> <%= item.category %></p>
-              <p class="item-condition"><strong>Condition:</strong> <%= item.condition.capitalize %></p>
-            </div>
-          <% end %>
-          <div class="item-actions">
-            <%= link_to remove_item_from_list_path(@list, item.id), method: :delete, data: { turbo_method: :delete, confirm: 'Are you sure?' }, class: 'btn btn-warning remove-item-button' do %>
-              Remove from list
+    <% if @list.items.any? %>
+      <div class="items-list">
+        <% @list.items.each do |item| %>
+          <div class="item-card">
+            <%= link_to item_path(item), class: "item-link" do %>
+              <div class="item-image">
+                <% if item.photo.attached? %>
+                  <%= image_tag item.photo, alt: "Item photo" %>
+                <% else %>
+                  <%= image_tag "default-item.avif", alt: "Default item photo" %>
+                <% end %>
+              </div>
+              <div class="item-title">
+                <h3><%= item.title %></h3>
+              </div>
+              <div class="item-details">
+                <p class="item-price"><strong>Price:</strong> <%= item.price %>€</p>
+                <p class="item-category"><strong>Category:</strong> <%= item.category %></p>
+                <p class="item-condition"><strong>Condition:</strong> <%= item.condition.capitalize %></p>
+              </div>
             <% end %>
+            <div class="item-actions">
+              <%= link_to remove_item_from_list_path(@list, item.id), method: :delete, data: { turbo_method: :delete, confirm: 'Are you sure?' }, class: 'btn btn-warning remove-item-button' do %>
+                Remove from list
+              <% end %>
+            </div>
           </div>
-        </div>
-      <% end %>
-    </div>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="no-items-message">
+        <h3>📭 No items added to this list yet!</h3>
+        <p>Start by clicking the <strong>Add a new item</strong> button above and fill your list with awesome items! ✨</p>
+      </div>
+    <% end %>
   </div>
 </div>
