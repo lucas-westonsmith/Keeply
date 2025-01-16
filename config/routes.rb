@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  # Configuration Devise pour les utilisateurs
   devise_for :users
 
   # Page d'accueil
@@ -12,6 +11,7 @@ Rails.application.routes.draw do
   resources :lists, shallow: true do
     resources :items, only: [:new, :create, :index, :edit, :update]
     resources :list_users, only: [:create, :destroy]
+    post 'leave', to: 'list_users#leave', as: :leave_list
   end
 
   # Ressources pour les items (indépendamment des listes)

@@ -162,3 +162,28 @@
   margin-bottom: 10px;
 }
 
+.thumbnail {
+  display: inline-block;
+  cursor: pointer;
+  border: 2px solid transparent;
+  margin: 5px;
+  padding: 5px;
+  border-radius: 5px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.thumbnail-radio {
+  display: none; /* Cache les boutons radio */
+}
+
+.thumbnail-image {
+  width: 119px;
+  height: 119px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.thumbnail-radio:checked + .thumbnail-image {
+  border: 2px solid #007bff; /* Encadrement bleu pour l’image sélectionnée */
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.5); /* Ajoute un léger halo bleu */
+}

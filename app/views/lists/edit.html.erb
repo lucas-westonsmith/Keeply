@@ -26,6 +26,19 @@
           <% end %>
           <%= f.input :photo, as: :file, label: false, class: "form-input-file" %>
         </div>
+
+        <!-- Miniatures -->
+        <div class="form-group">
+          <p class="form-label">Or select a picture:</p>
+          <div class="thumbnail-gallery">
+            <% ["living-room.avif", "dining-room.avif", "bedroom.avif", "kitchen.avif", "bathroom.avif"].each do |image| %>
+              <label class="thumbnail">
+                <%= radio_button_tag :default_photo, image, @list.photo.attached? && @list.photo.filename.to_s == image, class: "thumbnail-radio" %>
+                <%= image_tag image, alt: image.split('.').first.humanize, class: "thumbnail-image" %>
+              </label>
+            <% end %>
+          </div>
+        </div>
       </div>
     </div>
 

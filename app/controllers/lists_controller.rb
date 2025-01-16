@@ -24,12 +24,19 @@ class ListsController < ApplicationController
   # Créer une nouvelle liste
   def create
     @list = current_user.lists.build(list_params)
+
+    # Si une miniature est sélectionnée, on l'attache comme photo
+    if params[:default_photo].present? && !list_params[:photo].present?
+      @list.photo.attach(io: File.open(Rails.root.join("app", "assets", "images", params[:default_photo])), filename: params[:default_photo])
+    end
+
     if @list.save
       redirect_to @list, notice: 'The list has been successfully created.'
     else
       render :new
     end
   end
+
 
   # Formulaire pour modifier une liste
   def edit; end
@@ -45,8 +52,12 @@ class ListsController < ApplicationController
 
   # Supprimer une liste
   def destroy
-    @list.destroy
-    redirect_to lists_path, notice: 'The list has been deleted.'
+    if @list.user == current_user
+      @list.destroy
+      redirect_to lists_path, notice: 'The list has been deleted.'
+    else
+      redirect_to lists_path, alert: "You can't delete a list you don't own."
+    end
   end
 
   # Supprimer un item d'une liste
