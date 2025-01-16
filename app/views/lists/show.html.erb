@@ -19,7 +19,7 @@
         <% @list.list_users.each do |list_user| %>
           <li>
             <%= list_user.user.email %>
-            <% if list_user.user != current_user %>
+            <% if list_user.user != @list.user && list_user.user != current_user %>
               <%= link_to 'Remove', list_user_path(list_user), method: :delete, data: { turbo_method: :delete, confirm: 'Are you sure?' }, class: 'btn btn-sm btn-danger' %>
             <% end %>
           </li>
@@ -40,7 +40,8 @@
     <div class="list-actions">
       <%= link_to 'Back to lists', lists_path, class: 'btn btn-secondary' %>
       <%= link_to 'Edit', edit_list_path(@list), class: 'btn btn-primary' %>
-      <%= link_to 'Delete', @list, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
+      <%= link_to 'Delete', @list, method: :delete, data: { confirm: 'Are you sure?', turbo: false }, class: 'btn btn-danger' if @list.user == current_user %>
+      <%= link_to 'Leave', list_leave_list_path(@list), method: :post, data: { turbo_method: :post, confirm: 'Are you sure you want to leave this list?' }, class: 'btn btn-warning' if @list.user != current_user %>
     </div>
   </div>
 
