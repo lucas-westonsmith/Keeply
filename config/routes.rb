@@ -1,10 +1,17 @@
 Rails.application.routes.draw do
+  # Configuration Devise pour les utilisateurs
   devise_for :users
+
+  # Page d'accueil
   root to: "pages#home"
+
+  # Page de profil utilisateur
+  get '/profile', to: 'pages#profile', as: :profile
 
   # Ressources pour gérer les listes
   resources :lists, shallow: true do
     resources :items, only: [:new, :create, :index, :edit, :update]
+    resources :list_users, only: [:create, :destroy]
   end
 
   # Ressources pour les items (indépendamment des listes)
@@ -13,10 +20,6 @@ Rails.application.routes.draw do
   # Définition explicite de la route pour supprimer un item d'une liste
   delete '/lists/:id/remove_item/:item_id', to: 'lists#remove_item', as: :remove_item_from_list
 
-  # Gestion des utilisateurs dans les listes (inviter et retirer)
-  resources :list_users, only: [:create, :destroy]
-
   # Vérification de l'état de santé de l'application
   get "up" => "rails/health#show", as: :rails_health_check
-  get 'profile', to: 'users#show', as: :profile
 end

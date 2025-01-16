@@ -1,31 +1,48 @@
 <div class="container my-5 lists-index">
-  <h1 class="page-title">My lists</h1>
+  <h1 class="page-title">My Lists</h1>
   <p class="page-description">Browse through all your lists and keep everything organized.</p>
 
   <%= link_to 'Create a new list', new_list_path, class: 'btn btn-primary create-list-button' %>
 
-  <div class="lists-container">
-    <% @lists.each do |list| %>
-      <%= link_to list_path(list), class: "list-card-link" do %> <!-- Rendre la carte cliquable -->
-        <div class="list-card">
-          <!-- Image -->
-          <div class="list-image">
-            <% if list.photo.attached? %>
-              <%= image_tag list.photo, alt: "List photo" %>
-            <% else %>
-              <div class="placeholder-image">No image</div>
-            <% end %>
-          </div>
+  <% if @lists.any? %>
+    <div class="lists-container">
+      <% @lists.each do |list| %>
+        <%= link_to list_path(list), class: "list-card-link" do %>
+          <div class="list-card">
+            <!-- Image -->
+            <div class="list-image">
+              <% if list.photo.attached? %>
+                <%= image_tag list.photo, alt: "List photo" %>
+              <% else %>
+                <%= image_tag "default-list.avif", alt: "Default list photo", class: "default-list-photo" %>
+              <% end %>
+            </div>
 
-          <!-- Details -->
-          <div class="list-details">
-            <h2 class="list-title"><%= list.title %></h2>
-            <p class="list-description"><%= truncate(list.description, length: 150) %></p>
+            <!-- Details -->
+            <div class="list-details">
+              <h2 class="list-title"><%= list.title %></h2>
+              <p class="list-description"><%= truncate(list.description, length: 150) %></p>
+            </div>
+
+            <!-- Nombre d'items -->
+            <div class="list-item-count">
+              <% item_count = list.items.count %>
+              <p>
+                <%= item_count.zero? ? "0 item" : "#{item_count} #{'item'.pluralize(item_count)}" %>
+              </p>
+            </div>
           </div>
-        </div>
+        <% end %>
       <% end %>
-    <% end %>
-  </div>
+    </div>
+  <% else %>
+    <!-- Message si aucune liste -->
+    <div class="no-lists-message">
+      <h3>📂 Oops, no lists found!</h3>
+      <p>Why not get started? Click the <strong>Create a new list</strong> button above to keep your items organized. 🗂️</p>
+      <p>Your organization journey begins here!</p>
+    </div>
+  <% end %>
 
   <div class="list-actions">
     <%= link_to 'Back', root_path, class: 'btn btn-secondary back-button' %>

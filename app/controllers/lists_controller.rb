@@ -4,11 +4,15 @@ class ListsController < ApplicationController
 
   # Afficher toutes les listes de l'utilisateur
   def index
-    @lists = current_user.lists
+    @lists = List
+               .left_outer_joins(:list_users)
+               .where("lists.user_id = :user_id OR list_users.user_id = :user_id", user_id: current_user.id)
+               .distinct
   end
 
   # Afficher une liste spécifique
   def show
+    @list = List.includes(:users, :list_users).find(params[:id])
     @items_in_list = @list.items
   end
 
@@ -28,8 +32,7 @@ class ListsController < ApplicationController
   end
 
   # Formulaire pour modifier une liste
-  def edit
-  end
+  def edit; end
 
   # Mettre à jour une liste
   def update
@@ -48,17 +51,13 @@ class ListsController < ApplicationController
 
   # Supprimer un item d'une liste
   def remove_item
-    Rails.logger.info "Trying to remove item #{params[:item_id]} from list #{params[:id]}"
     item = @list.items.find(params[:item_id])
     if @list.items.delete(item)
-      Rails.logger.info "Item #{params[:item_id]} successfully removed from list #{params[:id]}"
       redirect_to @list, notice: 'Item successfully removed from the list.'
     else
-      Rails.logger.info "Failed to remove item #{params[:item_id]} from list #{params[:id]}"
       redirect_to @list, alert: 'Failed to remove the item from the list.'
     end
   end
-
 
   private
 
@@ -67,6 +66,6 @@ class ListsController < ApplicationController
   end
 
   def list_params
-    params.require(:list).permit(:title, :description, :photo)  # Assure-toi de permettre :photo ici
+    params.require(:list).permit(:title, :description, :photo)
   end
 end

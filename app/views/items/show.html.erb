@@ -38,10 +38,9 @@
       <% if @item.photo.attached? %>
         <%= image_tag @item.photo, alt: "Photo of #{@item.title}" %>
       <% else %>
-        <p><strong>No photo available.</strong></p>
+        <%= image_tag "default-item.avif", alt: "Default item photo", class: "default-item-photo" %>
       <% end %>
     </div>
-  </div>
 
   <!-- Actions -->
   <div class="single-item-actions">

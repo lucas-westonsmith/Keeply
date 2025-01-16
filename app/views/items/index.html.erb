@@ -4,94 +4,101 @@
 
   <%= link_to 'Add an item', new_item_path, class: 'btn btn-primary add-item-button' %>
 
-  <!-- Section de tri et filtrage -->
-<div class="filter-sort-container">
-  <div class="filter-sort-box">
-    <h2 class="filter-sort-header">Filter and Sort</h2>
-    <form class="filter-sort-form" method="get">
-      <!-- Sorting Options -->
-      <div class="sort-options">
-        <label for="sort">Sort by:</label>
-        <select name="sort" id="sort" class="form-select">
-          <option value="" <%= params[:sort].blank? ? "selected" : "" %>>Select</option>
-          <option value="price_asc" <%= params[:sort] == "price_asc" ? "selected" : "" %>>Price: Low to High</option>
-          <option value="price_desc" <%= params[:sort] == "price_desc" ? "selected" : "" %>>Price: High to Low</option>
-        </select>
+  <% if @items.any? %>
+    <!-- Section de tri et filtrage -->
+    <div class="filter-sort-container">
+      <div class="filter-sort-box">
+        <h2 class="filter-sort-header">Filter and Sort</h2>
+        <form class="filter-sort-form" method="get">
+          <!-- Sorting Options -->
+          <div class="sort-options">
+            <label for="sort">Sort by:</label>
+            <select name="sort" id="sort" class="form-select">
+              <option value="" <%= params[:sort].blank? ? "selected" : "" %>>Select</option>
+              <option value="price_asc" <%= params[:sort] == "price_asc" ? "selected" : "" %>>Price: Low to High</option>
+              <option value="price_desc" <%= params[:sort] == "price_desc" ? "selected" : "" %>>Price: High to Low</option>
+            </select>
+          </div>
+
+          <!-- Filter by Category -->
+          <div class="filter-options">
+            <label for="category">Category:</label>
+            <select name="category" id="category" class="form-select">
+              <option value="" <%= params[:category].blank? ? "selected" : "" %>>All Categories</option>
+              <% Item.distinct.pluck(:category).each do |category| %>
+                <option value="<%= category %>" <%= params[:category] == category ? "selected" : "" %>><%= category %></option>
+              <% end %>
+            </select>
+          </div>
+
+          <!-- Filter by Condition -->
+          <div class="filter-options">
+            <label for="condition">Condition:</label>
+            <select name="condition" id="condition" class="form-select">
+              <option value="" <%= params[:condition].blank? ? "selected" : "" %>>All Conditions</option>
+              <% Item.distinct.pluck(:condition).each do |condition| %>
+                <option value="<%= condition %>" <%= params[:condition] == condition ? "selected" : "" %>><%= condition.capitalize %></option>
+              <% end %>
+            </select>
+          </div>
+
+          <!-- Filter by List -->
+          <div class="filter-options">
+            <label for="list_id">List:</label>
+            <select name="list_id" id="list_id" class="form-select">
+              <option value="" <%= params[:list_id].blank? ? "selected" : "" %>>All Lists</option>
+              <% current_user.lists.each do |list| %>
+                <option value="<%= list.id %>" <%= params[:list_id].to_i == list.id ? "selected" : "" %>><%= list.title %></option>
+              <% end %>
+            </select>
+          </div>
+
+          <!-- Buttons -->
+          <div class="filter-sort-actions">
+            <button type="submit" class="apply-button">Apply</button>
+            <%= link_to 'Reset', items_path, class: 'reset-button' %>
+          </div>
+        </form>
       </div>
+    </div>
 
-      <!-- Filter by Category -->
-      <div class="filter-options">
-        <label for="category">Category:</label>
-        <select name="category" id="category" class="form-select">
-          <option value="" <%= params[:category].blank? ? "selected" : "" %>>All Categories</option>
-          <% Item.distinct.pluck(:category).each do |category| %>
-            <option value="<%= category %>" <%= params[:category] == category ? "selected" : "" %>><%= category %></option>
-          <% end %>
-        </select>
-      </div>
-
-      <!-- Filter by Condition -->
-      <div class="filter-options">
-        <label for="condition">Condition:</label>
-        <select name="condition" id="condition" class="form-select">
-          <option value="" <%= params[:condition].blank? ? "selected" : "" %>>All Conditions</option>
-          <% Item.distinct.pluck(:condition).each do |condition| %>
-            <option value="<%= condition %>" <%= params[:condition] == condition ? "selected" : "" %>><%= condition.capitalize %></option>
-          <% end %>
-        </select>
-      </div>
-
-      <!-- Filter by List -->
-      <div class="filter-options">
-        <label for="list_id">List:</label>
-        <select name="list_id" id="list_id" class="form-select">
-          <option value="" <%= params[:list_id].blank? ? "selected" : "" %>>All Lists</option>
-          <% current_user.lists.each do |list| %>
-            <option value="<%= list.id %>" <%= params[:list_id].to_i == list.id ? "selected" : "" %>><%= list.title %></option>
-          <% end %>
-        </select>
-      </div>
-
-      <!-- Buttons -->
-      <div class="filter-sort-actions">
-        <button type="submit" class="apply-button">Apply</button>
-        <%= link_to 'Reset', items_path, class: 'reset-button' %>
-      </div>
-    </form>
-  </div>
-</div>
-
-
-
-  <div class="items-list">
-    <% @items.each do |item| %>
-      <div class="item-card">
-        <%= link_to item_path(item), class: "item-link" do %>
+    <!-- Liste des items -->
+    <div class="items-list">
+      <% @items.each do |item| %>
+        <div class="item-card">
+          <%= link_to item_path(item), class: "item-link" do %>
           <!-- Image -->
           <div class="item-image">
             <% if item.photo.attached? %>
               <%= image_tag item.photo, alt: "Item photo" %>
             <% else %>
-              <div class="placeholder-image">No Image</div>
+              <%= image_tag "default-item.avif", alt: "Default item photo" %>
             <% end %>
           </div>
+            <!-- Title -->
+            <div class="item-title">
+              <h3><%= item.title %></h3>
+            </div>
 
-          <!-- Title -->
-          <div class="item-title">
-            <h3><%= item.title %></h3>
-          </div>
-
-          <!-- Details -->
-          <div class="item-details">
-            <p class="item-price"><strong>Price:</strong> <%= item.price %>€</p>
-            <p class="item-category"><strong>Category:</strong> <%= item.category %></p>
-            <p class="item-condition"><strong>Condition:</strong> <%= item.condition.capitalize %></p>
-            <% if item.lists.any? %>
-              <p class="item-list"><strong>List:</strong> <%= item.lists.map(&:title).join(", ") %></p>
-            <% end %>
-          </div>
-        <% end %>
-      </div>
-    <% end %>
-  </div>
+            <!-- Details -->
+            <div class="item-details">
+              <p class="item-price"><strong>Price:</strong> <%= item.price %>€</p>
+              <p class="item-category"><strong>Category:</strong> <%= item.category %></p>
+              <p class="item-condition"><strong>Condition:</strong> <%= item.condition.capitalize %></p>
+              <% if item.lists.any? %>
+                <p class="item-list"><strong>List:</strong> <%= item.lists.map(&:title).join(", ") %></p>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <!-- Message si aucun item -->
+    <div class="no-items-message">
+      <h3>😢 Oops, it looks like your collection is empty!</h3>
+      <p>Don’t worry, it’s easy to get started. Click the <strong>Add an item</strong> button above to begin creating your collection. 🌟</p>
+      <p>We’re excited to see your collection grow!</p>
+    </div>
+  <% end %>
 </div>
