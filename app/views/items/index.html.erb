@@ -1,18 +1,17 @@
 <div class="container my-5 items-index">
-  <h1 class="page-title">My Items</h1>
+  <h1 class="page-title text-gradient angry-underline-blue">My Items</h1>
   <p class="page-description">Explore all the items you’ve added to your collection.</p>
 
-  <%= link_to 'Add an item', new_item_path, class: 'btn btn-primary add-item-button' %>
+  <%= link_to 'Add an item', new_item_path, class: 'btn btn-primary shiny-cta add-item-button' %>
 
   <% if @items.any? %>
     <!-- Section de tri et filtrage -->
     <div class="filter-sort-container">
       <div class="filter-sort-box">
-        <h2 class="filter-sort-header">Filter and Sort</h2>
         <form class="filter-sort-form" method="get">
           <!-- Sorting Options -->
           <div class="sort-options">
-            <label for="sort">Sort by:</label>
+            <label for="sort">Sort by</label>
             <select name="sort" id="sort" class="form-select">
               <option value="" <%= params[:sort].blank? ? "selected" : "" %>>Select</option>
               <option value="price_asc" <%= params[:sort] == "price_asc" ? "selected" : "" %>>Price: Low to High</option>
@@ -22,7 +21,7 @@
 
           <!-- Filter by Category -->
           <div class="filter-options">
-            <label for="category">Category:</label>
+            <label for="category">Category</label>
             <select name="category" id="category" class="form-select">
               <option value="" <%= params[:category].blank? ? "selected" : "" %>>All Categories</option>
               <% Item.distinct.pluck(:category).each do |category| %>
@@ -33,18 +32,20 @@
 
           <!-- Filter by Condition -->
           <div class="filter-options">
-            <label for="condition">Condition:</label>
+            <label for="condition">Condition</label>
             <select name="condition" id="condition" class="form-select">
               <option value="" <%= params[:condition].blank? ? "selected" : "" %>>All Conditions</option>
               <% Item.distinct.pluck(:condition).each do |condition| %>
-                <option value="<%= condition %>" <%= params[:condition] == condition ? "selected" : "" %>><%= condition.capitalize %></option>
+                <option value="<%= condition %>" <%= params[:condition] == condition ? "selected" : "" %>>
+                  <%= (condition || "Unknown").capitalize %>
+                </option>
               <% end %>
             </select>
           </div>
 
           <!-- Filter by List -->
           <div class="filter-options">
-            <label for="list_id">List:</label>
+            <label for="list_id">List</label>
             <select name="list_id" id="list_id" class="form-select">
               <option value="" <%= params[:list_id].blank? ? "selected" : "" %>>All Lists</option>
               <% current_user.lists.each do |list| %>
@@ -55,8 +56,8 @@
 
           <!-- Buttons -->
           <div class="filter-sort-actions">
-            <button type="submit" class="apply-button">Apply</button>
-            <%= link_to 'Reset', items_path, class: 'reset-button' %>
+            <button type="submit" class="apply-button btn btn-secondary shiny-cta">Apply</button>
+            <%= link_to 'Reset', items_path, class: 'reset-button btn btn-reset' %>
           </div>
         </form>
       </div>
@@ -77,14 +78,20 @@
           </div>
             <!-- Title -->
             <div class="item-title">
-              <h3><%= item.title %></h3>
+              <h3>
+                <span class="angry-underline-black">
+                  <%= truncate(item.title, length: 25, omission: "...") %>
+                </span>
+              </h3>
             </div>
 
             <!-- Details -->
             <div class="item-details">
               <p class="item-price"><strong>Price:</strong> <%= item.price %>€</p>
               <p class="item-category"><strong>Category:</strong> <%= item.category %></p>
-              <p class="item-condition"><strong>Condition:</strong> <%= item.condition.capitalize %></p>
+              <p class="item-condition">
+                <strong>Condition:</strong> <%= (item.condition || "Unknown").capitalize %>
+              </p>
               <% if item.lists.any? %>
                 <p class="item-list"><strong>List:</strong> <%= item.lists.map(&:title).join(", ") %></p>
               <% end %>

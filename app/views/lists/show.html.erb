@@ -1,4 +1,5 @@
 <div class="list-show-container">
+  <!-- Image en haut -->
   <% if @list.photo.attached? %>
     <div class="list-image">
       <%= image_tag @list.photo, alt: "List photo" %>
@@ -9,80 +10,137 @@
     </div>
   <% end %>
 
-  <div class="list-details container">
-    <h1 class="list-title"><%= @list.title %></h1>
-    <p class="list-description"><%= @list.description %></p>
+  <!-- Conteneur principal -->
+  <div class="list-content-wrapper d-flex justify-content-between mt-4">
+    <!-- Div centré pour le titre et la description -->
+    <div class="list-center mx-auto">
+      <h1 class="list-title"><span class="angry-underline-blue"><%= @list.title %></span></h1>
+      <p class="list-description"><%= @list.description %></p>
 
-    <div class="list-shared">
-      <h3>Shared with:</h3>
-      <ul>
-        <% @list.list_users.each do |list_user| %>
-          <li>
-            <%= list_user.user.email %>
-            <% if list_user.user != @list.user && list_user.user != current_user %>
-              <%= link_to 'Remove', list_user_path(list_user), method: :delete, data: { turbo_method: :delete, confirm: 'Are you sure?' }, class: 'btn btn-sm btn-danger' %>
-            <% end %>
-          </li>
+      <div class="list-shared">
+        <h3>Shared with:</h3>
+        <% shared_users = @list.list_users.map(&:user).reject { |user| user == @list.user } %>
+        <% if shared_users.any? %>
+          <p>
+            <%= shared_users.map { |user| "#{user.first_name} #{user.last_name}" }.join(", ") %>
+          </p>
+        <% else %>
+          <p>No users have been invited to this list yet.</p>
         <% end %>
-      </ul>
+      </div>
     </div>
 
-    <div class="add-user-form mt-4">
-      <h3>Invite a user to this list</h3>
-      <%= form_with url: list_list_users_path(@list), local: true, method: :post do %>
-        <div class="form-group">
-          <%= text_field_tag :email, nil, class: "form-control", placeholder: "Enter user's email" %>
+    <!-- Div des actions -->
+    <div class="list-actions-container">
+      <div class="list-actions-top d-flex justify-content-between">
+        <%= link_to 'Edit', edit_list_path(@list), class: 'btn btn-primary action-button' %>
+        <%= link_to 'Delete', @list, data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, class: 'btn btn-danger action-button' if @list.user == current_user %>
+        <%= link_to 'Leave', list_leave_list_path(@list), method: :post, data: { turbo_method: :post, confirm: 'Are you sure you want to leave this list?' }, class: 'btn btn-danger action-button' if @list.user != current_user %>
+      </div>
+
+      <div class="add-user-form mt-3">
+        <h3>Invite a user to this list</h3>
+        <%= form_with url: list_list_users_path(@list), local: true, method: :post do %>
+          <div class="form-group">
+            <%= text_field_tag :email, nil, class: "form-control email-input", placeholder: "Enter user's email" %>
+          </div>
+          <%= submit_tag "Invite", class: "btn btn-secondary invite-button" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Ligne grise -->
+<div class="list-divider"></div>
+
+<div class="list-items container my-5">
+  <p class="list-items-description">Explore all the items you’ve added to your list.</p> <!-- Description ajoutée -->
+
+  <%= link_to 'Add a new item', new_list_item_path(@list), class: 'btn btn-primary shiny-cta add-item-button' %>
+
+  <!-- Section de tri et filtrage -->
+  <div class="filter-sort-container">
+    <div class="filter-sort-box">
+      <form class="filter-sort-form" method="get">
+        <!-- Sorting Options -->
+        <div class="sort-options">
+          <label for="sort">Sort by</label>
+          <select name="sort" id="sort" class="form-select">
+            <option value="" <%= params[:sort].blank? ? "selected" : "" %>>Select</option>
+            <option value="price_asc" <%= params[:sort] == "price_asc" ? "selected" : "" %>>Price: Low to High</option>
+            <option value="price_desc" <%= params[:sort] == "price_desc" ? "selected" : "" %>>Price: High to Low</option>
+          </select>
         </div>
-        <%= submit_tag "Invite", class: "btn btn-primary mt-2" %>
-      <% end %>
-    </div>
 
-    <div class="list-actions">
-      <%= link_to 'Back to lists', lists_path, class: 'btn btn-secondary' %>
-      <%= link_to 'Edit', edit_list_path(@list), class: 'btn btn-primary' %>
-      <%= link_to 'Delete', @list, method: :delete, data: { confirm: 'Are you sure?', turbo: false }, class: 'btn btn-danger' if @list.user == current_user %>
-      <%= link_to 'Leave', list_leave_list_path(@list), method: :post, data: { turbo_method: :post, confirm: 'Are you sure you want to leave this list?' }, class: 'btn btn-warning' if @list.user != current_user %>
+        <!-- Filter by Category -->
+        <div class="filter-options">
+          <label for="category">Category</label>
+          <select name="category" id="category" class="form-select">
+            <option value="" <%= params[:category].blank? ? "selected" : "" %>>All Categories</option>
+            <% Item.distinct.pluck(:category).each do |category| %>
+              <option value="<%= category %>" <%= params[:category] == category ? "selected" : "" %>><%= category %></option>
+            <% end %>
+          </select>
+        </div>
+
+        <!-- Filter by Condition -->
+        <div class="filter-options">
+          <label for="condition">Condition</label>
+          <select name="condition" id="condition" class="form-select">
+            <option value="" <%= params[:condition].blank? ? "selected" : "" %>>All Conditions</option>
+            <% Item.distinct.pluck(:condition).each do |condition| %>
+              <option value="<%= condition %>" <%= params[:condition] == condition ? "selected" : "" %>>
+                <%= (condition || "Unknown").capitalize %>
+              </option>
+            <% end %>
+          </select>
+        </div>
+
+        <!-- Buttons -->
+        <div class="filter-sort-actions">
+          <button type="submit" class="apply-button btn btn-secondary shiny-cta">Apply</button>
+          <%= link_to 'Reset', list_items_path(@list), class: 'reset-button btn btn-reset' %>
+        </div>
+      </form>
     </div>
   </div>
 
-  <div class="list-items container my-5">
-    <h2 class="list-items-title">Items in this list</h2>
-    <%= link_to 'Add a new item', new_list_item_path(@list), class: 'btn btn-primary add-item-button' %>
-
-    <% if @list.items.any? %>
-      <div class="items-list">
-        <% @list.items.each do |item| %>
-          <div class="item-card">
-            <%= link_to item_path(item), class: "item-link" do %>
-              <div class="item-image">
-                <% if item.photo.attached? %>
-                  <%= image_tag item.photo, alt: "Item photo" %>
-                <% else %>
-                  <%= image_tag "default-item.avif", alt: "Default item photo" %>
-                <% end %>
-              </div>
-              <div class="item-title">
-                <h3><%= item.title %></h3>
-              </div>
-              <div class="item-details">
-                <p class="item-price"><strong>Price:</strong> <%= item.price %>€</p>
-                <p class="item-category"><strong>Category:</strong> <%= item.category %></p>
-                <p class="item-condition"><strong>Condition:</strong> <%= item.condition.capitalize %></p>
-              </div>
-            <% end %>
-            <div class="item-actions">
-              <%= link_to remove_item_from_list_path(@list, item.id), method: :delete, data: { turbo_method: :delete, confirm: 'Are you sure?' }, class: 'btn btn-warning remove-item-button' do %>
-                Remove from list
+  <% if @list.items.any? %>
+    <div class="items-list">
+      <% @list.items.each do |item| %>
+        <div class="item-card">
+          <%= link_to item_path(item), class: "item-link" do %>
+            <div class="item-image">
+              <% if item.photo.attached? %>
+                <%= image_tag item.photo, alt: "Item photo" %>
+              <% else %>
+                <%= image_tag "default-item.avif", alt: "Default item photo" %>
               <% end %>
             </div>
+            <div class="item-title">
+              <h3>
+                <span class="angry-underline-black"><%= truncate(item.title, length: 25, omission: "...") %></span>
+              </h3>
+            </div>
+            <div class="item-details">
+              <p class="item-price"><strong>Price:</strong> <%= item.price %>€</p>
+              <p class="item-category"><strong>Category:</strong> <%= item.category %></p>
+              <p class="item-condition"><strong>Condition:</strong> <%= item.condition.capitalize %></p>
+            </div>
+          <% end %>
+          <div class="item-actions">
+            <%= link_to remove_item_from_list_path(@list, item.id), method: :delete, data: { turbo_method: :delete, confirm: 'Are you sure?' }, class: 'btn btn-warning shiny-cta remove-item-button' do %>
+              Remove from list
+            <% end %>
           </div>
-        <% end %>
-      </div>
-    <% else %>
-      <div class="no-items-message">
-        <h3>📭 No items added to this list yet!</h3>
-        <p>Start by clicking the <strong>Add a new item</strong> button above and fill your list with awesome items! ✨</p>
-      </div>
-    <% end %>
-  </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="no-items-message">
+      <h3>📭 No items added to this list yet!</h3>
+      <p>Start by clicking the <strong>Add a new item</strong> button above and fill your list with awesome items! ✨</p>
+    </div>
+  <% end %>
 </div>

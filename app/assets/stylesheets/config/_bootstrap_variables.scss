@@ -19,10 +19,10 @@ $danger:     $red;
 $warning:    $orange;
 
 // Buttons & inputs' radius
-$border-radius-sm:            .0625rem;
-$border-radius:               .125rem;
-$border-radius-lg:            .25rem;
-$border-radius-xl:            .5rem;
-$border-radius-xxl:           1rem;
+$border-radius-sm: 0.5rem; // Arrondi supplémentaire pour les petits boutons
+$border-radius: 1rem; // Arrondi par défaut
+$border-radius-lg: 1.5rem; // Plus grand arrondi
+$border-radius-xl: 2rem; // Très grand arrondi
+$border-radius-xxl: 2.5rem; // Maximum arrondi
 
 // Override other variables below!
