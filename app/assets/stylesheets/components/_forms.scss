@@ -1,16 +1,17 @@
 .form-container {
-  max-width: 1200px; /* Augmenté pour un formulaire plus large */
-  margin: 3rem auto; /* Centré avec espacement */
+  max-width: 1200px;
+  margin: 3rem auto;
   padding: 2rem;
   background: #fff;
-  border-radius: 8px;
+  border-radius: 0.5rem; // Coins légèrement arrondis
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 
   .form-title {
     font-size: 2rem;
-    color: $primary;
+    color: #3699e0; // Couleur bleue
     margin-bottom: 1rem;
     text-align: center;
+    font-weight: bold; // Texte en gras
   }
 
   .form-description {
@@ -44,7 +45,7 @@
           padding: 0.75rem;
           font-size: 1rem;
           border: 1px solid $light-gray;
-          border-radius: 6px;
+          border-radius: 0.5rem; // Coins légèrement arrondis
           transition: border-color 0.2s;
 
           &:focus {
@@ -80,43 +81,35 @@
     }
   }
 
-  .form-actions {
-    text-align: center;
-
-    .btn-primary {
-      background: $primary;
-      color: #fff;
-      padding: 0.75rem 1.5rem;
-      border: none;
-      border-radius: 6px;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: background 0.2s, transform 0.2s;
-
-      &:hover {
-        background: darken($primary, 10%);
-        transform: translateY(-2px);
-      }
-    }
-  }
-
+  .form-actions,
   .form-cancel {
     text-align: center;
     margin-top: 1rem;
 
-    .btn-secondary {
-      background: $light-gray;
-      color: $text-primary;
-      padding: 0.75rem 1.5rem;
-      border: none;
-      border-radius: 6px;
+    .action-button {
       font-size: 1rem;
-      cursor: pointer;
-      text-decoration: none; /* Supprime le soulignement */
-      transition: background 0.2s;
+      font-weight: bold;
+      border-radius: 1.5rem; // Forme arrondie uniforme
+      padding: 0.5rem 1.5rem;
+      text-decoration: none;
+      transition: all 0.2s;
 
-      &:hover {
-        background: darken($light-gray, 10%);
+      &.btn-primary {
+        background-color: #1899e0;
+        color: #fff;
+
+        &:hover {
+          background-color: darken(#1899e0, 10%);
+        }
+      }
+
+      &.btn-secondary {
+        background-color: #F4F4F4;
+        color: #333;
+
+        &:hover {
+          background-color: darken(#F4F4F4, 10%);
+        }
       }
     }
   }
@@ -125,6 +118,10 @@
 /* Formulaires spécifiques pour les listes */
 .form-container.lists {
   max-width: 800px; /* Réduit pour les listes */
+  .form-title {
+    color: #F9A5A3; // Couleur personnalisée pour les titres des listes
+  }
+
   .form-columns {
     display: block; /* Une seule colonne pour les listes */
   }
@@ -140,7 +137,7 @@
     .form-input,
     .form-input-file {
       padding: 0.75rem;
-      border-radius: 6px;
+      border-radius: 0.5rem; // Coins légèrement arrondis
 
       &:focus {
         border-color: $primary;
@@ -150,7 +147,15 @@
 
   .form-actions {
     .btn-primary {
+      background-color: #F9A5A3; // Couleur du bouton Create list
+      color: #fff;
       padding: 0.75rem 2rem;
+      font-weight: bold;
+      border-radius: 1.5rem;
+
+      &:hover {
+        background-color: darken(#F9A5A3, 10%);
+      }
     }
   }
 }
@@ -168,8 +173,13 @@
   border: 2px solid transparent;
   margin: 5px;
   padding: 5px;
-  border-radius: 5px;
+  border-radius: 0.5rem; // Coins légèrement arrondis
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    border-color: $primary;
+    box-shadow: 0 4px 6px rgba($primary, 0.2);
+  }
 }
 
 .thumbnail-radio {
@@ -180,7 +190,7 @@
   width: 119px;
   height: 119px;
   object-fit: cover;
-  border-radius: 5px;
+  border-radius: 0.5rem; // Coins légèrement arrondis
 }
 
 .thumbnail-radio:checked + .thumbnail-image {

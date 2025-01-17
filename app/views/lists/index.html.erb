@@ -1,8 +1,8 @@
 <div class="container my-5 lists-index">
-  <h1 class="page-title">My Lists</h1>
+  <h1 class="page-title text-gradient angry-underline-pink">My lists</h1>
   <p class="page-description">Browse through all your lists and keep everything organized.</p>
 
-  <%= link_to 'Create a new list', new_list_path, class: 'btn btn-primary create-list-button' %>
+  <%= link_to 'Create a new list', new_list_path, class: 'btn create-list-button shiny-cta' %>
 
   <% if @lists.any? %>
     <div class="lists-container">
@@ -20,7 +20,7 @@
 
             <!-- Details -->
             <div class="list-details">
-              <h2 class="list-title"><%= list.title %></h2>
+              <h2 class="list-title"><span class= "angry-underline-blue"><%= list.title %></span></h2>
               <p class="list-description"><%= truncate(list.description, length: 150) %></p>
             </div>
 
@@ -43,8 +43,4 @@
       <p>Your organization journey begins here!</p>
     </div>
   <% end %>
-
-  <div class="list-actions">
-    <%= link_to 'Back', root_path, class: 'btn btn-secondary back-button' %>
-  </div>
 </div>

@@ -3,9 +3,10 @@
   text-align: center;
 
   .page-title {
-    font-size: 2.5rem;
-    color: $primary;
-    margin-bottom: 10px;
+    font-size: 3rem; // 48px en rem
+    font-weight: bold;
+    color: black; // Harmonisé avec les autres titres
+    margin-bottom: 20px;
   }
 
   .page-description {
@@ -15,17 +16,23 @@
   }
 
   .create-list-button {
-    margin-bottom: 30px;
-    background: $primary;
-    color: #fff;
-    padding: 0.75rem 1.5rem;
-    border-radius: 6px;
-    font-size: 1rem;
-    text-decoration: none;
+    padding: 0.6rem 1.5rem; // Taille du bouton
+    border-radius: 0.5rem; // Coins légèrement arrondis
+    text-decoration: none; // Supprime le soulignement
+    font-weight: 600; // Texte semi-gras
+    margin-bottom: 1.5rem;
+    font-size: 1.25rem; // 20px en rem
+    transition: all 0.2s ease-in-out;
+
+    background-color: #F9A5A3; // Couleur du bouton
+    color: #fff; // Couleur du texte
+    box-shadow: 0 3px 6px rgba(249, 165, 163, 0.3); // Ombre légère
+    border: none; // Pas de bordure
 
     &:hover {
-      background: darken($primary, 10%);
-      text-decoration: none;
+      background-color: darken(#F9A5A3, 10%); // Assombrissement au hover
+      box-shadow: 0 6px 12px rgba(249, 165, 163, 0.4); // Ombre plus forte
+      transform: translateY(-1px); // Effet de remontée légère
     }
   }
 
@@ -46,12 +53,12 @@
     .list-card {
       display: flex;
       align-items: center;
-      justify-content: space-between; // Permet de séparer les éléments
+      justify-content: space-between;
       background: #fff;
       border-radius: 8px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       overflow: hidden;
-      padding: 15px; // Ajoute un espace intérieur
+      padding: 15px;
       transition: box-shadow 0.3s, transform 0.3s;
 
       &:hover {
@@ -91,11 +98,12 @@
 
         .list-title {
           font-size: 1.5rem;
+          font-weight: bold; // Texte en gras
+          color: #3699E0; // Couleur spécifique pour le titre
           margin-bottom: 10px;
-          color: $primary;
 
           &:hover {
-            color: darken($primary, 10%);
+            color: darken(#3699E0, 10%);
           }
         }
 
@@ -106,7 +114,7 @@
       }
 
       .list-item-count {
-        padding-right: 20px; // Aligne le texte à droite
+        padding-right: 20px;
         font-size: 1rem;
         color: $text-secondary;
         font-weight: bold;
