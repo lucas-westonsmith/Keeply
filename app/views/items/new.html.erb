@@ -1,5 +1,5 @@
 <div class="form-container">
-  <h1 class="form-title">Add a new item</h1>
+  <h1 class="form-title"><span class="text-gradient angry-underline-blue" style="color: #3699e0; font-weight: bold;">Add a new item</span></h1>
   <p class="form-description">Fill out the details below to add a new item to your collection.</p>
 
   <%= simple_form_for (@list ? [@list, @item] : @item), local: true, data: { turbo: false } do |f| %>
@@ -80,12 +80,12 @@
 
     <!-- Submit Button -->
     <div class="form-actions">
-      <%= f.submit 'Add item', class: 'btn btn-primary' %>
+      <%= f.submit 'Add item', class: 'btn btn-primary action-button' %>
     </div>
   <% end %>
 
   <!-- Cancel Button -->
   <div class="form-cancel">
-    <%= link_to 'Cancel', items_path, class: 'btn btn-secondary' %>
+    <%= link_to 'Cancel', request.referer || items_path, class: 'btn btn-secondary action-button' %>
   </div>
 </div>

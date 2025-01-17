@@ -1,5 +1,5 @@
-<div class="form-container">
-  <h1 class="form-title">Create a new list</h1>
+<div class="form-container lists">
+  <h1 class="form-title" style="color: #F9A5A3;"><span class= "angry-underline-pink">Create a new list</span></h1>
   <p class="form-description">Fill out the details below to create your list.</p>
 
   <%= simple_form_for @list, local: true do |f| %>
@@ -40,11 +40,11 @@
 
     <!-- Submit Button -->
     <div class="form-actions">
-      <%= f.submit 'Create list', class: 'btn btn-primary' %>
+      <%= f.submit 'Create list', class: 'btn btn-primary action-button', style: "background-color: #F9A5A3;" %>
     </div>
   <% end %>
 
   <div class="form-cancel">
-    <%= link_to 'Cancel', lists_path, class: 'btn btn-secondary' %>
+    <%= link_to 'Cancel', request.referer || lists_path, class: 'btn btn-secondary action-button' %>
   </div>
 </div>
