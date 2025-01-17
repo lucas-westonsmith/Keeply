@@ -1,11 +1,13 @@
 // Section pour les items (Index ou Items dans une liste)
+// Section pour les items (Index ou Items dans une liste)
 .items-index, .list-items {
   text-align: center;
 
   .page-title, .list-items-title {
-    font-size: 2.5rem;
-    color: $primary;
-    margin-bottom: 10px;
+    font-size: 3rem; // 48px en rem
+    font-weight: bold;
+    color: black; // Harmonisé avec Propeez
+    margin-bottom: 20px;
   }
 
   .page-description {
@@ -15,18 +17,30 @@
   }
 
   .add-item-button {
-    margin-bottom: 30px;
-    background: $primary;
-    color: #fff;
-    padding: 0.75rem 1.5rem;
-    border-radius: 6px;
-    font-size: 1rem;
+    padding: 0.6rem 1.5rem; // Taille des boutons
+    border-radius: 0.5rem; // Coins légèrement arrondis
     text-decoration: none; // Supprime le soulignement
+    font-weight: 600; // Texte en semi-gras
+    font-size: 1.25rem; // 20px en rem
+    transition: all 0.2s ease-in-out;
+
+    background-color: #1899e0; // Couleur de base du bouton
+    color: #fff; // Couleur du texte
+    box-shadow: 0 3px 6px rgba(24, 153, 224, 0.3); // Ombre légère
+    border: none; // Pas de bordure
 
     &:hover {
-      background: darken($primary, 10%);
-      text-decoration: none; // Empêche le soulignement au hover
+      background-color: darken(#1899e0, 10%); // Assombrit la couleur au hover
+      box-shadow: 0 6px 12px rgba(24, 153, 224, 0.4); // Ombre plus forte au hover
+      transform: translateY(-1px); // Effet de remontée légère
     }
+  }
+
+  .list-items-description {
+    font-size: 1.2rem; // Taille de la description
+    color: $text-secondary; // Couleur harmonisée
+    margin-bottom: 1rem; // Espace sous la description
+    text-align: center; // Centrage du texte
   }
 
   .items-list {
@@ -67,7 +81,7 @@
         height: 160px;
         overflow: hidden;
         border-radius: 8px;
-        margin-bottom: 10px;
+        margin-bottom: 15px;
 
         img {
           width: 100%;
@@ -89,10 +103,10 @@
 
       .item-title {
         min-height: 3rem;
-        margin-bottom: 20px;
+        margin-bottom: 15px;
 
         h3 {
-          font-size: 1.2rem;
+          font-size: 1.25rem;
           font-weight: bold;
           color: $text-primary;
           line-height: 1.2;
@@ -125,17 +139,22 @@
         margin-top: 15px;
 
         .remove-item-button {
-          display: block;
-          background: $warning;
-          color: #fff;
-          padding: 0.5rem 1rem;
-          border-radius: 6px;
-          text-align: center;
-          font-size: 0.9rem;
-          text-decoration: none;
+          padding: 0.5rem 1.25rem; // Taille ajustée pour des proportions équilibrées
+          border-radius: 0.5rem; // Coins légèrement arrondis
+          text-decoration: none; // Supprime le soulignement
+          font-weight: 600; // Texte semi-gras
+          font-size: 1rem; // 16px en rem
+          transition: all 0.2s ease-in-out;
+
+          background-color: #F7B2A8; // Couleur de base
+          color: #fff; // Texte blanc
+          box-shadow: 0 3px 6px rgba(247, 178, 168, 0.3); // Ombre légère
+          border: none; // Pas de bordure
 
           &:hover {
-            background: darken($warning, 10%);
+            background-color: darken(#F7B2A8, 10%); // Assombrissement au hover
+            box-shadow: 0 6px 12px rgba(247, 178, 168, 0.4); // Ombre renforcée
+            transform: translateY(-1px); // Légère remontée
             text-decoration: none; // Empêche le soulignement au hover
           }
         }
@@ -158,109 +177,175 @@
     }
   }
 
-  .list-details {
-    margin: 30px auto;
-    text-align: center;
+  .list-content-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 3rem;
+    margin-top: 2rem;
 
-    .list-title {
-      font-size: 2.5rem;
-      color: $primary;
-      margin-bottom: 15px;
-      text-decoration: none; // Supprime le soulignement
-    }
+    .list-center {
+      flex: 1;
+      max-width: 800px;
+      text-align: center;
+      margin-left: auto;
+      margin-right: auto;
+      transform: translateX(22.5%);
 
-    .list-description {
-      font-size: 1.2rem;
-      color: $text-secondary;
-      margin-bottom: 20px;
-      text-decoration: none; // Supprime le soulignement
-    }
-
-    .list-shared {
-      margin-top: 20px;
-
-      h3 {
-        font-size: 1.5rem;
-        color: $text-primary;
-        margin-bottom: 10px;
-        text-decoration: none; // Supprime le soulignement
+      .list-title {
+        font-size: 3rem;
+        font-weight: bold;
+        margin-bottom: 1rem;
+        color: black;
       }
 
-      ul {
-        list-style: none;
-        padding: 0;
-
-        li {
-          font-size: 1rem;
-          color: $text-secondary;
-          text-decoration: none; // Supprime le soulignement
-        }
+      .list-description {
+        font-size: 1.2rem;
+        color: $text-secondary;
+        margin-bottom: 1.5rem;
       }
-    }
 
-    .list-actions {
-      margin-top: 30px;
-
-      .btn {
-        margin: 0 10px;
-        padding: 0.75rem 1.5rem;
-        font-size: 1rem;
-        border-radius: 6px;
-        text-decoration: none; // Supprime le soulignement
-
-        &:hover {
-          text-decoration: none; // Empêche le soulignement au hover
+      .list-shared {
+        h3 {
+          font-size: 1.5rem;
+          font-weight: bold;
+          margin-bottom: 0.5rem;
         }
 
-        &.btn-primary {
-          background: $primary;
-          color: #fff;
-
-          &:hover {
-            background: darken($primary, 10%);
-          }
-        }
-
-        &.btn-secondary {
-          background: $light-gray;
+        p {
+          font-size: 1.2rem;
           color: $text-primary;
+        }
+      }
+    }
 
-          &:hover {
-            background: darken($light-gray, 5%);
+    .list-actions-container {
+      flex: 0 0 250px;
+      margin-right: 4rem;
+      text-align: right;
+
+      .list-actions-top {
+        display: flex;
+        justify-content: space-evenly;
+        gap: 0.5rem;
+
+        .action-button {
+          background-color: transparent;
+          font-size: 1rem;
+          padding: 0.5rem 1.25rem; // Taille ajustée pour des proportions équilibrées
+          border-radius: 0.5rem; // Coins légèrement arrondis
+          font-weight: 600; // Texte semi-gras
+          transition: all 0.2s ease-in-out;
+          border: none;
+          min-width: 120px;
+          text-decoration: none;
+
+          &.btn-primary {
+            background-color: #1899e0;
+            color: #fff;
+            box-shadow: 0 3px 6px rgba(254, 240, 246, 0.3); // Ombre légère
+
+            &:hover {
+              background-color: darken(#1899e0, 10%);
+              box-shadow: 0 6px 12px rgba(254, 240, 246, 0.4); // Ombre renforcée
+              transform: translateY(-1px); // Légère remontée
+            }
+          }
+
+          &.btn-danger {
+            background-color: #F7B2A8;
+            color: #fff;
+            box-shadow: 0 3px 6px rgba(254, 240, 246, 0.3); // Ombre légère
+
+            &:hover {
+              background-color: darken(#F7B2A8, 10%);
+              box-shadow: 0 6px 12px rgba(254, 240, 246, 0.4); // Ombre renforcée
+              transform: translateY(-1px); // Légère remontée
+            }
+          }
+        }
+      }
+
+      .add-user-form {
+        margin-top: 1.5rem;
+
+        h3 {
+          font-size: 1.2rem;
+          margin-bottom: 0.5rem;
+          text-align: left;
+        }
+
+        .email-input {
+          background-color: #fff;
+          border: 1px solid #ccc;
+          border-radius: 0.5rem; // Coins légèrement arrondis
+          padding: 0.5rem;
+          font-size: 1rem;
+
+          &:focus {
+            border-color: #1899e0;
+            outline: none;
+            box-shadow: 0 0 5px rgba(24, 153, 224, 0.5);
           }
         }
 
-        &.btn-danger {
-          background: $danger;
-          color: #fff;
+        .invite-button {
+          margin-top: 0.3rem;
+          padding: 0.5rem 1.25rem; // Taille ajustée pour des proportions équilibrées
+          border-radius: 0.5rem; // Coins légèrement arrondis
+          text-decoration: none; // Supprime le soulignement
+          font-weight: 600; // Texte semi-gras
+          font-size: 1rem; // 16px en rem
+          transition: all 0.2s ease-in-out;
+
+          background-color: #c0e6fb; // Couleur du bouton Apply
+          color: #333; // Texte noir
+          box-shadow: 0 3px 6px rgba(254, 240, 246, 0.3); // Ombre légère
+          border: none; // Pas de bordure
+
 
           &:hover {
-            background: darken($danger, 10%);
+            background-color: darken(#c0e6fb, 10%);
+            box-shadow: 0 6px 12px rgba(254, 240, 246, 0.4); // Ombre renforcée
+            transform: translateY(-1px); // Légère remontée
           }
         }
       }
     }
   }
+
+  .list-items {
+    margin-top: 2rem;
+
+    .list-items-description {
+      font-size: 1.2rem;
+      color: $text-secondary;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+  }
 }
+
 
 .filter-sort-container {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 30px;
   margin-bottom: 30px;
 
   .filter-sort-box {
-    background: #dcdcdc; // Gris plus neutre et esthétique
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #dddbdb; // Gris doux pour le fond de la boîte
+    padding: 10px;
+    border-radius: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); // Ombre légère pour donner de la profondeur
     width: 100%;
     max-width: 1000px;
 
     .filter-sort-header {
-      font-size: 1.1rem;
+      font-size: 1.5rem; // 24px en rem pour un titre bien visible
       font-weight: bold;
-      color: $text-secondary;
+      color: #F9A5A3; // Couleur de Filter and Sort
       margin-bottom: 10px;
       text-align: center;
     }
@@ -280,7 +365,7 @@
         min-width: 180px;
 
         label {
-          font-size: 0.85rem;
+          font-size: 1rem; // 16px
           font-weight: bold;
           color: $text-primary;
           margin-bottom: 5px;
@@ -289,8 +374,8 @@
         .form-select {
           padding: 0.5rem;
           border-radius: 6px;
-          border: 1px solid $light-gray;
-          font-size: 0.9rem;
+          border: 1px solid #ddd;
+          font-size: 1rem; // 16px
           background: #fff;
           box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
           transition: box-shadow 0.2s;
@@ -306,40 +391,47 @@
         align-items: center;
         justify-content: flex-end;
         gap: 10px; // Ajoute de l'espace entre les boutons
-        margin-top: 20px;
+        margin-top: 30px;
 
+        // Style pour Apply Button
         .apply-button {
-          background: $primary;
-          color: #fff;
-          padding: 0.5rem 1.2rem;
-          border-radius: 8px;
-          font-size: 0.9rem;
-          font-weight: bold;
-          text-decoration: none;
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-          transition: background 0.2s, box-shadow 0.2s;
+          padding: 0.5rem 1.25rem; // Taille ajustée pour des proportions équilibrées
+          border-radius: 0.5rem; // Coins légèrement arrondis
+          text-decoration: none; // Supprime le soulignement
+          font-weight: 600; // Texte semi-gras
+          font-size: 1rem; // 16px en rem
+          transition: all 0.2s ease-in-out;
+
+          background-color: #f1c3d7; // Couleur du bouton Apply
+          color: #333; // Texte noir
+          box-shadow: 0 3px 6px rgba(254, 240, 246, 0.3); // Ombre légère
+          border: none; // Pas de bordure
 
           &:hover {
-            background: darken($primary, 10%);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            background-color: darken(#FEF0F6, 10%); // Éclaircissement au hover
+            box-shadow: 0 6px 12px rgba(254, 240, 246, 0.4); // Ombre renforcée
+            transform: translateY(-1px); // Légère remontée
           }
         }
 
-        .reset-button {
-          background: #ccc;
-          color: #333;
-          padding: 0.5rem 1rem;
-          border-radius: 8px;
-          font-size: 0.9rem;
-          font-weight: bold;
-          text-decoration: none;
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-          transition: background 0.2s, box-shadow 0.2s;
+        // Style pour Reset Button
+        .btn-reset {
+          padding: 0.5rem 1.25rem; // Taille ajustée pour des proportions équilibrées
+          border-radius: 0.5rem; // Coins légèrement arrondis
+          text-decoration: none; // Supprime le soulignement
+          font-weight: 600; // Texte semi-gras
+          font-size: 1rem; // 16px en rem
+          transition: all 0.2s ease-in-out;
+
+          background-color: #F4F4F4; // Gris clair
+          color: #333; // Texte gris foncé
+          box-shadow: 0 3px 6px rgba(224, 224, 224, 0.3); // Ombre légère
+          border: none; // Pas de bordure
 
           &:hover {
-            background: darken(#ccc, 10%);
-            color: #000;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            background-color: darken(#e0e0e0, 10%); // Assombrissement au hover
+            box-shadow: 0 6px 12px rgba(224, 224, 224, 0.4); // Ombre renforcée
+            transform: translateY(-1px); // Légère remontée
           }
         }
       }
@@ -367,4 +459,12 @@
   strong {
     color: $primary; // Met en valeur le texte important
   }
+}
+
+.list-divider {
+  height: 2px; // Épaisseur de la ligne
+  background-color: #605f5f; // Gris foncé
+  margin: 1.5rem 0; // Espacement autour de la ligne
+  width: 100%;
+  border: none; // Pas de bordure supplémentaire
 }

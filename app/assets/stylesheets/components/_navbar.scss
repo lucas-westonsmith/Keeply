@@ -7,6 +7,12 @@
   top: 0;
   z-index: 1030;
   height: 80px;
+  padding: 0 3%; /* Réduction des marges latérales pour le container */
+
+  .navbar-container {
+    max-width: 95%; /* Limiter la largeur du container */
+    margin: 0 auto; /* Centrer le container */
+  }
 
   .navbar-brand {
     text-decoration: none;
@@ -32,17 +38,8 @@
 
     .nav-separator {
       height: 40px;
-      width: 1px;
-      background-color: #6E2DF0; /* Separator color */
-    }
-
-    .search-bar {
-      display: flex;
-      gap: 10px;
-
-      input {
-        width: 200px;
-      }
+      width: 3px; /* Épaississement du séparateur */
+      background-color: #1899e0; /* Separator color */
     }
   }
 
@@ -50,11 +47,12 @@
     position: relative;
     text-decoration: none;
     font-size: 18px;
-    margin-right: 20px;
+    margin-right: 4px; /* Rapprocher Login et Sign up */
     color: #fff;
 
     &:hover {
       color: #fff;
+      text-decoration: none; /* Supprimer le soulignage */
     }
 
     &::before {
@@ -64,7 +62,7 @@
       left: 0;
       width: 0;
       height: 2px;
-      background-color: #6E2DF0;
+      background-color: #1899e0;
       transition: width 0.3s ease-in-out;
     }
 
@@ -75,12 +73,12 @@
   }
 
   .dropdown .fa-globe {
-    margin-right: 10px;
+    margin-right: 18px; /* Déplacer le globe légèrement à gauche */
     color: #fff;
     cursor: pointer;
 
     &:hover {
-      color: #6E2DF0;
+      color: #1899e0;
     }
   }
 
@@ -103,17 +101,17 @@
 
     &:hover {
       background-color: #f1f1f1;
-      color: #6E2DF0;
+      color: #1899e0;
     }
   }
 
   .btn-primary {
-    background-color: #6E2DF0;
-    border-color: #6E2DF0;
+    background-color: #1899e0;
+    border-color: #1899e0;
 
     &:hover {
-      background-color: #5638bf;
-      border-color: #5638bf;
+      background-color: #157abc;
+      border-color: #157abc;
     }
   }
 }

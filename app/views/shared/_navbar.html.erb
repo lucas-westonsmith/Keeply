@@ -1,6 +1,5 @@
-
 <div class="navbar navbar-expand-sm navbar-lewagon">
-  <div class="container-fluid">
+  <div class="container-fluid navbar-container">
     <!-- Logo -->
     <%= link_to root_path, class: "navbar-brand" do %>
       <div class="navbar-brand-text black-ops-one-regular">
@@ -12,16 +11,10 @@
       <!-- Centered Items for Logged-in Users -->
       <div class="navbar-center">
         <%= link_to "All items", items_path, class: "nav-link #{'active' if current_page?(items_path)}" %>
-        <%= link_to "Add item", new_item_path, class: "nav-link" %>
+        <%= link_to "Add item", new_item_path, class: "nav-link #{'active' if current_page?(new_item_path)}" %>
         <div class="nav-separator"></div>
         <%= link_to "My lists", lists_path, class: "nav-link #{'active' if current_page?(lists_path)}" %>
-        <%= link_to "Create list", new_list_path, class: "nav-link" %>
-        <div class="nav-separator"></div>
-        <!-- Search Bar -->
-        <form class="d-flex search-bar">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-primary" type="submit">Search</button>
-        </form>
+        <%= link_to "Create list", new_list_path, class: "nav-link #{'active' if current_page?(new_list_path)}" %>
       </div>
     <% end %>
 
@@ -29,7 +22,7 @@
     <div class="d-flex align-items-center">
       <!-- Language Switcher -->
       <div class="dropdown">
-        <i class="fa-solid fa-globe fa-xl dropdown-toggle" id="languageDropdown" data-bs-toggle="dropdown" aria-expanded="false"></i>
+        <i class="fa-solid fa-globe fa-xl dropdown-toggle language-icon" id="languageDropdown" data-bs-toggle="dropdown" aria-expanded="false"></i>
         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdown">
           <li><a class="dropdown-item" href="#">English</a></li>
           <li><a class="dropdown-item" href="#">French</a></li>

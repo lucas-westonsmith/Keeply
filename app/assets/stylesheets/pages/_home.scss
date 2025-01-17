@@ -1,16 +1,16 @@
 .hero {
-  background: rgb(0,0,0);
-  background: linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(201,147,68,1) 50%, rgba(0,0,0,1) 100%);
-  color: #fff;
+  background: rgb(249, 156, 160);
+  background: linear-gradient(0deg, rgba(249, 156, 160, 1) 0%, rgba(243, 251, 192, 1) 100%);
+  color: black;
   text-align: center;
   padding: 8rem 2rem;
 
   h1 {
     margin-bottom: 2rem;
-    font-size: 3.5rem;
-
+    font-size: 4.375rem; // 70px en rem
+    font-weight: bold; // Bold title
     .text-gradient {
-      background: linear-gradient(90deg, #ff9a9e 0%, #fad0c4 100%);
+      background: linear-gradient(90deg, #1899e0 0%, #c0e6fb 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
@@ -28,7 +28,38 @@
     margin: 3rem 0;
 
     .btn {
-      padding: 0.75rem 2rem;
+      padding: 0.6rem 1.5rem;
+      border-radius: 0.5rem;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.25rem; // 20px en rem
+      transition: all 0.2s ease-in-out;
+
+      &.btn-primary {
+        background-color: #1899e0;
+        color: #fff;
+        box-shadow: 0 3px 6px rgba(24, 153, 224, 0.3);
+        border: none;
+
+        &:hover {
+          background-color: darken(#1899e0, 10%);
+          box-shadow: 0 6px 12px rgba(24, 153, 224, 0.4);
+          transform: translateY(-1px);
+        }
+      }
+
+      &.btn-secondary {
+        background-color: #c0e6fb;
+        color: #000;
+        box-shadow: 0 3px 6px rgba(192, 230, 251, 0.3);
+        border: none;
+
+        &:hover {
+          background-color: lighten(#c0e6fb, 10%);
+          box-shadow: 0 6px 12px rgba(192, 230, 251, 0.4);
+          transform: translateY(-1px);
+        }
+      }
     }
   }
 
@@ -42,25 +73,31 @@
       display: flex;
       align-items: center;
       gap: 0.5rem;
-      font-size: 1.2rem;
+      font-size: 1.25rem; // 20px en rem
+
+      i {
+        color: #e6f679;
+      }
     }
   }
 }
 
 .features-section {
   background: #f9fafb;
-  padding: 6rem 2rem;
+  padding: 5rem 2rem; // Reduced padding for consistency
 
   .section-title {
     text-align: center;
 
     h2 {
-      margin-bottom: 1rem;
+      margin-bottom: 1.5rem; // Reduced margin for better alignment
+      font-size: 3rem; // 48px en rem
+      font-weight: bold;
     }
 
     p {
       margin: 0;
-      font-size: 1.25rem;
+      font-size: 1.25rem; // 20px en rem
       color: $text-secondary;
     }
   }
@@ -76,21 +113,24 @@
       border-radius: 8px;
       text-align: center;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      min-height: 300px; /* Augmenter la hauteur */
+      min-height: 300px;
 
       i {
-        margin-bottom: 1rem;
+        margin-bottom: 1.5rem; // Increased space between icon and title
         display: block;
+        color: #3599E0; // Updated icon color
       }
 
       h3 {
-        font-size: 1.75rem;
+        font-size: 1.5rem; // 24px en rem
+        font-weight: bold;
         margin-bottom: 1rem;
       }
 
       p {
-        font-size: 1rem;
+        font-size: 1.25rem; // 20px en rem
         color: $text-secondary;
+        margin-top: 1rem; // Added space below title
       }
     }
   }
@@ -98,13 +138,15 @@
 
 .how-it-works-section {
   background: #fff;
-  padding: 6rem 2rem;
+  padding: 5rem 2rem; // Reduced padding for consistency
 
   .section-title {
     text-align: center;
 
     h2 {
-      margin-bottom: 3rem;
+      margin-bottom: 1.5rem; // Reduced margin for better alignment
+      font-size: 3rem; // 48px en rem
+      font-weight: bold;
     }
   }
 
@@ -121,76 +163,207 @@
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
       h3 {
-        font-size: 1.5rem;
-        color: $primary;
+        font-size: 2rem; // 32px en rem
+        font-weight: bold;
+        color: #F9A5A3; // Updated step number color
         margin-bottom: 1rem;
       }
 
       h4 {
-        font-size: 1.25rem;
+        font-size: 1.5rem; // 24px en rem
+        font-weight: bold;
         margin-bottom: 1rem;
       }
 
       p {
-        font-size: 1rem;
+        font-size: 1.25rem; // 20px en rem
         color: $text-secondary;
       }
     }
   }
 }
 
-.container-explanation {
-  display: flex;
-  justify-content: space-between;
-  gap: 2rem;
-  padding: 4rem 2rem;
+.value-section {
+  background: #F9FAFB;
+  padding: 5rem 2rem;
 
-  .column-explanation {
-    flex: 1;
-    min-width: 300px;
-    background: #fff;
-    border-radius: 10px;
-    padding: 2rem;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  /* Section Title */
+  .section-title {
+    text-align: center;
 
-    .title-explanation {
-      text-align: center;
-      color: $primary;
-      font-size: 1.75rem;
-      margin-bottom: 2rem;
-    }
+    h2 {
+      margin-bottom: 3rem;
+      font-size: 3rem; // 48px en rem
+      font-weight: bold;
 
-    .card-row {
-      margin-bottom: 2rem;
-
-      .item-left, .item {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-
-        i {
-          font-size: 2rem;
-        }
-
-        p {
-          font-size: 1rem;
-          color: $text-secondary;
-        }
+      span {
+        color: #3599E0; // Custom color for "Propeez"
       }
     }
   }
 
-  .arrow-column {
+  /* Column Titles */
+  .titles {
     display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2rem;
 
-    .arrow {
-      i {
-        font-size: 2rem;
-        color: $accent;
+    .title-container, .title-container-right {
+      width: 45%;
+      text-align: center;
+      border-radius: 5px;
+      padding: 2rem;
+
+      /* Gradients */
+      &.title-container {
+        background: linear-gradient(to right, #effdf2, #e3e8fe);
+      }
+
+      &.title-container-right {
+        background: linear-gradient(to right, #feeefd, #fef8e3);
+      }
+
+      h2 {
+        font-size: 2rem; // 32px en rem
+        font-weight: bold;
+        color: #333;
+        margin: 0;
       }
     }
+  }
+
+  /* Card Rows */
+  .cards {
+    .item-explanation {
+      .card-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+
+        /* Items Left and Right */
+        .item-left, .item {
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+          width: 45%;
+
+          i {
+            font-size: 2rem;
+            width: 2.5rem;
+            height: 2.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          }
+
+          p {
+            font-size: 1.5rem; // 24px en rem
+            color: #333;
+            margin: 0;
+          }
+        }
+
+        /* Arrows */
+        .arrow {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          i {
+            font-size: 2rem;
+            color: #E6F679;
+          }
+        }
+      }
+
+      /* Divider Between Rows */
+      .card-divider {
+        border: none;
+        border-top: 2px solid #A9A9A9;
+        margin: 1.5rem 0;
+      }
+    }
+  }
+}
+
+.angry-underline-blue {
+  position: relative;
+  display: inline-block;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -0.4rem; /* Ajustez pour le positionnement */
+    left: -0.5rem;
+    right: -0.5rem;
+    height: 0.5rem;
+
+    z-index: 2; /* SVG au-dessus si nécessaire */
+
+    /* Utilisation de background pour le nouveau SVG */
+    background: asset-url('angry-underline-blue.svg') no-repeat center center;
+    background-size: cover;
+
+  }
+
+  /* Texte sous le soulignement */
+  span {
+    position: relative;
+    z-index: 1;
+  }
+}
+
+.angry-underline-pink {
+  position: relative;
+  display: inline-block;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -0.4rem; /* Ajustez pour le positionnement */
+    left: -0.5rem;
+    right: -0.5rem;
+    height: 0.5rem;
+
+    z-index: 2; /* SVG au-dessus si nécessaire */
+
+    /* Utilisation de background pour le nouveau SVG */
+    background: asset-url('angry-underline-pink.svg') no-repeat center center;
+    background-size: cover;
+
+  }
+
+  /* Texte sous le soulignement */
+  span {
+    position: relative;
+    z-index: 1;
+  }
+}
+
+.angry-underline-black {
+  position: relative;
+  display: inline-block;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -0.4rem; /* Ajustez pour le positionnement */
+    left: -0.5rem;
+    right: -0.5rem;
+    height: 0.5rem;
+
+    z-index: 2; /* SVG au-dessus si nécessaire */
+
+    /* Utilisation de background pour le nouveau SVG */
+    background: asset-url('angry-underline-blackos.svg') no-repeat center center;
+    background-size: cover;
+
+  }
+
+  /* Texte sous le soulignement */
+  span {
+    position: relative;
+    z-index: 1;
   }
 }
