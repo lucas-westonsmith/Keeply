@@ -12,6 +12,7 @@ Rails.application.routes.draw do
     resources :items, only: [:new, :create, :index, :edit, :update]
     resources :list_users, only: [:create, :destroy]
     post 'leave', to: 'list_users#leave', as: :leave_list
+    post 'add_existing_item/:item_id', to: 'lists#add_existing_item', as: :add_existing_item_to_list # Route correcte pour ajouter un item existant
   end
 
   # Ressources pour les items (indépendamment des listes)

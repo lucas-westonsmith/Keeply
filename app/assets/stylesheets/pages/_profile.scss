@@ -33,27 +33,38 @@
     }
   }
 
-  .form-actions {
+  .form-actions,
+  .form-cancel {
     text-align: center;
+    margin-top: 1rem;
 
-    .btn {
-      padding: 10px 20px;
-      border-radius: 6px;
-    }
+    .action-button {
+      font-size: 1rem;
+      font-weight: bold;
+      border-radius: 0.5rem; // Coins légèrement arrondis pour les boutons
+      padding: 0.5rem 1.25rem;
+      text-decoration: none;
+      border: none; // Suppression des contours
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1); // Légère ombre pour un effet esthétique
+      transition: all 0.2s;
 
-    .btn-primary {
-      background-color: #007bff;
-      color: #fff;
-      &:hover {
-        background-color: #0056b3;
+      &.btn-primary {
+        background-color: #1899e0;
+        color: #fff;
+
+        &:hover {
+          background-color: darken(#1899e0, 10%);
+          box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); // Ombre renforcée au hover
+        }
       }
-    }
 
-    .btn-danger {
-      background-color: #dc3545;
-      color: #fff;
-      &:hover {
-        background-color: #a71d2a;
+      &.btn-secondary {
+        background-color: #F4F4F4;
+        color: #333;
+
+        &:hover {
+          background-color: darken(#F4F4F4, 10%);
+        }
       }
     }
   }
@@ -80,131 +91,6 @@
 
       strong {
         color: #333;
-      }
-    }
-  }
-}
-
-.form-container {
-  max-width: 800px;
-  margin: 3rem auto;
-  padding: 2rem;
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-
-  .form-title {
-    font-size: 2rem;
-    color: #333;
-    margin-bottom: 1rem;
-    text-align: center;
-  }
-
-  .form-description {
-    font-size: 1rem;
-    color: #555;
-    margin-bottom: 2rem;
-    text-align: center;
-  }
-
-  .form-columns {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 2rem;
-
-    .form-column {
-      flex: 1;
-
-      .form-group {
-        margin-bottom: 1.5rem;
-
-        .form-label {
-          display: block;
-          font-size: 1rem;
-          color: #555;
-          margin-bottom: 0.5rem;
-        }
-
-        .form-input,
-        .form-select,
-        .form-input-file {
-          width: 100%;
-          padding: 0.75rem;
-          font-size: 1rem;
-          border: 1px solid #ccc;
-          border-radius: 6px;
-          transition: border-color 0.2s;
-
-          &:focus {
-            border-color: #007bff;
-            outline: none;
-            box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
-          }
-        }
-
-        .form-checkbox-group {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 1rem;
-
-          .checkbox-item {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-
-            input[type="checkbox"] {
-              width: 16px;
-              height: 16px;
-            }
-
-            label {
-              font-size: 1rem;
-              color: #555;
-              margin: 0;
-            }
-          }
-        }
-      }
-    }
-  }
-
-  .form-actions {
-    text-align: center;
-
-    .btn-primary {
-      background: #007bff;
-      color: #fff;
-      padding: 0.75rem 1.5rem;
-      border: none;
-      border-radius: 6px;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: background 0.2s, transform 0.2s;
-
-      &:hover {
-        background: #0056b3;
-        transform: translateY(-2px);
-      }
-    }
-  }
-
-  .form-cancel {
-    text-align: center;
-    margin-top: 1rem;
-
-    .btn-secondary {
-      background: #f8f9fa;
-      color: #555;
-      padding: 0.75rem 1.5rem;
-      border: none;
-      border-radius: 6px;
-      font-size: 1rem;
-      cursor: pointer;
-      text-decoration: none;
-      transition: background 0.2s;
-
-      &:hover {
-        background: #e2e6ea;
       }
     }
   }

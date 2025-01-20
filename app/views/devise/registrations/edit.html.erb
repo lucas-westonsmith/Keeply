@@ -1,5 +1,5 @@
 <div class="form-container">
-  <h1 class="form-title">Edit Profile</h1>
+  <h1 class="form-title"><span class="angry-underline-blue">Edit profile</span></h1>
 
   <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
     <%= f.error_notification %>
@@ -8,12 +8,12 @@
       <!-- Colonne de gauche -->
       <div class="form-column">
         <div class="form-group">
-          <%= f.label :first_name, "First Name", class: "form-label" %>
+          <%= f.label :first_name, "First name", class: "form-label" %>
           <%= f.input :first_name, required: true, label: false, class: "form-input" %>
         </div>
 
         <div class="form-group">
-          <%= f.label :last_name, "Last Name", class: "form-label" %>
+          <%= f.label :last_name, "Last name", class: "form-label" %>
           <%= f.input :last_name, required: true, label: false, class: "form-input" %>
         </div>
 
@@ -28,12 +28,12 @@
         </div>
 
         <div class="form-group">
-          <%= f.label :password_confirmation, "Confirm Password", class: "form-label" %>
+          <%= f.label :password_confirmation, "Confirm password", class: "form-label" %>
           <%= f.input :password_confirmation, required: false, label: false, class: "form-input" %>
         </div>
 
         <div class="form-group">
-          <%= f.label :current_password, "Current Password", class: "form-label" %>
+          <%= f.label :current_password, "Current password", class: "form-label" %>
           <%= f.input :current_password, hint: "We need your current password to confirm your changes", required: true, label: false, class: "form-input" %>
         </div>
       </div>
@@ -41,7 +41,7 @@
       <!-- Colonne de droite -->
       <div class="form-column">
         <div class="form-group">
-          <%= f.label :date_of_birth, "Date of Birth", class: "form-label" %>
+          <%= f.label :date_of_birth, "Date of birth", class: "form-label" %>
           <%= f.input :date_of_birth, as: :date, label: false, class: "form-input" %>
         </div>
 
@@ -51,12 +51,12 @@
         </div>
 
         <div class="form-group">
-          <%= f.label :phone_number, "Phone Number", class: "form-label" %>
+          <%= f.label :phone_number, "Phone number", class: "form-label" %>
           <%= f.input :phone_number, label: false, class: "form-input" %>
         </div>
 
         <div class="form-group">
-          <%= f.label :preferred_language, "Preferred Language", class: "form-label" %>
+          <%= f.label :preferred_language, "Preferred language", class: "form-label" %>
           <%= f.input :preferred_language, as: :select, collection: ['English', 'French', 'Spanish'], include_blank: true, label: false, class: "form-select" %>
         </div>
 
@@ -71,11 +71,11 @@
     </div>
 
     <div class="form-actions">
-      <%= f.button :submit, "Update", class: "btn btn-primary" %>
+      <%= f.button :submit, "Update", class: "btn btn-primary action-button" %>
     </div>
   <% end %>
 
-  <div class="text-center">
-    <%= button_to "Delete my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete, class: "btn btn-danger" %>
+  <div class="form-cancel">
+    <%= button_to "Delete my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete, class: "btn btn-secondary action-button" %>
   </div>
 </div>

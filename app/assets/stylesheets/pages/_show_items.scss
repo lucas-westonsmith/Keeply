@@ -1,142 +1,148 @@
 .single-item-container {
   display: flex;
   flex-direction: column;
-  gap: 20px;
   padding: 20px;
   max-width: 1200px;
-  margin: 0 auto; /* Centrer le conteneur */
+  margin: 0 auto;
 
-  /* Bouton Back */
-  .single-item-back {
-    align-self: flex-start;
-
-    .back-link {
-      font-size: 1rem;
-      text-decoration: none;
-      color: #007bff;
-
-      &:hover {
-        color: #0056b3; /* Changement de couleur au survol */
-      }
-    }
+  /* Ligne grise sur toute la largeur */
+  .full-width-divider {
+    height: 2px;
+    background-color: #605f5f;
+    margin: 1.5rem 0;
+    width: 100%;
+    border: none;
   }
 
   /* Titre de l'item */
   .single-item-title {
-    font-size: 2.5em;
+    font-size: 3rem;
+    font-weight: bold;
     text-align: center;
-    margin-bottom: 20px;
-    color: #333;
+    margin-bottom: 1rem;
+    color: black;
   }
 
-  /* Conteneur principal des infos et de la photo */
-  .single-item-content {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    align-items: flex-start;
+  /* Description de l'item */
+  .single-item-description {
+    font-size: 1.2rem;
+    color: $text-secondary;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
 
-    /* Informations de l'item */
-    .single-item-info {
-      flex: 1;
+  /* Boutons sous la description */
+  .item-actions {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 1rem;
+
+    .action-button {
+      background-color: transparent;
+      font-size: 1rem;
+      padding: 0.5rem 1.25rem;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      transition: all 0.2s ease-in-out;
+      border: none;
+
+      &.btn-primary {
+        background-color: #1899e0;
+        color: #fff;
+
+        &:hover {
+          background-color: darken(#1899e0, 10%);
+        }
+      }
+
+      &.btn-danger {
+        background-color: #F7B2A8;
+        color: #fff;
+
+        &:hover {
+          background-color: darken(#F7B2A8, 10%);
+        }
+      }
+    }
+  }
+
+  .item-content-wrapper {
+    display: flex;
+    gap: 20px;
+    margin-top: 20px;
+  }
+
+  /* Colonne gauche : Informations */
+  .item-info-cards {
+    flex: 1;
+    max-width: 33%; /* 1/3 du conteneur */
+
+    .info-box {
       background-color: #f9f9f9;
       padding: 20px;
       border-radius: 8px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       font-size: 1.1em;
       color: #555;
+      margin-bottom: 20px;
 
       p {
-        margin-bottom: 15px;
+        margin: 0;
 
         strong {
           color: #333;
         }
       }
-
-      .invoice-link {
-        color: #007bff;
-        text-decoration: none;
-
-        &:hover {
-          color: #0056b3;
-          text-decoration: underline;
-        }
-      }
     }
+  }
 
-    /* Photo de l'item */
-    .single-item-photo {
-      flex: 1;
+  /* Colonne droite : Image et facture */
+  .item-media {
+    flex: 2; /* 2/3 du conteneur */
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    .item-photo-container {
       display: flex;
       justify-content: center;
       align-items: center;
 
-      img {
-        max-width: 100%;
+      .item-photo {
+        width: 100%;
+        max-width: 500px;
         height: auto;
-        max-height: 400px; /* Limite la hauteur de l'image */
+        object-fit: cover;
         border-radius: 8px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       }
     }
-  }
 
-  /* Actions en bas */
-  .single-item-actions {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
+    .invoice-preview {
+      .invoice-iframe {
+        width: 100%;
+        height: 500px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
 
-    .action-icon {
-      text-decoration: none;
-      color: #007bff;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      font-size: 1.1em;
-      cursor: pointer;
+      .invoice-link {
+        text-decoration: none;
+        color: #007bff;
 
-      &:hover {
-        color: #0056b3; /* Changement de couleur au survol */
+        &:hover {
+          color: #0056b3;
+        }
+      }
+
+      .invoice-image {
+        max-width: 100%;
+        height: auto;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       }
     }
-
-    /* Modifier */
-    .modify-item {
-      color: #28a745;
-
-      &:hover {
-        color: darken(#28a745, 10%);
-      }
-    }
-
-    /* Supprimer */
-    .delete-item {
-      color: #d9534f;
-
-      &:hover {
-        color: darken(#d9534f, 10%);
-      }
-    }
-  }
-}
-
-.invoice-preview {
-  margin-top: 20px;
-
-  .invoice-iframe {
-    width: 100%;
-    height: 500px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-
-  .invoice-image {
-    max-width: 100%;
-    height: auto;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
 }
