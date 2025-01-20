@@ -1,5 +1,5 @@
 class ListsController < ApplicationController
-  before_action :set_list, only: [:show, :edit, :update, :destroy, :remove_item]
+  before_action :set_list, only: [:show, :edit, :update, :destroy, :remove_item, :add_existing_item]
   before_action :authenticate_user!
 
   # Afficher toutes les listes de l'utilisateur
@@ -37,7 +37,6 @@ class ListsController < ApplicationController
     end
   end
 
-
   # Formulaire pour modifier une liste
   def edit; end
 
@@ -70,10 +69,20 @@ class ListsController < ApplicationController
     end
   end
 
+  # Ajouter un item existant à une liste
+  def add_existing_item
+    @item = Item.find(params[:item_id])
+    if @list.items << @item
+      redirect_to @list, notice: "Item successfully added to the list."
+    else
+      redirect_to @list, alert: "Failed to add item to the list."
+    end
+  end
+
   private
 
   def set_list
-    @list = List.find(params[:id])
+    @list = List.find(params[:id] || params[:list_id])
   end
 
   def list_params

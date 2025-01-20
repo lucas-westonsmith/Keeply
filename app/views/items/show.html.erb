@@ -1,30 +1,66 @@
 <div class="single-item-container">
-  <!-- Bouton Back en haut à gauche -->
-  <div class="single-item-back">
-    <%= link_to 'Back', items_path, class: 'back-link' %>
+  <!-- Titre de l'item -->
+  <h1 class="single-item-title">
+    <span class="angry-underline-blue"><%= @item.title %></span>
+  </h1>
+
+  <!-- Description de l'item -->
+  <p class="single-item-description"><%= @item.description %></p>
+
+  <!-- Boutons sous la description -->
+  <div class="item-actions">
+    <%= link_to 'Edit', edit_item_path(@item), class: 'btn btn-primary action-button' %>
+    <%= link_to 'Delete', item_path(@item), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: 'btn btn-danger action-button' %>
   </div>
 
-  <!-- Titre de l'item -->
-  <h1 class="single-item-title"><%= @item.title %></h1>
+  <!-- Ligne grise pleine largeur -->
+  <div class="full-width-divider"></div>
 
-  <!-- Conteneur principal des infos et de la photo -->
-  <div class="single-item-content">
-    <!-- Informations de l'item -->
-    <div class="single-item-info">
-      <p><strong>Description:</strong> <%= @item.description %></p>
-      <p><strong>Price:</strong> <%= @item.price %>€</p>
-      <p><strong>Condition:</strong> <%= @item.condition.capitalize %></p>
-      <p><strong>Category:</strong> <%= @item.category %></p>
-      <p><strong>Purchase date:</strong> <%= @item.purchase_date %></p>
-      <p><strong>Warranty expiry date:</strong> <%= @item.warranty_expiry_date %></p>
+  <!-- Conteneur principal -->
+  <div class="item-content-wrapper d-flex gap-4 mt-4">
+    <!-- Colonne gauche : Informations -->
+    <div class="item-info-cards">
+      <div class="info-box">
+        <p><strong>Price:</strong> <%= @item.price %>€</p>
+      </div>
+      <div class="info-box">
+        <p><strong>Condition:</strong> <%= @item.condition.capitalize %></p>
+      </div>
+      <div class="info-box">
+        <p><strong>Category:</strong> <%= @item.category %></p>
+      </div>
+      <div class="info-box">
+        <p><strong>Purchase Date:</strong> <%= @item.purchase_date %></p>
+      </div>
+      <div class="info-box">
+        <p><strong>Warranty Expiry Date:</strong> <%= @item.warranty_expiry_date %></p>
+      </div>
+      <div class="info-box">
+        <% if @item.lists.any? %>
+          <p>
+            <strong><%= @item.lists.count > 1 ? "Lists:" : "List:" %></strong>
+            <%= @item.lists.map(&:title).join(", ") %>
+          </p>
+        <% else %>
+          <p><strong>List:</strong> Not added to any list.</p>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Colonne droite : Image et facture -->
+    <div class="item-media">
+      <div class="item-photo-container">
+        <% if @item.photo.attached? %>
+          <%= image_tag @item.photo, alt: "Photo of #{@item.title}", class: "item-photo" %>
+        <% else %>
+          <%= image_tag "default-item.avif", alt: "Default item photo", class: "item-photo" %>
+        <% end %>
+      </div>
 
       <% if @item.invoice.attached? %>
-        <p><strong>Invoice:</strong>
-          <%= link_to 'Download Invoice', rails_blob_path(@item.invoice, disposition: "attachment"), target: "_blank", class: 'invoice-link' %>
-        </p>
-
-        <!-- Prévisualisation de l'invoice -->
         <div class="invoice-preview">
+          <p><strong>Invoice:</strong></p>
+          <%= link_to 'Download Invoice', rails_blob_path(@item.invoice, disposition: "attachment"), target: "_blank", class: 'invoice-link' %>
           <%= tag.embed src: rails_blob_path(@item.invoice, disposition: "inline"), class: 'invoice-iframe' if @item.invoice.blob.content_type == 'application/pdf' %>
           <%= image_tag @item.invoice, class: 'invoice-image' if @item.invoice.blob.content_type.start_with?('image/') %>
         </div>
@@ -32,23 +68,5 @@
         <p><strong>Invoice:</strong> No invoice uploaded.</p>
       <% end %>
     </div>
-
-    <!-- Photo de l'item -->
-    <div class="single-item-photo">
-      <% if @item.photo.attached? %>
-        <%= image_tag @item.photo, alt: "Photo of #{@item.title}" %>
-      <% else %>
-        <%= image_tag "default-item.avif", alt: "Default item photo", class: "default-item-photo" %>
-      <% end %>
-    </div>
-
-  <!-- Actions -->
-  <div class="single-item-actions">
-    <%= link_to edit_item_path(@item), class: 'action-icon modify-item' do %>
-      <i class="fa fa-edit"></i> Modify
-    <% end %>
-    <%= link_to item_path(@item), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: 'action-icon delete-item' do %>
-      <i class="fa fa-trash-alt"></i> Delete
-    <% end %>
   </div>
 </div>

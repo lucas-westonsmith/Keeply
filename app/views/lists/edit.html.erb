@@ -1,5 +1,5 @@
 <div class="form-container lists">
-  <h1 class="form-title">Edit list: <%= @list.title %></h1>
+  <h1 class="form-title" style="color: #F9A5A3;"><span class="angry-underline-pink">Edit the list <%= @list.title %></span></h1>
   <p class="form-description">Make changes to your list below.</p>
 
   <%= simple_form_for @list, local: true do |f| %>
@@ -31,7 +31,7 @@
         <div class="form-group">
           <p class="form-label">Or select a picture:</p>
           <div class="thumbnail-gallery">
-            <% ["living-room.avif", "dining-room.avif", "bedroom.avif", "kitchen.avif", "bathroom.avif"].each do |image| %>
+            <% ["living-room.avif", "dining-room.avif", "bedroom.avif", "kitchen.avif", "bathroom.avif", "office.avif", "library.avif", "bedroom-kids.avif"].each do |image| %>
               <label class="thumbnail">
                 <%= radio_button_tag :default_photo, image, @list.photo.attached? && @list.photo.filename.to_s == image, class: "thumbnail-radio" %>
                 <%= image_tag image, alt: image.split('.').first.humanize, class: "thumbnail-image" %>
@@ -44,11 +44,11 @@
 
     <!-- Submit Button -->
     <div class="form-actions">
-      <%= f.submit 'Update list', class: 'btn btn-primary' %>
+      <%= f.submit 'Update list', class: 'btn btn-primary action-button btn-create-list' %>
     </div>
   <% end %>
 
   <div class="form-cancel">
-    <%= link_to 'Cancel', @list, class: 'btn btn-secondary' %>
+    <%= link_to 'Cancel', @list, class: 'btn btn-secondary action-button' %>
   </div>
 </div>
