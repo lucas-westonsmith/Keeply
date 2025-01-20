@@ -28,4 +28,18 @@
 #       enabled: "ON"
 
 en:
-  hello: "Hello world"
+  activerecord:
+    models:
+      list: "List"
+    attributes:
+      list:
+        super_list: "Family"
+    errors:
+      models:
+        list:
+          attributes:
+            super_list:
+              blank: "must belong to a family"
+            title:
+              blank: "can't be blank"
+

@@ -24,10 +24,10 @@
         <p><strong>Price:</strong> <%= @item.price %>€</p>
       </div>
       <div class="info-box">
-        <p><strong>Condition:</strong> <%= @item.condition.capitalize %></p>
+        <p><strong>Condition:</strong> <%= @item.condition.present? ? @item.condition.capitalize : "Not specified" %></p>
       </div>
       <div class="info-box">
-        <p><strong>Category:</strong> <%= @item.category %></p>
+        <p><strong>Category:</strong> <%= @item.category.present? ? @item.category : "Not specified" %></p>
       </div>
       <div class="info-box">
         <p><strong>Purchase Date:</strong> <%= @item.purchase_date %></p>

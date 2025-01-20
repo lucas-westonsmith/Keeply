@@ -1,0 +1,46 @@
+<div class="container my-5 lists-index">
+  <h1 class="page-title text-gradient angry-underline-pink"><%= @super_list.title %></h1>
+  <p class="page-description"><%= @super_list.description || "Browse through all your lists in this category." %></p>
+
+  <%= link_to 'Create a new list', new_list_path(super_list_id: @super_list.id), class: 'btn create-list-button shiny-cta' %>
+
+  <% if @lists.any? %>
+    <div class="lists-container">
+      <% @lists.each do |list| %>
+        <%= link_to list_path(list), class: "list-card-link" do %>
+          <div class="list-card">
+            <!-- Image -->
+            <div class="list-image">
+              <% if list.photo.attached? %>
+                <%= image_tag list.photo, alt: "List photo" %>
+              <% else %>
+                <%= image_tag "default-list.avif", alt: "Default list photo", class: "default-list-photo" %>
+              <% end %>
+            </div>
+
+            <!-- Details -->
+            <div class="list-details">
+              <h2 class="list-title"><span class="angry-underline-blue"><%= list.title %></span></h2>
+              <p class="list-description"><%= truncate(list.description, length: 150) %></p>
+            </div>
+
+            <!-- Nombre d'items -->
+            <div class="list-item-count">
+              <% item_count = list.items.count %>
+              <p>
+                <%= item_count.zero? ? "0 item" : "#{item_count} #{'item'.pluralize(item_count)}" %>
+              </p>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  <% else %>
+    <!-- Message si aucune liste -->
+    <div class="no-lists-message">
+      <h3>📂 Oops, no lists found!</h3>
+      <p>Why not get started? Click the <strong>Create a new list</strong> button above to keep your items organized. 🗂️</p>
+      <p>Your organization journey begins here!</p>
+    </div>
+  <% end %>
+</div>
