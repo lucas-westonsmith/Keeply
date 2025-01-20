@@ -21,14 +21,25 @@ class ItemsController < ApplicationController
     @items = @items.joins(:lists).where(lists: { id: params[:list_id] }) if params[:list_id].present?
   end
 
-
   # Afficher un objet spécifique
-  def show
-  end
+  def show; end
 
   # Formulaire pour créer un objet
   def new
     @item = Item.new
+    @super_list_id = params[:super_list_id] || current_user.super_lists.first&.id
+    @filtered_lists = current_user.lists.where(super_list_id: @super_list_id)
+
+    respond_to do |format|
+      format.html
+      format.html { render partial: "items/lists", locals: { filtered_lists: @filtered_lists, form: nil } }
+    end
+  end
+
+  def update_lists
+    @super_list_id = params[:super_list_id]
+    @filtered_lists = current_user.lists.where(super_list_id: @super_list_id)
+    render partial: "items/lists", locals: { filtered_lists: @filtered_lists }
   end
 
   # Créer un objet
@@ -36,7 +47,6 @@ class ItemsController < ApplicationController
     @item = current_user.items.build(item_params)
 
     if @item.save
-      # Ajoutez les listes sélectionnées, tout en évitant les doublons
       if params[:item][:list_ids].present?
         unique_list_ids = params[:item][:list_ids].reject(&:blank?).uniq
         unique_list_ids.each do |list_id|
@@ -50,7 +60,6 @@ class ItemsController < ApplicationController
     end
   end
 
-
   # Formulaire pour modifier un objet
   def edit
     @list = @item.lists.first
@@ -59,7 +68,6 @@ class ItemsController < ApplicationController
   # Mettre à jour un objet
   def update
     if @item.update(item_params)
-      # Met à jour les associations avec les listes
       @item.lists = List.where(id: params[:item][:list_ids].reject(&:blank?)) if params[:item][:list_ids].present?
       redirect_to @item, notice: 'The item has been successfully updated.'
     else
@@ -68,15 +76,14 @@ class ItemsController < ApplicationController
     end
   end
 
-# Supprimer un objet
-def destroy
-  @item.item_lists.destroy_all # Supprime les associations dans item_lists
-  @item.destroy # Supprime l'item après avoir supprimé les associations
-  redirect_to items_path, notice: "Item was successfully deleted."
-rescue StandardError => e
-  redirect_to items_path, alert: "Failed to delete the item: #{e.message}"
-end
-
+  # Supprimer un objet
+  def destroy
+    @item.item_lists.destroy_all
+    @item.destroy
+    redirect_to items_path, notice: "Item was successfully deleted."
+  rescue StandardError => e
+    redirect_to items_path, alert: "Failed to delete the item: #{e.message}"
+  end
 
   private
 

@@ -101,6 +101,21 @@
     }
   }
 
+  .form-group.checkbox-group {
+    display: flex;
+    flex-direction: column; // Affiche les éléments en colonne
+    gap: 10px; // Ajoute de l’espace entre les options
+
+    .checkbox-item {
+      display: flex;
+      align-items: center;
+
+      .form-radio {
+        margin-right: 8px; // Espacement entre le bouton radio et le texte
+      }
+    }
+  }
+
   .form-actions,
   .form-cancel {
     text-align: center;

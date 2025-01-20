@@ -1,0 +1,119 @@
+.super-lists-index {
+  text-align: center;
+
+  .page-title {
+    font-size: 3rem; // Taille cohérente avec les autres pages
+    font-weight: bold;
+    margin-bottom: 70px; // Plus d'espacement avec les cartes
+  }
+
+  .super-lists-container {
+    display: flex;
+    gap: 30px;
+    justify-content: space-between;
+    flex-wrap: wrap; // Les cartes s'adaptent à l'espace disponible
+  }
+
+  .super-list-card-link {
+    text-decoration: none; // Supprime le soulignement
+    color: inherit; // Couleur héritée par défaut
+    flex: 1;
+    max-width: 30%; // Taille cohérente
+    min-width: 300px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    }
+  }
+
+  .super-list-card {
+    border-radius: 15px;
+    height: 300px; // Allongé verticalement
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
+    text-align: left; // Alignement du texte à gauche
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+
+    &.home-card {
+      background-color: #cfe8fc; // Bleu clair
+      .super-list-icon {
+        color: darken(#cfe8fc, 20%);
+      }
+    }
+
+    &.everyday-life-card {
+      background-color: #fceacc; // Jaune clair
+      .super-list-icon {
+        color: darken(#fceacc, 20%);
+      }
+    }
+
+    &.administrative-papers-card {
+      background-color: #fde1e1; // Rouge clair
+      .super-list-icon {
+        color: darken(#fde1e1, 20%);
+      }
+    }
+
+    &.default-card {
+      background-color: #f4f4f4; // Gris clair par défaut
+      .super-list-icon {
+        color: darken(#f4f4f4, 20%);
+      }
+    }
+
+    &:hover {
+      &.home-card {
+        background-color: darken(#cfe8fc, 10%);
+        .super-list-icon {
+          color: darken(#cfe8fc, 30%);
+        }
+      }
+
+      &.everyday-life-card {
+        background-color: darken(#fceacc, 10%);
+        .super-list-icon {
+          color: darken(#fceacc, 30%);
+        }
+      }
+
+      &.administrative-papers-card {
+        background-color: darken(#fde1e1, 10%);
+        .super-list-icon {
+          color: darken(#fde1e1, 30%);
+        }
+      }
+
+      &.default-card {
+        background-color: darken(#f4f4f4, 10%);
+        .super-list-icon {
+          color: darken(#f4f4f4, 30%);
+        }
+      }
+    }
+
+    .super-list-content {
+      .super-list-title {
+        font-size: 1.8rem;
+        font-weight: bold;
+      }
+
+      .super-list-description {
+        font-size: 1rem;
+        color: #555;
+        line-height: 1.4;
+        margin-top: 30px; // Augmenter la marge pour baisser la description
+      }
+    }
+
+    .super-list-icon {
+      text-align: right;
+      font-size: 3rem;
+    }
+  }
+}

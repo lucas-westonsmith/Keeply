@@ -1,0 +1,15 @@
+<% if filtered_lists&.any? %>
+  <div class="form-group">
+    <label class="form-label" style="font-weight: bold;">Add to lists</label>
+    <div class="form-checkbox-group">
+      <% filtered_lists.each do |list| %>
+        <div class="checkbox-item">
+          <%= check_box_tag "item[list_ids][]", list.id, false, id: "list_#{list.id}" %>
+          <%= label_tag "list_#{list.id}", list.title %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+<% else %>
+  <p class="form-note">No lists available for the selected family.</p>
+<% end %>

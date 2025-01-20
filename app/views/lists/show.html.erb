@@ -55,27 +55,30 @@
 <div class="list-divider"></div>
 
 <div class="list-items container my-5">
-  <p class="list-items-description">Explore all the items you’ve added to your list.</p> <!-- Description ajoutée -->
+  <p class="list-items-description">Explore all the items you’ve added to your list.</p>
 
-<!-- Boutons Add -->
-<div class="add-item-actions d-flex justify-content-center gap-3 mb-4">
-  <!-- Bouton Add a New Item -->
-  <%= link_to 'Add a new item', new_list_item_path(@list), class: 'btn btn-primary shiny-cta add-item-button' %>
+  <!-- Boutons Add -->
+  <div class="add-item-actions d-flex justify-content-center gap-3 mb-4">
+    <!-- Bouton Add a New Item -->
+    <%= link_to 'Add a new item', new_list_item_path(@list), class: 'btn btn-primary shiny-cta add-item-button' %>
 
-  <!-- Dropdown pour "Add an existing item" -->
-  <div class="dropdown add-existing-item-dropdown">
-    <button class="btn btn-secondary shiny-cta dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-      Add an existing item
-    </button>
-    <ul class="dropdown-menu">
-      <% Item.where.not(id: @list.items.pluck(:id)).each do |item| %>
-        <li>
-          <%= button_to item.title, list_add_existing_item_to_list_path(@list, item), method: :post, data: { turbo: false }, class: 'dropdown-item' %>
-        </li>
-      <% end %>
-    </ul>
+    <!-- Dropdown pour "Add an existing item" -->
+    <% available_items = Item.where(user: current_user).where.not(id: @list.items.pluck(:id)) %>
+    <% if available_items.any? %>
+      <div class="dropdown add-existing-item-dropdown">
+        <button class="btn btn-secondary shiny-cta dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+          Add an existing item
+        </button>
+        <ul class="dropdown-menu">
+          <% available_items.each do |item| %>
+            <li>
+              <%= button_to item.title, list_add_existing_item_to_list_path(@list, item), method: :post, data: { turbo: false }, class: 'dropdown-item' %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
   </div>
-</div>
 
   <!-- Section de tri et filtrage -->
   <div class="filter-sort-container">
