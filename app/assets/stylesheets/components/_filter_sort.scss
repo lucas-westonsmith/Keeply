@@ -1,0 +1,171 @@
+.filter-sort-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 30px;
+  margin-bottom: 30px;
+
+  .filter-sort-box {
+    background-color: #dddbdb;
+    padding: 15px;
+    border-radius: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 1000px;
+
+    .filter-sort-header {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #F9A5A3;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    .filter-sort-form {
+      display: flex;
+      flex-wrap: nowrap;
+      gap: 10px;
+      align-items: center;
+      justify-content: space-between;
+
+      .sort-options,
+      .filter-options {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        min-width: 140px;
+        max-width: 160px;
+
+        label {
+          font-size: 0.9rem;
+          font-weight: bold;
+          color: $text-primary;
+          margin-bottom: 5px;
+        }
+
+        .form-select {
+          padding: 0.4rem;
+          border-radius: 6px;
+          border: 1px solid #ddd;
+          font-size: 0.9rem;
+          background: #fff;
+          box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+          transition: box-shadow 0.2s;
+
+          &:hover {
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+          }
+        }
+      }
+
+      .filter-sort-actions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 26px;
+        flex-shrink: 0;
+
+        .apply-button,
+        .btn-reset {
+          padding: 0.4rem 1rem;
+          border-radius: 0.5rem;
+          text-decoration: none;
+          font-weight: 600;
+          font-size: 0.9rem;
+          transition: all 0.2s ease-in-out;
+          border: none;
+
+          &:hover {
+            transform: translateY(-1px);
+          }
+        }
+
+        .apply-button {
+          background-color: #f1c3d7;
+          color: #333;
+          box-shadow: 0 3px 6px rgba(254, 240, 246, 0.3);
+
+          &:hover {
+            background-color: darken(#FEF0F6, 10%);
+            box-shadow: 0 6px 12px rgba(254, 240, 246, 0.4);
+          }
+        }
+
+        .btn-reset {
+          background-color: #F4F4F4;
+          color: #333;
+          box-shadow: 0 3px 6px rgba(224, 224, 224, 0.3);
+
+          &:hover {
+            background-color: darken(#e0e0e0, 10%);
+            box-shadow: 0 6px 12px rgba(224, 224, 224, 0.4);
+          }
+        }
+      }
+    }
+  }
+
+  // Responsive adjustments
+  @media (max-width: 1024px) {
+    .filter-sort-box {
+      .filter-sort-form {
+        flex-wrap: wrap;
+        justify-content: center;
+
+        .sort-options,
+        .filter-options {
+          min-width: 120px;
+          max-width: 140px;
+        }
+
+        .filter-sort-actions {
+          margin-top: 20px;
+        }
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    .filter-sort-box {
+      padding: 10px;
+
+      .filter-sort-header {
+        font-size: 1.2rem;
+      }
+
+      .filter-sort-form {
+        flex-direction: column;
+        gap: 15px;
+
+        .sort-options,
+        .filter-options {
+          min-width: 100%;
+          max-width: 100%;
+        }
+
+        .filter-sort-actions {
+          flex-direction: column;
+          gap: 8px;
+        }
+      }
+    }
+  }
+
+  @media (max-width: 480px) {
+    .filter-sort-box {
+      .filter-sort-header {
+        font-size: 1rem;
+      }
+
+      .filter-sort-form {
+        gap: 10px;
+
+        .apply-button,
+        .btn-reset {
+          font-size: 0.8rem;
+          padding: 0.3rem 0.8rem;
+        }
+      }
+    }
+  }
+}

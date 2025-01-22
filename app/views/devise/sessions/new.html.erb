@@ -1,4 +1,4 @@
-<div class="form-container">
+<div class="form-container small-width">
   <h1 class="form-title"><span class="angry-underline-blue">Log in</span></h1>
 
   <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
@@ -7,12 +7,16 @@
     <div class="form-columns">
       <div class="form-column">
         <div class="form-group">
-          <%= f.label :email, "Email", class: "form-label" %>
+          <%= f.label :email, class: "form-label" do %>
+            <span style="font-weight: bold;">Email</span>
+          <% end %>
           <%= f.input :email, required: true, autofocus: true, label: false, class: "form-input" %>
         </div>
 
         <div class="form-group">
-          <%= f.label :password, "Password", class: "form-label" %>
+          <%= f.label :password, class: "form-label" do %>
+            <span style="font-weight: bold;">Password</span>
+          <% end %>
           <%= f.input :password, required: true, label: false, class: "form-input" %>
         </div>
 

@@ -138,4 +138,105 @@
       }
     }
   }
+
+  @media (max-width: 1024px) {
+    .page-title {
+      font-size: 2.5rem;
+    }
+
+    .create-list-button {
+      font-size: 1.1rem;
+    }
+
+    .list-card {
+      .list-image {
+        width: 250px;
+        height: 120px;
+      }
+
+      .list-details {
+        .list-title {
+          font-size: 1.4rem;
+        }
+
+        .list-description {
+          font-size: 0.95rem;
+        }
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    .page-title {
+      font-size: 2rem;
+    }
+
+    .lists-container {
+      flex-direction: column;
+    }
+
+    .list-card {
+      flex-direction: column;
+      align-items: flex-start;
+
+      .list-image {
+        width: 100%;
+        height: 150px;
+      }
+
+      .list-details {
+        padding: 10px;
+        .list-title {
+          font-size: 1.3rem;
+        }
+
+        .list-description {
+          font-size: 0.9rem;
+        }
+      }
+
+      .list-item-count {
+        padding-right: 0;
+        padding-top: 10px;
+      }
+    }
+  }
+
+  @media (max-width: 480px) {
+    .page-title {
+      font-size: 1.8rem;
+    }
+
+    .create-list-button {
+      font-size: 1rem;
+      padding: 0.5rem 1rem;
+    }
+
+    .list-card {
+      .list-image {
+        height: 120px;
+      }
+
+      .list-details {
+        .list-title {
+          font-size: 1.2rem;
+        }
+
+        .list-description {
+          font-size: 0.8rem;
+        }
+      }
+
+      .list-item-count {
+        font-size: 0.85rem;
+      }
+    }
+
+    .list-actions {
+      .back-button {
+        font-size: 0.9rem;
+        padding: 0.5rem 1rem;
+      }
+    }
+  }
 }

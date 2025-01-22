@@ -1,0 +1,83 @@
+.file-info {
+  font-size: 0.9rem;
+  color: $text-secondary;
+  margin-top: 5px;
+  margin-bottom: 10px;
+
+  @media (max-width: 768px) {
+    font-size: 0.85rem;
+    margin-top: 4px;
+    margin-bottom: 8px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 0.8rem;
+    margin-top: 3px;
+    margin-bottom: 6px;
+  }
+}
+
+.thumbnail {
+  display: inline-block;
+  cursor: pointer;
+  border: 2px solid transparent;
+  margin: 2px;
+  padding: 5px;
+  border-radius: 0.25rem; // Coins moins arrondis pour les miniatures
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    border-color: $primary;
+    box-shadow: 0 4px 6px rgba($primary, 0.2);
+  }
+
+  @media (max-width: 768px) {
+    margin: 1.5px;
+    padding: 4px;
+    border-radius: 0.2rem;
+  }
+
+  @media (max-width: 480px) {
+    margin: 1px;
+    padding: 3px;
+    border-radius: 0.15rem;
+  }
+}
+
+.thumbnail-radio {
+  display: none; // Cache les boutons radio
+}
+
+.thumbnail-image {
+  width: 119px;
+  height: 119px;
+  object-fit: cover;
+  border-radius: 0.25rem; // Coins moins arrondis pour les images
+
+  @media (max-width: 768px) {
+    width: 100px;
+    height: 100px;
+    border-radius: 0.2rem;
+  }
+
+  @media (max-width: 480px) {
+    width: 80px;
+    height: 80px;
+    border-radius: 0.15rem;
+  }
+}
+
+.thumbnail-radio:checked + .thumbnail-image {
+  border: 2px solid #007bff; // Encadrement bleu pour l’image sélectionnée
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.5); // Ajoute un léger halo bleu
+
+  @media (max-width: 768px) {
+    border: 1.5px solid #007bff;
+    box-shadow: 0 0 6px rgba(0, 123, 255, 0.4);
+  }
+
+  @media (max-width: 480px) {
+    border: 1px solid #007bff;
+    box-shadow: 0 0 4px rgba(0, 123, 255, 0.3);
+  }
+}

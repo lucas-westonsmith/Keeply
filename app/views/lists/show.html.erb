@@ -49,119 +49,142 @@
       </div>
     </div>
   </div>
-</div>
 
-<!-- Ligne grise -->
-<div class="list-divider"></div>
+  <!-- Ligne grise -->
+  <div class="list-divider"></div>
 
-<div class="list-items container my-5">
-  <p class="list-items-description">Explore all the items you’ve added to your list.</p>
+  <div class="list-items container my-5">
+    <p class="list-items-description">Explore all the items you’ve added to your list.</p>
 
-  <!-- Boutons Add -->
-  <div class="add-item-actions d-flex justify-content-center gap-3 mb-4">
-    <!-- Bouton Add a New Item -->
-    <%= link_to 'Add a new item', new_list_item_path(@list), class: 'btn btn-primary shiny-cta add-item-button' %>
+    <!-- Boutons Add -->
+    <div class="add-item-actions d-flex justify-content-center gap-3 mb-4">
+      <%= link_to 'Add a new item', new_list_item_path(@list), class: 'btn btn-primary shiny-cta add-item-button' %>
 
-    <!-- Dropdown pour "Add an existing item" -->
-    <% available_items = Item.where(user: current_user).where.not(id: @list.items.pluck(:id)) %>
-    <% if available_items.any? %>
-      <div class="dropdown add-existing-item-dropdown">
-        <button class="btn btn-secondary shiny-cta dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-          Add an existing item
-        </button>
-        <ul class="dropdown-menu">
-          <% available_items.each do |item| %>
-            <li>
-              <%= button_to item.title, list_add_existing_item_to_list_path(@list, item), method: :post, data: { turbo: false }, class: 'dropdown-item' %>
-            </li>
-          <% end %>
-        </ul>
-      </div>
-    <% end %>
-  </div>
-
-  <!-- Section de tri et filtrage -->
-  <div class="filter-sort-container">
-    <div class="filter-sort-box">
-      <form class="filter-sort-form" method="get">
-        <!-- Sorting Options -->
-        <div class="sort-options">
-          <label for="sort">Sort by</label>
-          <select name="sort" id="sort" class="form-select">
-            <option value="" <%= params[:sort].blank? ? "selected" : "" %>>Select</option>
-            <option value="price_asc" <%= params[:sort] == "price_asc" ? "selected" : "" %>>Price: Low to High</option>
-            <option value="price_desc" <%= params[:sort] == "price_desc" ? "selected" : "" %>>Price: High to Low</option>
-          </select>
-        </div>
-
-        <!-- Filter by Category -->
-        <div class="filter-options">
-          <label for="category">Category</label>
-          <select name="category" id="category" class="form-select">
-            <option value="" <%= params[:category].blank? ? "selected" : "" %>>All Categories</option>
-            <% Item.distinct.pluck(:category).each do |category| %>
-              <option value="<%= category %>" <%= params[:category] == category ? "selected" : "" %>><%= category %></option>
+      <% available_items = Item.where(user: current_user).where.not(id: @list.items.pluck(:id)) %>
+      <% if available_items.any? %>
+        <div class="dropdown add-existing-item-dropdown">
+          <button class="btn btn-secondary shiny-cta dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+            Add an existing item
+          </button>
+          <ul class="dropdown-menu">
+            <% available_items.each do |item| %>
+              <li>
+                <%= button_to item.title, list_add_existing_item_to_list_path(@list, item), method: :post, data: { turbo: false }, class: 'dropdown-item' %>
+              </li>
             <% end %>
-          </select>
-        </div>
-
-        <!-- Filter by Condition -->
-        <div class="filter-options">
-          <label for="condition">Condition</label>
-          <select name="condition" id="condition" class="form-select">
-            <option value="" <%= params[:condition].blank? ? "selected" : "" %>>All Conditions</option>
-            <% Item.distinct.pluck(:condition).each do |condition| %>
-              <option value="<%= condition %>" <%= params[:condition] == condition ? "selected" : "" %>>
-                <%= (condition || "Unknown").capitalize %>
-              </option>
-            <% end %>
-          </select>
-        </div>
-
-        <!-- Buttons -->
-        <div class="filter-sort-actions">
-          <button type="submit" class="apply-button btn btn-secondary shiny-cta">Apply</button>
-          <%= link_to 'Reset', list_items_path(@list), class: 'reset-button btn btn-reset' %>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <% if @list.items.any? %>
-    <div class="items-list">
-      <% @list.items.each do |item| %>
-        <div class="item-card">
-          <%= link_to item_path(item), class: "item-link" do %>
-            <div class="item-image">
-              <% if item.photo.attached? %>
-                <%= image_tag item.photo, alt: "Item photo" %>
-              <% else %>
-                <%= image_tag "default-item.avif", alt: "Default item photo" %>
-              <% end %>
-            </div>
-            <div class="item-title">
-              <h3>
-                <%= truncate(item.title, length: 25, omission: "...") %>
-              </h3>
-            </div>
-            <div class="item-details">
-              <p class="item-price"><strong>Price:</strong> <%= item.price %>€</p>
-              <p class="item-category"><strong>Category:</strong> <%= item.category %></p>
-              <p class="item-condition"><strong>Condition:</strong> <%= item.condition.capitalize %></p>
-            </div>
-          <% end %>
-          <div class="item-actions">
-            <%= link_to remove_item_from_list_path(@list, item.id), method: :delete, data: { turbo_method: :delete, confirm: 'Are you sure?' }, class: 'btn btn-warning shiny-cta remove-item-button' do %>
-              Remove from list
-            <% end %>
-          </div>
+          </ul>
         </div>
       <% end %>
     </div>
-  <% else %>
-    <div class="no-items-message">
-      <h3>📭 No items added to this list yet!</h3>
-      <p>Start by clicking the <strong>Add a new item</strong> button above and fill your list with awesome items! ✨</p>
+
+    <!-- Section de tri et filtrage -->
+    <div class="filter-sort-container">
+      <div class="filter-sort-box">
+        <form class="filter-sort-form" method="get">
+          <!-- Sorting Options -->
+          <div class="sort-options">
+            <label for="sort">Sort by</label>
+            <select name="sort" id="sort" class="form-select">
+              <option value="" <%= params[:sort].blank? ? "selected" : "" %>>Select</option>
+              <option value="price_asc" <%= params[:sort] == "price_asc" ? "selected" : "" %>>Price: Low to High</option>
+              <option value="price_desc" <%= params[:sort] == "price_desc" ? "selected" : "" %>>Price: High to Low</option>
+              <option value="newest" <%= params[:sort] == "newest" ? "selected" : "" %>>Most Recent</option>
+              <option value="oldest" <%= params[:sort] == "oldest" ? "selected" : "" %>>Oldest First</option>
+            </select>
+          </div>
+
+          <!-- Filter by Issuer -->
+          <div class="filter-options">
+            <label for="issuer">Issuer</label>
+            <select name="issuer" id="issuer" class="form-select">
+              <option value="" <%= params[:issuer].blank? ? "selected" : "" %>>All Issuers</option>
+              <% @list.items.distinct.pluck(:issuer).sort.each do |issuer| %>
+                <option value="<%= issuer %>" <%= params[:issuer] == issuer ? "selected" : "" %>><%= issuer %></option>
+              <% end %>
+            </select>
+          </div>
+
+          <!-- Filter by Category -->
+          <div class="filter-options">
+            <label for="category">Category</label>
+            <select name="category" id="category" class="form-select">
+              <option value="" <%= params[:category].blank? ? "selected" : "" %>>All Categories</option>
+              <% @list.items.distinct.pluck(:category).sort.each do |category| %>
+                <option value="<%= category %>" <%= params[:category] == category ? "selected" : "" %>><%= category %></option>
+              <% end %>
+            </select>
+          </div>
+
+          <!-- Filter by Condition -->
+          <div class="filter-options">
+            <label for="condition">Condition</label>
+            <select name="condition" id="condition" class="form-select">
+              <option value="" <%= params[:condition].blank? ? "selected" : "" %>>All Conditions</option>
+              <% @list.items.distinct.pluck(:condition).compact.sort.each do |condition| %>
+                <option value="<%= condition %>" <%= params[:condition] == condition ? "selected" : "" %>>
+                  <%= condition.capitalize %>
+                </option>
+              <% end %>
+            </select>
+          </div>
+
+          <!-- Buttons -->
+          <div class="filter-sort-actions">
+            <button type="submit" class="apply-button btn btn-secondary shiny-cta">Apply</button>
+            <%= link_to 'Reset', list_path(@list), class: 'btn-reset btn btn-reset' %>
+          </div>
+        </form>
+      </div>
     </div>
-  <% end %>
+
+    <% if @list.items.any? %>
+      <div class="items-list">
+        <% @list.items.each do |item| %>
+          <div class="item-card">
+            <%= link_to item_path(item), class: "item-link" do %>
+              <div class="item-image">
+                <% if item.photo.attached? %>
+                  <%= image_tag item.photo, alt: "Item photo" %>
+                <% else %>
+                  <%= image_tag item.default_image, alt: "Default item photo" %>
+                <% end %>
+              </div>
+              <div class="item-title">
+                <h3>
+                  <%= truncate(item.title, length: 25, omission: "...") %>
+                </h3>
+              </div>
+              <div class="item-details">
+                <% if item.price.present? %>
+                  <p class="item-price"><strong>Price / Amount:</strong> <%= item.price %>€</p>
+                <% end %>
+                <% if item.issuer.present? %>
+                  <p class="item-issuer"><strong>Issuer:</strong> <%= item.issuer %></p>
+                <% end %>
+                <% if item.category.present? %>
+                  <p class="item-category"><strong>Category:</strong> <%= item.category %></p>
+                <% end %>
+                <% if item.condition.present? %>
+                  <p class="item-condition"><strong>Condition:</strong> <%= item.condition.capitalize %></p>
+                <% end %>
+                <% if item.lists.any? %>
+                  <p class="item-list"><strong>List:</strong> <%= item.lists.map(&:title).join(", ") %></p>
+                <% end %>
+              </div>
+            <% end %>
+            <div class="item-actions">
+              <%= link_to remove_item_from_list_path(@list, item.id), method: :delete, data: { turbo_method: :delete, confirm: 'Are you sure?' }, class: 'btn btn-warning shiny-cta remove-item-button' do %>
+                Remove from list
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="no-items-message">
+        <h3>📭 No items added to this list yet!</h3>
+        <p>Start by clicking the <strong>Add a new item</strong> button above and fill your list with awesome items! ✨</p>
+      </div>
+    <% end %>
+  </div>
 </div>

@@ -16,6 +16,19 @@
               <option value="" <%= params[:sort].blank? ? "selected" : "" %>>Select</option>
               <option value="price_asc" <%= params[:sort] == "price_asc" ? "selected" : "" %>>Price: Low to High</option>
               <option value="price_desc" <%= params[:sort] == "price_desc" ? "selected" : "" %>>Price: High to Low</option>
+              <option value="newest" <%= params[:sort] == "newest" ? "selected" : "" %>>Most Recent</option>
+              <option value="oldest" <%= params[:sort] == "oldest" ? "selected" : "" %>>Oldest First</option>
+            </select>
+          </div>
+
+          <!-- Filter by Issuer -->
+          <div class="filter-options">
+            <label for="issuer">Issuer</label>
+            <select name="issuer" id="issuer" class="form-select">
+              <option value="" <%= params[:issuer].blank? ? "selected" : "" %>>All Issuers</option>
+              <% Item.distinct.pluck(:issuer).sort.each do |issuer| %>
+                <option value="<%= issuer %>" <%= params[:issuer] == issuer ? "selected" : "" %>><%= issuer %></option>
+              <% end %>
             </select>
           </div>
 
@@ -24,7 +37,7 @@
             <label for="category">Category</label>
             <select name="category" id="category" class="form-select">
               <option value="" <%= params[:category].blank? ? "selected" : "" %>>All Categories</option>
-              <% Item.distinct.pluck(:category).each do |category| %>
+              <% Item.distinct.pluck(:category).sort.each do |category| %>
                 <option value="<%= category %>" <%= params[:category] == category ? "selected" : "" %>><%= category %></option>
               <% end %>
             </select>
@@ -35,9 +48,9 @@
             <label for="condition">Condition</label>
             <select name="condition" id="condition" class="form-select">
               <option value="" <%= params[:condition].blank? ? "selected" : "" %>>All Conditions</option>
-              <% Item.distinct.pluck(:condition).each do |condition| %>
+              <% Item.distinct.pluck(:condition).compact.sort.each do |condition| %>
                 <option value="<%= condition %>" <%= params[:condition] == condition ? "selected" : "" %>>
-                  <%= (condition || "Unknown").capitalize %>
+                  <%= condition.capitalize %>
                 </option>
               <% end %>
             </select>
@@ -48,7 +61,7 @@
             <label for="list_id">List</label>
             <select name="list_id" id="list_id" class="form-select">
               <option value="" <%= params[:list_id].blank? ? "selected" : "" %>>All Lists</option>
-              <% current_user.lists.each do |list| %>
+              <% current_user.lists.order(title: :asc).each do |list| %>
                 <option value="<%= list.id %>" <%= params[:list_id].to_i == list.id ? "selected" : "" %>><%= list.title %></option>
               <% end %>
             </select>
@@ -57,7 +70,7 @@
           <!-- Buttons -->
           <div class="filter-sort-actions">
             <button type="submit" class="apply-button btn btn-secondary shiny-cta">Apply</button>
-            <%= link_to 'Reset', items_path, class: 'reset-button btn btn-reset' %>
+            <%= link_to 'Reset', items_path, class: 'btn-reset btn btn-reset' %>
           </div>
         </form>
       </div>
@@ -68,24 +81,28 @@
       <% @items.each do |item| %>
         <div class="item-card">
           <%= link_to item_path(item), class: "item-link" do %>
-          <!-- Image -->
-          <div class="item-image">
-            <% if item.photo.attached? %>
-              <%= image_tag item.photo, alt: "Item photo" %>
-            <% else %>
-              <%= image_tag "default-item.avif", alt: "Default item photo" %>
-            <% end %>
-          </div>
+            <!-- Image -->
+            <div class="item-image">
+              <% if item.photo.attached? %>
+                <%= image_tag item.photo, alt: "Item photo" %>
+              <% else %>
+                <%= image_tag item.default_image, alt: "Default item photo" %>
+              <% end %>
+            </div>
+
             <!-- Title -->
             <div class="item-title">
               <h3>
-                  <%= truncate(item.title, length: 25, omission: "...") %>
+                <%= truncate(item.title, length: 25, omission: "...") %>
               </h3>
             </div>
 
             <!-- Details -->
             <div class="item-details">
               <p class="item-price"><strong>Price:</strong> <%= item.price %>€</p>
+              <% if item.issuer.present? %>
+                <p class="item-issuer"><strong>Issuer:</strong> <%= item.issuer %></p>
+              <% end %>
               <p class="item-category"><strong>Category:</strong> <%= item.category %></p>
               <p class="item-condition">
                 <strong>Condition:</strong> <%= (item.condition || "Unknown").capitalize %>

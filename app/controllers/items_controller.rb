@@ -13,11 +13,16 @@ class ItemsController < ApplicationController
       @items = @items.order(price: :asc)
     when 'price_desc'
       @items = @items.order(price: :desc)
+    when 'newest_first'
+      @items = @items.order(created_at: :desc)
+    when 'oldest_first'
+      @items = @items.order(created_at: :asc)
     end
 
     # Filtres
     @items = @items.where(category: params[:category]) if params[:category].present?
     @items = @items.where(condition: params[:condition]) if params[:condition].present?
+    @items = @items.where(issuer: params[:issuer]) if params[:issuer].present?
     @items = @items.joins(:lists).where(lists: { id: params[:list_id] }) if params[:list_id].present?
   end
 

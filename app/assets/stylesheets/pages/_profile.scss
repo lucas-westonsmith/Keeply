@@ -1,96 +1,146 @@
-.auth-form {
-  max-width: 500px;
-  margin: 0 auto;
-  background: #f8f9fa;
-  padding: 30px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+.user-profile {
+  .profile-card {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 
-  h2 {
-    margin-bottom: 20px;
-    font-size: 1.5rem;
-    color: #333;
-  }
+    .profile-header {
+      .profile-avatar {
+        width: 120px;
+        height: 120px;
+        object-fit: cover;
+        border-radius: 50%;
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+      }
 
-  .form-inputs {
-    margin-bottom: 20px;
+      h1 {
+        font-size: 2rem;
+        font-weight: bold;
+        margin: 10px 0;
+        color: #333;
+      }
 
-    .form-group {
-      margin-bottom: 15px;
+      p {
+        font-size: 1rem;
+        color: #777;
+      }
     }
 
-    label {
-      font-weight: bold;
-      color: #555;
+    .profile-details {
+      margin-top: 20px;
+
+      p {
+        font-size: 1rem;
+        margin-bottom: 10px;
+
+        strong {
+          color: #333;
+        }
+      }
     }
 
-    input,
-    select {
-      border-radius: 6px;
-      border: 1px solid #ccc;
-      padding: 10px;
-      width: 100%;
-    }
-  }
-
-  .form-actions,
-  .form-cancel {
-    text-align: center;
-    margin-top: 1rem;
-
-    .action-button {
-      font-size: 1rem;
-      font-weight: bold;
-      border-radius: 0.5rem; // Coins légèrement arrondis pour les boutons
-      padding: 0.5rem 1.25rem;
-      text-decoration: none;
-      border: none; // Suppression des contours
-      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1); // Légère ombre pour un effet esthétique
-      transition: all 0.2s;
-
-      &.btn-primary {
+    .profile-actions {
+      .edit-button {
         background-color: #1899e0;
         color: #fff;
+        padding: 0.5rem 1.5rem;
+        font-size: 1rem;
+        border-radius: 0.5rem;
+        box-shadow: 0 3px 6px rgba(24, 153, 224, 0.3);
+        border: none;
+        transition: all 0.2s ease-in-out;
+        text-decoration: none;
+        font-weight: bold;
 
         &:hover {
           background-color: darken(#1899e0, 10%);
-          box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); // Ombre renforcée au hover
+          box-shadow: 0 6px 12px rgba(24, 153, 224, 0.4);
         }
       }
 
-      &.btn-secondary {
+      .back-button {
         background-color: #F4F4F4;
         color: #333;
+        padding: 0.5rem 1.5rem;
+        font-size: 1rem;
+        border-radius: 0.5rem;
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+        border: none;
+        transition: all 0.2s ease-in-out;
+        text-decoration: none;
+        font-weight: bold;
 
         &:hover {
           background-color: darken(#F4F4F4, 10%);
+          box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
         }
       }
     }
   }
-}
 
-.profile-card {
-  background: #fff;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  /* Responsiveness */
+  @media (max-width: 768px) {
+    .profile-card {
+      padding: 15px;
 
-  .profile-avatar {
-    width: 120px;
-    height: 120px;
-    object-fit: cover;
+      .profile-header {
+        h1 {
+          font-size: 1.8rem;
+        }
+
+        p {
+          font-size: 0.9rem;
+        }
+      }
+
+      .profile-details {
+        p {
+          font-size: 0.9rem;
+        }
+      }
+
+      .profile-actions {
+        .edit-button,
+        .back-button {
+          font-size: 0.9rem;
+          padding: 0.4rem 1.2rem;
+        }
+      }
+    }
   }
 
-  .profile-details {
-    margin-top: 20px;
+  @media (max-width: 480px) {
+    .profile-card {
+      padding: 10px;
 
-    p {
-      font-size: 1rem;
-      margin-bottom: 10px;
+      .profile-header {
+        .profile-avatar {
+          width: 100px;
+          height: 100px;
+        }
 
-      strong {
-        color: #333;
+        h1 {
+          font-size: 1.6rem;
+        }
+
+        p {
+          font-size: 0.85rem;
+        }
+      }
+
+      .profile-details {
+        p {
+          font-size: 0.85rem;
+        }
+      }
+
+      .profile-actions {
+        .edit-button,
+        .back-button {
+          font-size: 0.85rem;
+          padding: 0.3rem 1rem;
+        }
       }
     }
   }

@@ -1,0 +1,101 @@
+.items-index, .list-items {
+  text-align: center;
+
+  .page-title, .list-items-title {
+    font-size: 3rem;
+    font-weight: bold;
+    color: black;
+    margin-bottom: 20px;
+  }
+
+  .page-description {
+    font-size: 1.2rem;
+    color: $text-secondary;
+    margin-bottom: 20px;
+  }
+
+  .add-item-button {
+    padding: 0.6rem 1.5rem;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.25rem;
+    transition: all 0.2s ease-in-out;
+
+    background-color: #1899e0;
+    color: #fff;
+    box-shadow: 0 3px 6px rgba(24, 153, 224, 0.3);
+    border: none;
+
+    &:hover {
+      background-color: darken(#1899e0, 10%);
+      box-shadow: 0 6px 12px rgba(24, 153, 224, 0.4);
+      transform: translateY(-1px);
+    }
+  }
+
+  .list-items-description {
+    font-size: 1.2rem;
+    color: $text-secondary;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+
+  // Responsive adjustments
+  @media (max-width: 1024px) {
+    .page-title, .list-items-title {
+      font-size: 2.5rem;
+    }
+
+    .page-description {
+      font-size: 1.1rem;
+    }
+
+    .add-item-button {
+      font-size: 1.1rem;
+      padding: 0.5rem 1.2rem;
+    }
+
+    .list-items-description {
+      font-size: 1.1rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .page-title, .list-items-title {
+      font-size: 2rem;
+    }
+
+    .page-description {
+      font-size: 1rem;
+    }
+
+    .add-item-button {
+      font-size: 1rem;
+      padding: 0.4rem 1rem;
+    }
+
+    .list-items-description {
+      font-size: 1rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .page-title, .list-items-title {
+      font-size: 1.5rem;
+    }
+
+    .page-description {
+      font-size: 0.9rem;
+    }
+
+    .add-item-button {
+      font-size: 0.9rem;
+      padding: 0.3rem 0.8rem;
+    }
+
+    .list-items-description {
+      font-size: 0.9rem;
+    }
+  }
+}
