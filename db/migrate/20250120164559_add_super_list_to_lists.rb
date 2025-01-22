@@ -1,17 +1,32 @@
 class AddSuperListToLists < ActiveRecord::Migration[7.0]
   def change
-    # Ajoutez la colonne sans contrainte NOT NULL
     add_reference :lists, :super_list, foreign_key: true
 
-    # Après avoir ajouté la colonne, mettez à jour les enregistrements existants pour leur attribuer une valeur
     reversible do |dir|
       dir.up do
-        default_super_list = SuperList.find_or_create_by!(title: 'Default', user: User.first) # Remplacez par un cas par défaut logique
-        List.update_all(super_list_id: default_super_list.id) # Assurez-vous que chaque liste a une sur-liste
+        # Désactiver les validations et les callbacks pour éviter les erreurs
+        SuperList.skip_callback(:create, :after, :create_default_lists)
+
+        # Assurez-vous qu'un utilisateur existe pour associer les super-listes
+        user = User.first || User.create!(
+          email: "default@example.com",
+          password: "password",
+          first_name: "Default",
+          last_name: "User",
+          date_of_birth: Date.new(1990, 1, 1)
+        )
+
+        # Créez les sur-listes par défaut
+        super_lists = [
+          { title: "Home items", default: true, user: user },
+          { title: "Everyday life", default: true, user: user },
+          { title: "Administrative papers", default: true, user: user }
+        ]
+        SuperList.create!(super_lists)
+
+        # Réactiver les callbacks
+        SuperList.set_callback(:create, :after, :create_default_lists)
       end
     end
-
-    # Appliquez la contrainte NOT NULL
-    change_column_null :lists, :super_list_id, false
   end
 end

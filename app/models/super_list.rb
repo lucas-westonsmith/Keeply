@@ -1,29 +1,26 @@
 class SuperList < ApplicationRecord
-  # Associations
   belongs_to :user
   has_many :lists, dependent: :destroy
 
-  # Validations
   validates :title, presence: true
-  validates :title, inclusion: { in: ['Home', 'Everyday life', 'Administrative papers'] }, if: :default?
+  validates :title, inclusion: { in: ['Home items', 'Everyday life', 'Administrative papers'] }, if: :default?
+  validates :title, uniqueness: { scope: :user_id, message: 'already exists for this user' }
   validates :default, inclusion: { in: [true, false] }
 
-  # Callbacks
+  before_create :ensure_unique_super_list
   before_destroy :prevent_default_deletion
   before_validation :set_default_description, on: :create
   after_create :create_default_lists, if: :default?
 
   private
 
-  # Empêche la suppression des sur-listes par défaut
   def prevent_default_deletion
     throw(:abort) if default?
   end
 
-  # Définit une description par défaut en fonction du titre
   def set_default_description
     self.description ||= case title
-                         when 'Home'
+                         when 'Home items'
                            'Organize all your home-related items, such as furniture, appliances, decorations, and clothing.'
                          when 'Everyday life'
                            'Track your one-time expenses, such as supermarket purchases, restaurants, and cafés.'
@@ -34,10 +31,11 @@ class SuperList < ApplicationRecord
                          end
   end
 
-  # Crée les listes par défaut dans chaque sur-liste
   def create_default_lists
+    return if lists.exists?
+
     case title
-    when 'Home'
+    when 'Home items'
       create_list_with_image('Living room', 'living-room-default.avif', 'Organize your furniture, decorations, and appliances for the living room.')
       create_list_with_image('Kitchen', 'kitchen-default.avif', 'Keep track of kitchen equipment, tools, and appliances.')
       create_list_with_image('Bedroom', 'bedroom-default.avif', 'Maintain an inventory of bedroom furniture, bedding, and other essentials.')
@@ -54,7 +52,6 @@ class SuperList < ApplicationRecord
     end
   end
 
-  # Méthode pour créer une liste avec une image par défaut
   def create_list_with_image(title, image_filename, description)
     list = lists.create(title: title, user: user, description: description)
     if list.persisted?
@@ -63,6 +60,13 @@ class SuperList < ApplicationRecord
         filename: image_filename,
         content_type: 'image/avif'
       )
+    end
+  end
+
+  def ensure_unique_super_list
+    if SuperList.exists?(user: user, title: title)
+      errors.add(:base, "Super list with title '#{title}' already exists for this user")
+      throw(:abort)
     end
   end
 end

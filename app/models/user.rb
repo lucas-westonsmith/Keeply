@@ -24,7 +24,7 @@ class User < ApplicationRecord
 
   # Crée les 3 sur-listes par défaut après la création de l'utilisateur
   def create_default_super_lists
-    ['Home', 'Everyday life', 'Administrative papers'].each do |title|
+    ['Home items', 'Everyday life', 'Administrative papers'].each do |title|
       super_lists.create(title: title, default: true)
     end
   end

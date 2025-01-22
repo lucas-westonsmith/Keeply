@@ -4,14 +4,14 @@
   <div class="super-lists-container">
     <% @super_lists.each do |super_list| %>
       <% card_class = case super_list.title
-         when 'Home' then 'home-card'
+         when 'Home items' then 'home-card'
          when 'Everyday life' then 'everyday-life-card'
          when 'Administrative papers' then 'administrative-papers-card'
          else 'default-card'
          end %>
 
       <% super_list_path = case super_list.title
-         when 'Home' then menu_home_path
+         when 'Home items' then menu_home_items_path
          when 'Everyday life' then menu_everyday_life_path
          when 'Administrative papers' then menu_administrative_papers_path
          else menu_path
@@ -24,7 +24,7 @@
             <p class="super-list-description"><%= super_list.description %></p>
           </div>
           <div class="super-list-icon">
-            <% if super_list.title == 'Home' %>
+            <% if super_list.title == 'Home items' %>
               <i class="fa fa-home"></i>
             <% elsif super_list.title == 'Everyday life' %>
               <i class="fa fa-calendar"></i>
