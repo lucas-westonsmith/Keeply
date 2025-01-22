@@ -1,0 +1,63 @@
+.no-items-message {
+  margin-top: 70px;
+  text-align: center;
+
+  h3 {
+    font-size: 2rem;
+    color: $primary;
+    margin-bottom: 20px;
+  }
+
+  p {
+    font-size: 1.2rem;
+    color: $text-secondary;
+    line-height: 1.6;
+    margin-bottom: 15px;
+  }
+
+  strong {
+    color: $primary;
+  }
+
+  // Responsive adjustments
+  @media (max-width: 768px) {
+    margin-top: 50px;
+
+    h3 {
+      font-size: 1.5rem;
+    }
+
+    p {
+      font-size: 1rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    margin-top: 30px;
+
+    h3 {
+      font-size: 1.25rem;
+    }
+
+    p {
+      font-size: 0.9rem;
+    }
+  }
+}
+
+.list-divider {
+  height: 2px;
+  background-color: #605f5f;
+  margin: 1.5rem 0;
+  width: 100%;
+  border: none;
+
+  // Responsive adjustments
+  @media (max-width: 768px) {
+    margin: 1rem 0;
+  }
+
+  @media (max-width: 480px) {
+    margin: 0.75rem 0;
+  }
+}

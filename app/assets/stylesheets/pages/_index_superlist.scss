@@ -2,23 +2,23 @@
   text-align: center;
 
   .page-title {
-    font-size: 3rem; // Taille cohérente avec les autres pages
+    font-size: 3rem;
     font-weight: bold;
-    margin-bottom: 70px; // Plus d'espacement avec les cartes
+    margin-bottom: 70px;
   }
 
   .super-lists-container {
     display: flex;
     gap: 30px;
     justify-content: space-between;
-    flex-wrap: wrap; // Les cartes s'adaptent à l'espace disponible
+    flex-wrap: wrap;
   }
 
   .super-list-card-link {
-    text-decoration: none; // Supprime le soulignement
-    color: inherit; // Couleur héritée par défaut
+    text-decoration: none;
+    color: inherit;
     flex: 1;
-    max-width: 30%; // Taille cohérente
+    max-width: 30%;
     min-width: 300px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 
@@ -30,38 +30,38 @@
 
   .super-list-card {
     border-radius: 15px;
-    height: 300px; // Allongé verticalement
+    height: 300px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     padding: 20px;
-    text-align: left; // Alignement du texte à gauche
+    text-align: left;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
 
     &.home-card {
-      background-color: #cfe8fc; // Bleu clair
+      background-color: #cfe8fc;
       .super-list-icon {
         color: darken(#cfe8fc, 20%);
       }
     }
 
     &.everyday-life-card {
-      background-color: #fceacc; // Jaune clair
+      background-color: #fceacc;
       .super-list-icon {
         color: darken(#fceacc, 20%);
       }
     }
 
     &.administrative-papers-card {
-      background-color: #fde1e1; // Rouge clair
+      background-color: #fde1e1;
       .super-list-icon {
         color: darken(#fde1e1, 20%);
       }
     }
 
     &.default-card {
-      background-color: #f4f4f4; // Gris clair par défaut
+      background-color: #f4f4f4;
       .super-list-icon {
         color: darken(#f4f4f4, 20%);
       }
@@ -107,13 +107,74 @@
         font-size: 1rem;
         color: #555;
         line-height: 1.4;
-        margin-top: 30px; // Augmenter la marge pour baisser la description
+        margin-top: 30px;
       }
     }
 
     .super-list-icon {
       text-align: right;
       font-size: 3rem;
+    }
+  }
+
+  @media (max-width: 1024px) {
+    .super-lists-container {
+      gap: 20px;
+    }
+
+    .super-list-card-link {
+      max-width: 45%;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .page-title {
+      font-size: 2.5rem;
+    }
+
+    .super-list-card-link {
+      max-width: 100%;
+    }
+
+    .super-list-card {
+      height: auto;
+      padding: 15px;
+
+      .super-list-title {
+        font-size: 1.5rem;
+      }
+
+      .super-list-description {
+        font-size: 0.9rem;
+        margin-top: 15px;
+      }
+
+      .super-list-icon {
+        font-size: 2.5rem;
+      }
+    }
+  }
+
+  @media (max-width: 480px) {
+    .page-title {
+      font-size: 2rem;
+    }
+
+    .super-list-card {
+      padding: 10px;
+
+      .super-list-title {
+        font-size: 1.2rem;
+      }
+
+      .super-list-description {
+        font-size: 0.8rem;
+        margin-top: 10px;
+      }
+
+      .super-list-icon {
+        font-size: 2rem;
+      }
     }
   }
 }

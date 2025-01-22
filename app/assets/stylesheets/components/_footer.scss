@@ -17,9 +17,9 @@ html, body {
 }
 
 .footer {
-  background: #000; /* Fond noir */
+  background: #313131; /* Fond noir */
   color: rgba(255, 255, 255, 0.8); /* Texte blanc semi-transparent */
-  padding: 25px 50px; /* Ajustez le padding selon vos besoins */
+  padding: 1rem 3rem; /* Ajustez le padding selon vos besoins */
   width: 100%;
 
   .footer-content {
@@ -86,13 +86,70 @@ html, body {
     }
   }
 
+  @media (max-width: 1024px) {
+    .footer-content {
+      gap: 1.5rem;
+    }
+
+    .footer-right {
+      .footer-links {
+        gap: 0.75rem;
+      }
+    }
+  }
+
   @media (max-width: 768px) {
+    padding: 1rem 2rem;
+
     .footer-content {
       flex-direction: column;
       text-align: center;
+      gap: 1rem;
+
+      .footer-left, .footer-right {
+        text-align: center;
+      }
 
       .footer-right {
-        justify-content: center;
+        .footer-links {
+          justify-content: center;
+        }
+      }
+    }
+
+    .footer-bottom {
+      margin-top: 1.5rem;
+
+      p {
+        font-size: 0.8rem;
+      }
+    }
+  }
+
+  @media (max-width: 480px) {
+    padding: 0.5rem 1rem;
+
+    .footer-content {
+      gap: 1rem;
+      flex-direction: column;
+      align-items: center;
+
+      .footer-left {
+        margin-bottom: 1rem;
+      }
+
+      .footer-right {
+        .footer-links {
+          justify-content: center;
+        }
+      }
+    }
+
+    .footer-bottom {
+      margin-top: 1rem;
+
+      p {
+        font-size: 0.75rem;
       }
     }
   }

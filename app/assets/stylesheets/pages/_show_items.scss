@@ -145,4 +145,85 @@
       }
     }
   }
+
+  // Responsive adjustments
+  @media (max-width: 1024px) {
+    .item-content-wrapper {
+      flex-direction: column;
+      gap: 15px;
+
+      .item-info-cards {
+        max-width: 100%;
+      }
+
+      .item-media {
+        .item-photo {
+          max-width: 100%;
+        }
+      }
+    }
+
+    .single-item-title {
+      font-size: 2.5rem;
+    }
+
+    .single-item-description {
+      font-size: 1.1rem;
+    }
+
+    .item-actions .action-button {
+      font-size: 0.95rem;
+      padding: 0.4rem 1rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .single-item-title {
+      font-size: 2rem;
+    }
+
+    .single-item-description {
+      font-size: 1rem;
+    }
+
+    .item-actions .action-button {
+      font-size: 0.9rem;
+      padding: 0.4rem 0.8rem;
+    }
+
+    .item-content-wrapper {
+      gap: 10px;
+
+      .item-media {
+        .invoice-preview .invoice-iframe {
+          height: 400px;
+        }
+      }
+    }
+  }
+
+  @media (max-width: 480px) {
+    .single-item-title {
+      font-size: 1.5rem;
+    }
+
+    .single-item-description {
+      font-size: 0.9rem;
+    }
+
+    .item-actions .action-button {
+      font-size: 0.85rem;
+      padding: 0.3rem 0.6rem;
+    }
+
+    .item-content-wrapper {
+      gap: 5px;
+
+      .item-media {
+        .invoice-preview .invoice-iframe {
+          height: 300px;
+        }
+      }
+    }
+  }
 }

@@ -1,0 +1,197 @@
+.items-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 25px;
+  justify-items: center;
+
+  .item-card {
+    background: #fff;
+    width: 100%;
+    max-width: 320px;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: box-shadow 0.3s, transform 0.3s;
+
+    &:hover {
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      transform: translateY(-5px);
+    }
+
+    .item-link {
+      text-decoration: none;
+      color: inherit;
+
+      &:hover {
+        text-decoration: none;
+      }
+    }
+
+    .item-image {
+      width: 100%;
+      height: 160px;
+      overflow: hidden;
+      border-radius: 8px;
+      margin-bottom: 15px;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .placeholder-image {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        background: $light-gray;
+        color: $text-secondary;
+        font-size: 1.2rem;
+        font-weight: bold;
+      }
+    }
+
+    .item-title {
+      min-height: 3rem;
+      margin-bottom: 15px;
+
+      h3 {
+        font-size: 1.25rem;
+        font-weight: bold;
+        color: #3699E0;
+        line-height: 1.2;
+        text-decoration: none;
+      }
+    }
+
+    .item-details {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      flex-grow: 1;
+
+      .item-price,
+      .item-category,
+      .item-condition,
+      .item-issuer,
+      .item-list {
+        font-size: 1rem;
+        color: $text-secondary;
+        margin-bottom: 8px;
+
+        strong {
+          color: $text-primary;
+          text-decoration: none;
+        }
+      }
+    }
+
+    .item-actions {
+      margin-top: 15px;
+
+      .remove-item-button {
+        padding: 0.5rem 1.25rem;
+        border-radius: 0.5rem;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 1rem;
+        transition: all 0.2s ease-in-out;
+
+        background-color: #F7B2A8;
+        color: #fff;
+        box-shadow: 0 3px 6px rgba(247, 178, 168, 0.3);
+        border: none;
+
+        &:hover {
+          background-color: darken(#F7B2A8, 10%);
+          box-shadow: 0 6px 12px rgba(247, 178, 168, 0.4);
+          transform: translateY(-1px);
+          text-decoration: none;
+        }
+      }
+    }
+  }
+
+  // Responsive adjustments
+  @media (max-width: 1024px) {
+    gap: 20px;
+
+    .item-card {
+      max-width: 280px;
+
+      .item-title h3 {
+        font-size: 1.2rem;
+      }
+
+      .item-details .item-price,
+      .item-details .item-category,
+      .item-details .item-condition,
+      .item-details .item-issuer,
+      .item-details .item-list {
+        font-size: 0.95rem;
+      }
+
+      .item-actions .remove-item-button {
+        font-size: 0.95rem;
+        padding: 0.4rem 1rem;
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+
+    .item-card {
+      max-width: 250px;
+
+      .item-title h3 {
+        font-size: 1.1rem;
+      }
+
+      .item-details .item-price,
+      .item-details .item-category,
+      .item-details .item-condition,
+      .item-details .item-issuer,
+      .item-details .item-list {
+        font-size: 0.9rem;
+      }
+
+      .item-actions .remove-item-button {
+        font-size: 0.9rem;
+        padding: 0.3rem 0.8rem;
+      }
+    }
+  }
+
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+    gap: 10px;
+
+    .item-card {
+      max-width: 100%;
+
+      .item-title h3 {
+        font-size: 1rem;
+      }
+
+      .item-details .item-price,
+      .item-details .item-category,
+      .item-details .item-condition,
+      .item-details .item-issuer,
+      .item-details .item-list {
+        font-size: 0.85rem;
+      }
+
+      .item-actions .remove-item-button {
+        font-size: 0.85rem;
+        padding: 0.2rem 0.6rem;
+      }
+    }
+  }
+}

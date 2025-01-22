@@ -20,31 +20,44 @@
   <div class="item-content-wrapper d-flex gap-4 mt-4">
     <!-- Colonne gauche : Informations -->
     <div class="item-info-cards">
-      <div class="info-box">
-        <p><strong>Price:</strong> <%= @item.price %>€</p>
-      </div>
-      <div class="info-box">
-        <p><strong>Condition:</strong> <%= @item.condition.present? ? @item.condition.capitalize : "Not specified" %></p>
-      </div>
-      <div class="info-box">
-        <p><strong>Category:</strong> <%= @item.category.present? ? @item.category : "Not specified" %></p>
-      </div>
-      <div class="info-box">
-        <p><strong>Purchase Date:</strong> <%= @item.purchase_date %></p>
-      </div>
-      <div class="info-box">
-        <p><strong>Warranty Expiry Date:</strong> <%= @item.warranty_expiry_date %></p>
-      </div>
-      <div class="info-box">
-        <% if @item.lists.any? %>
+      <% if @item.price.present? %>
+        <div class="info-box">
+          <p><strong>Price:</strong> <%= @item.price %>€</p>
+        </div>
+      <% end %>
+
+      <% if @item.issuer.present? %>
+        <div class="info-box">
+          <p><strong>Issuer:</strong> <%= @item.issuer %></p>
+        </div>
+      <% end %>
+
+      <% if @item.lists.any? %>
+        <div class="info-box">
           <p>
             <strong><%= @item.lists.count > 1 ? "Lists:" : "List:" %></strong>
             <%= @item.lists.map(&:title).join(", ") %>
           </p>
-        <% else %>
-          <p><strong>List:</strong> Not added to any list.</p>
-        <% end %>
-      </div>
+        </div>
+      <% end %>
+
+      <% if @item.category.present? %>
+        <div class="info-box">
+          <p><strong>Category:</strong> <%= @item.category %></p>
+        </div>
+      <% end %>
+
+      <% if @item.purchase_date.present? %>
+        <div class="info-box">
+          <p><strong>Purchase Date:</strong> <%= @item.purchase_date %></p>
+        </div>
+      <% end %>
+
+      <% if @item.warranty_expiry_date.present? %>
+        <div class="info-box">
+          <p><strong>Warranty Expiry Date:</strong> <%= @item.warranty_expiry_date %></p>
+        </div>
+      <% end %>
     </div>
 
     <!-- Colonne droite : Image et facture -->
@@ -53,7 +66,7 @@
         <% if @item.photo.attached? %>
           <%= image_tag @item.photo, alt: "Photo of #{@item.title}", class: "item-photo" %>
         <% else %>
-          <%= image_tag "default-item.avif", alt: "Default item photo", class: "item-photo" %>
+          <%= image_tag @item.default_image, alt: "Default item photo", class: "item-photo" %>
         <% end %>
       </div>
 

@@ -1,0 +1,211 @@
+.form-container {
+  max-width: 1200px; // Harmonisé avec les items
+  margin: 3rem auto;
+  padding: 2rem;
+  background: #fff;
+  border-radius: 0.5rem; // Coins légèrement arrondis pour le conteneur général
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+  &.small-width {
+    max-width: 600px; // Taille réduite pour ce formulaire
+  }
+
+  .form-title {
+    font-size: 2rem;
+    color: #3699e0; // Couleur bleue pour le titre
+    margin-bottom: 1rem;
+    text-align: center;
+    font-weight: bold; // Texte en gras
+  }
+
+  .form-description {
+    font-size: 1rem;
+    color: $text-secondary;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+
+  .form-columns {
+    display: flex;
+    gap: 2rem;
+
+    .form-column {
+      flex: 1;
+
+      .form-group {
+        margin-bottom: 1.5rem;
+
+        .form-label {
+          display: block;
+          font-size: 1rem;
+          color: #000;
+          margin-bottom: 0.5rem;
+        }
+
+        .form-input,
+        .form-select,
+        .form-input-file {
+          width: 100%;
+          padding: 0.75rem;
+          font-size: 1rem;
+          border: 1px solid $light-gray;
+          border-radius: 0.25rem;
+          color: #000;
+          transition: border-color 0.2s, box-shadow 0.2s;
+
+          &:focus {
+            border-color: $primary;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba($primary, 0.2);
+          }
+        }
+
+        .form-select,
+        input[type="date"] {
+          background-color: $form-background;
+          color: #534647;
+          border-radius: 1.5rem;
+
+          &:hover {
+            border-color: lighten(#534647, 10%);
+          }
+
+          &:focus {
+            color: #534647;
+          }
+        }
+
+        .form-input-file {
+          color: #534647;
+        }
+
+        .form-checkbox-group {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 1rem;
+
+          .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+
+            input[type="checkbox"] {
+              width: 16px;
+              height: 16px;
+            }
+
+            label {
+              font-size: 1rem;
+              color: #000;
+              margin: 0;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .form-group.checkbox-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    .checkbox-item {
+      display: flex;
+      align-items: center;
+
+      .form-radio {
+        margin-right: 8px;
+      }
+    }
+  }
+
+  .form-actions,
+  .form-cancel {
+    text-align: center;
+    margin-top: 1rem;
+
+    .action-button {
+      font-size: 1rem;
+      font-weight: bold;
+      border-radius: 0.5rem;
+      padding: 0.5rem 1.25rem;
+      text-decoration: none;
+      border: none;
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+      transition: all 0.2s;
+
+      &.btn-primary {
+        background-color: #1899e0;
+        color: #fff;
+
+        &:hover {
+          background-color: darken(#1899e0, 10%);
+          box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+      }
+
+      &.btn-secondary {
+        background-color: #F4F4F4;
+        color: #333;
+
+        &:hover {
+          background-color: darken(#F4F4F4, 10%);
+        }
+      }
+    }
+  }
+
+  /* Responsiveness */
+  @media (max-width: 1024px) {
+    .form-columns {
+      flex-direction: column;
+    }
+
+    .form-column {
+      width: 100%;
+    }
+
+    .form-actions,
+    .form-cancel {
+      margin-top: 2rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+    padding: 1.5rem;
+
+    .form-title {
+      font-size: 1.8rem;
+    }
+
+    .form-description {
+      font-size: 0.9rem;
+    }
+
+    .action-button {
+      font-size: 0.9rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    padding: 1rem;
+
+    .form-title {
+      font-size: 1.6rem;
+    }
+
+    .form-description {
+      font-size: 0.8rem;
+    }
+
+    .form-columns {
+      gap: 1rem;
+    }
+
+    .action-button {
+      font-size: 0.8rem;
+      padding: 0.4rem 1rem;
+    }
+  }
+}

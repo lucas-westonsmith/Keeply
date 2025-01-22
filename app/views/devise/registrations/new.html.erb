@@ -8,27 +8,37 @@
       <!-- Colonne de gauche -->
       <div class="form-column">
         <div class="form-group">
-          <%= f.label :first_name, "First Name", class: "form-label" %>
+          <%= f.label :first_name, class: "form-label" do %>
+            <span style="font-weight: bold;">First Name</span>
+          <% end %>
           <%= f.input :first_name, required: true, autofocus: true, label: false, class: "form-input" %>
         </div>
 
         <div class="form-group">
-          <%= f.label :last_name, "Last Name", class: "form-label" %>
+          <%= f.label :last_name, class: "form-label" do %>
+            <span style="font-weight: bold;">Last Name</span>
+          <% end %>
           <%= f.input :last_name, required: true, label: false, class: "form-input" %>
         </div>
 
         <div class="form-group">
-          <%= f.label :email, "Email", class: "form-label" %>
+          <%= f.label :email, class: "form-label" do %>
+            <span style="font-weight: bold;">Email</span>
+          <% end %>
           <%= f.input :email, required: true, label: false, class: "form-input" %>
         </div>
 
         <div class="form-group">
-          <%= f.label :password, "Password", class: "form-label" %>
+          <%= f.label :password, class: "form-label" do %>
+            <span style="font-weight: bold;">Password</span>
+          <% end %>
           <%= f.input :password, required: true, hint: "#{@minimum_password_length} characters minimum", label: false, class: "form-input" %>
         </div>
 
         <div class="form-group">
-          <%= f.label :password_confirmation, "Confirm Password", class: "form-label" %>
+          <%= f.label :password_confirmation, class: "form-label" do %>
+            <span style="font-weight: bold;">Confirm Password</span>
+          <% end %>
           <%= f.input :password_confirmation, required: true, label: false, class: "form-input" %>
         </div>
       </div>
@@ -36,27 +46,37 @@
       <!-- Colonne de droite -->
       <div class="form-column">
         <div class="form-group">
-          <%= f.label :date_of_birth, "Date of Birth", class: "form-label" %>
+          <%= f.label :date_of_birth, class: "form-label" do %>
+            <span style="font-weight: bold;">Date of Birth</span>
+          <% end %>
           <%= f.input :date_of_birth, as: :date, label: false, class: "form-input" %>
         </div>
 
         <div class="form-group">
-          <%= f.label :country, "Country", class: "form-label" %>
+          <%= f.label :country, class: "form-label" do %>
+            <span style="font-weight: bold;">Country</span>
+          <% end %>
           <%= f.input :country, as: :string, label: false, class: "form-input" %>
         </div>
 
         <div class="form-group">
-          <%= f.label :phone_number, "Phone Number", class: "form-label" %>
+          <%= f.label :phone_number, class: "form-label" do %>
+            <span style="font-weight: bold;">Phone Number</span>
+          <% end %>
           <%= f.input :phone_number, label: false, class: "form-input" %>
         </div>
 
         <div class="form-group">
-          <%= f.label :preferred_language, "Preferred Language", class: "form-label" %>
+          <%= f.label :preferred_language, class: "form-label" do %>
+            <span style="font-weight: bold;">Preferred Language</span>
+          <% end %>
           <%= f.input :preferred_language, as: :select, collection: ['English', 'French', 'Spanish'], include_blank: true, label: false, class: "form-select" %>
         </div>
 
         <div class="form-group">
-          <%= f.label :avatar, "Picture (Avatar)", class: "form-label" %>
+          <%= f.label :avatar, class: "form-label" do %>
+            <span style="font-weight: bold;">Picture (Avatar)</span>
+          <% end %>
           <%= f.input :avatar, as: :file, label: false, class: "form-input-file" %>
         </div>
       </div>
