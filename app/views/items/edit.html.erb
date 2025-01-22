@@ -2,71 +2,73 @@
   <h1 class="form-title"><span class="text-gradient angry-underline-blue" style="color: #3699e0; font-weight: bold;">Modify the item</span></h1>
   <p class="form-description">Make changes to the item details below.</p>
 
-  <%= simple_form_for @item, url: item_path(@item), local: true, data: { turbo: false } do |f| %>
+  <%= simple_form_for @item, url: item_path(@item), local: true, html: { id: "item-form", data: { controller: "dynamic-lists", "dynamic-lists-url-value" => update_lists_items_path, "item-id" => @item.id } } do |f| %>
+    <%= hidden_field_tag :super_list_id, @super_list_id, id: "hidden-super-list-id" %>
+
     <div class="form-columns">
       <!-- Colonne gauche -->
       <div class="form-column">
         <!-- Title -->
         <div class="form-group">
-          <%= f.label :title, "Title", class: "form-label" %>
+          <%= f.label :title, class: "form-label", style: "font-weight: bold;" do %>
+            Title <span style="font-weight: normal;">(required)</span>
+          <% end %>
           <%= f.input :title, as: :string, placeholder: "Edit the item's title", label: false, required: true, class: "form-input" %>
         </div>
 
         <!-- Description -->
         <div class="form-group">
-          <%= f.label :description, "Description", class: "form-label" %>
+          <%= f.label :description, "Description", class: "form-label", style: "font-weight: bold;" %>
           <%= f.input :description, as: :text, placeholder: "Update the description of the item", label: false, class: "form-input" %>
         </div>
 
-        <!-- Price -->
+        <!-- Issuer -->
         <div class="form-group">
-          <%= f.label :price, "Price (€)", class: "form-label" %>
-          <%= f.input :price, as: :decimal, placeholder: "Update the price in euros", label: false, class: "form-input" %>
+          <%= f.label :issuer, class: "form-label", style: "font-weight: bold;" do %>
+            Issuer <span style="font-weight: normal;">(required)</span>
+          <% end %>
+          <%= f.input :issuer, as: :string, placeholder: "Enter the issuer name (e.g., EDF, Super U)", label: false, required: true, class: "form-input" %>
         </div>
 
-        <!-- Condition -->
+        <!-- Pick a family -->
         <div class="form-group">
-          <%= f.label :condition, "Condition", class: "form-label" %>
-          <%= f.input :condition, as: :select, collection: ['poor', 'okay', 'good', 'excellent'], include_blank: "Select condition", label: false, class: "form-select" %>
+          <label class="form-label">Pick a family <span style="font-weight: normal;">(required)</span></label>
+          <%= select_tag :super_list_id,
+              options_for_select(current_user.super_lists.pluck(:title, :id), @super_list_id),
+              { class: "form-select", data: { action: "change->dynamic-lists#updateLists" } } %>
         </div>
 
-        <!-- Category -->
-        <div class="form-group">
-          <%= f.label :category, "Category", class: "form-label" %>
-          <%= f.input :category, as: :string, placeholder: "e.g., Electronics, Furniture", label: false, class: "form-input" %>
+        <!-- Add to Lists -->
+        <div id="lists-container" data-dynamic-lists-target="listsContainer">
+          <%= render partial: "items/lists", locals: { filtered_lists: @filtered_lists, form: f, item_lists: @item.lists.pluck(:id) } %>
         </div>
       </div>
 
       <!-- Colonne droite -->
       <div class="form-column">
-        <!-- Purchase date -->
+        <!-- Price -->
         <div class="form-group">
-          <%= f.label :purchase_date, "Purchase date", class: "form-label" %>
-          <%= f.input :purchase_date, as: :date, label: false, class: "form-input" %>
+          <%= f.label :price, class: "form-label", style: "font-weight: bold;" do %>
+            Price (€) <span style="font-weight: normal;">(required)</span>
+          <% end %>
+          <%= f.input :price, as: :decimal, placeholder: "Update the price in euros", label: false, required: true, class: "form-input" %>
         </div>
 
-        <!-- Warranty Expiry Date -->
+        <!-- Condition -->
         <div class="form-group">
-          <%= f.label :warranty_expiry_date, "Warranty expiry date", class: "form-label" %>
-          <%= f.input :warranty_expiry_date, as: :date, label: false, class: "form-input" %>
+          <%= f.label :condition, "Condition", class: "form-label", style: "font-weight: bold;" %>
+          <%= f.input :condition, as: :select, collection: ['poor', 'okay', 'good', 'excellent'], include_blank: "Select condition", label: false, class: "form-select" %>
         </div>
 
-        <!-- Add to Lists -->
+        <!-- Category -->
         <div class="form-group">
-          <label class="form-label">Add to lists</label>
-          <div class="form-checkbox-group">
-            <%= f.collection_check_boxes(:list_ids, List.all, :id, :title) do |list_check_box| %>
-              <div class="checkbox-item">
-                <%= list_check_box.check_box %>
-                <%= list_check_box.text %>
-              </div>
-            <% end %>
-          </div>
+          <%= f.label :category, "Category", class: "form-label", style: "font-weight: bold;" %>
+          <%= f.input :category, as: :string, placeholder: "e.g., Electronics, Furniture", label: false, class: "form-input" %>
         </div>
 
         <!-- Upload a picture -->
         <div class="form-group">
-          <%= f.label :photo, "Upload a picture of the item", class: "form-label" %>
+          <%= f.label :photo, "Upload a picture of the item", class: "form-label", style: "font-weight: bold;" %>
           <% if @item.photo.attached? %>
             <p class="file-info">Current file: <%= @item.photo.filename %></p>
           <% end %>
@@ -75,11 +77,23 @@
 
         <!-- Upload Invoice -->
         <div class="form-group">
-          <%= f.label :invoice, "Upload invoice (PDF or image)", class: "form-label" %>
+          <%= f.label :invoice, "Upload invoice (PDF or image)", class: "form-label", style: "font-weight: bold;" %>
           <% if @item.invoice.attached? %>
             <p class="file-info">Current file: <%= @item.invoice.filename %></p>
           <% end %>
           <%= f.input :invoice, as: :file, label: false, class: "form-input-file" %>
+        </div>
+
+        <!-- Purchase date -->
+        <div class="form-group">
+          <%= f.label :purchase_date, "Purchase date", class: "form-label", style: "font-weight: bold;" %>
+          <%= f.input :purchase_date, as: :date, label: false, class: "form-input" %>
+        </div>
+
+        <!-- Warranty Expiry Date -->
+        <div class="form-group">
+          <%= f.label :warranty_expiry_date, "Warranty expiry date", class: "form-label", style: "font-weight: bold;" %>
+          <%= f.input :warranty_expiry_date, as: :date, label: false, class: "form-input" %>
         </div>
       </div>
     </div>

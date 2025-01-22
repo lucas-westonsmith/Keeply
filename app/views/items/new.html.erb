@@ -10,7 +10,9 @@
       <div class="form-column">
         <!-- Title -->
         <div class="form-group">
-          <%= f.label :title, "Title", class: "form-label", style: "font-weight: bold;" %>
+          <%= f.label :title, class: "form-label", style: "font-weight: bold;" do %>
+            Title <span style="font-weight: normal;">(required)</span>
+          <% end %>
           <%= f.input :title, as: :string, placeholder: "Enter the item's title", label: false, required: true, class: "form-input" %>
         </div>
 
@@ -20,38 +22,48 @@
           <%= f.input :description, as: :text, placeholder: "Provide a short description of the item", label: false, class: "form-input" %>
         </div>
 
+        <!-- Issuer -->
+        <div class="form-group">
+          <%= f.label :issuer, class: "form-label", style: "font-weight: bold;" do %>
+            Issuer <span style="font-weight: normal;">(required)</span>
+          <% end %>
+          <%= f.input :issuer, as: :string, placeholder: "Enter the issuer name (e.g., EDF, Super U)", label: false, required: true, class: "form-input" %>
+        </div>
+
+        <!-- Pick a family -->
+        <div class="form-group">
+          <label class="form-label" style="font-weight: bold;">Pick a family <span style="font-weight: normal;">(required)</span></label>
+          <%= select_tag :super_list_id,
+              options_for_select(current_user.super_lists.pluck(:title, :id), @super_list_id),
+              { class: "form-select", required: true, data: { action: "change->dynamic-lists#updateLists" } } %>
+        </div>
+
+        <!-- Add to Lists -->
+        <div id="lists-container" data-dynamic-lists-target="listsContainer">
+          <%= render partial: "items/lists", locals: { filtered_lists: @filtered_lists, form: f, item_lists: [] } %>
+        </div>
+      </div>
+
+      <!-- Colonne droite -->
+      <div class="form-column">
         <!-- Price -->
         <div class="form-group">
-          <%= f.label :price, "Price (€)", class: "form-label", style: "font-weight: bold;" %>
-          <%= f.input :price, as: :decimal, placeholder: "Enter the price in euros", label: false, class: "form-input" %>
+          <%= f.label :price, class: "form-label", style: "font-weight: bold;" do %>
+            Price (€) <span style="font-weight: normal;">(required)</span>
+          <% end %>
+          <%= f.input :price, as: :decimal, placeholder: "Enter the price in euros", label: false, required: true, class: "form-input" %>
         </div>
 
         <!-- Condition -->
         <div class="form-group">
           <%= f.label :condition, "Condition", class: "form-label", style: "font-weight: bold;" %>
-          <%= f.input :condition, as: :select, collection: ['poor', 'okay', 'good', 'excellent'], include_blank: "Select condition", label: false, class: "form-select" %>
+          <%= f.input :condition, as: :select, collection: ['Poor', 'Okay', 'Good', 'Excellent'], include_blank: "Select condition", label: false, class: "form-select" %>
         </div>
 
         <!-- Category -->
         <div class="form-group">
           <%= f.label :category, "Category", class: "form-label", style: "font-weight: bold;" %>
           <%= f.input :category, as: :string, placeholder: "e.g., Electronics, Furniture", label: false, class: "form-input" %>
-        </div>
-      </div>
-
-      <!-- Colonne droite -->
-      <div class="form-column">
-        <!-- Pick a family -->
-        <div class="form-group">
-          <label class="form-label" style="font-weight: bold;">Pick a family</label>
-          <%= select_tag :super_list_id,
-              options_for_select(current_user.super_lists.pluck(:title, :id), @super_list_id),
-              { include_blank: "Select a family", class: "form-select", data: { action: "change->dynamic-lists#updateLists" } } %>
-        </div>
-
-        <!-- Add to Lists -->
-        <div id="lists-container" data-dynamic-lists-target="listsContainer">
-          <%= render partial: "items/lists", locals: { filtered_lists: @filtered_lists, form: f } %>
         </div>
 
         <!-- Upload a picture -->

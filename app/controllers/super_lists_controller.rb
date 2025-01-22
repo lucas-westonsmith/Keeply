@@ -6,7 +6,8 @@ class SuperListsController < ApplicationController
   end
 
   def show
-    @super_list = current_user.super_lists.find_by!(title: params[:title])
+    normalized_title = params[:title].gsub('-', ' ')
+    @super_list = current_user.super_lists.find_by!(title: normalized_title)
     @lists = @super_list.lists
   end
 end

@@ -4,7 +4,7 @@
     <div class="form-checkbox-group">
       <% filtered_lists.each do |list| %>
         <div class="checkbox-item">
-          <%= check_box_tag "item[list_ids][]", list.id, false, id: "list_#{list.id}" %>
+          <%= check_box_tag "item[list_ids][]", list.id, item_lists&.include?(list.id), id: "list_#{list.id}" %>
           <%= label_tag "list_#{list.id}", list.title %>
         </div>
       <% end %>

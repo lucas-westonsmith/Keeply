@@ -14,7 +14,9 @@
       <div class="form-column">
         <!-- Super List Selection -->
         <div class="form-group checkbox-group">
-          <p class="form-label" style="font-weight: bold;">Pick a family (required)</p>
+          <p class="form-label" style="font-weight: bold;">
+            Pick a family <span style="font-weight: normal;">(required)</span>
+          </p>
           <% current_user.super_lists.each do |super_list| %>
             <label class="checkbox-item spaced-checkbox">
               <%= f.radio_button :super_list_id, super_list.id, class: "form-radio" %>
@@ -25,7 +27,9 @@
 
         <!-- Title -->
         <div class="form-group">
-          <%= f.label :title, "Title (required)", class: "form-label", style: "font-weight: bold;" %>
+          <%= f.label :title, class: "form-label", style: "font-weight: bold;" do %>
+            Title <span style="font-weight: normal;">(required)</span>
+          <% end %>
           <%= f.input :title, as: :string, placeholder: "Enter the list's title", label: false, required: true, class: "form-input" %>
         </div>
 

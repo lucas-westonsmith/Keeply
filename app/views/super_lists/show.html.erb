@@ -9,7 +9,6 @@
       <% @lists.each do |list| %>
         <%= link_to list_path(list), class: "list-card-link" do %>
           <div class="list-card">
-            <!-- Image -->
             <div class="list-image">
               <% if list.photo.attached? %>
                 <%= image_tag list.photo, alt: "List photo" %>
@@ -18,13 +17,11 @@
               <% end %>
             </div>
 
-            <!-- Details -->
             <div class="list-details">
               <h2 class="list-title"><span class="angry-underline-blue"><%= list.title %></span></h2>
               <p class="list-description"><%= truncate(list.description, length: 150) %></p>
             </div>
 
-            <!-- Nombre d'items -->
             <div class="list-item-count">
               <% item_count = list.items.count %>
               <p>
@@ -36,7 +33,6 @@
       <% end %>
     </div>
   <% else %>
-    <!-- Message si aucune liste -->
     <div class="no-lists-message">
       <h3>📂 Oops, no lists found!</h3>
       <p>Why not get started? Click the <strong>Create a new list</strong> button above to keep your items organized. 🗂️</p>

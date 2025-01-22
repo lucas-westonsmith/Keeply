@@ -32,14 +32,17 @@ class ItemsController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.html { render partial: "items/lists", locals: { filtered_lists: @filtered_lists, form: nil } }
+      format.html { render partial: "items/lists", locals: { filtered_lists: @filtered_lists, form: nil, item_lists: [] } }
     end
   end
 
+  # Mise à jour des listes dynamiques
   def update_lists
     @super_list_id = params[:super_list_id]
     @filtered_lists = current_user.lists.where(super_list_id: @super_list_id)
-    render partial: "items/lists", locals: { filtered_lists: @filtered_lists }
+    @item_lists = Item.find_by(id: params[:item_id])&.lists&.pluck(:id) || []
+
+    render partial: "items/lists", locals: { filtered_lists: @filtered_lists, item_lists: @item_lists }
   end
 
   # Créer un objet
@@ -62,7 +65,9 @@ class ItemsController < ApplicationController
 
   # Formulaire pour modifier un objet
   def edit
-    @list = @item.lists.first
+    @super_list_id = @item.lists.first&.super_list_id || current_user.super_lists.first&.id
+    @filtered_lists = current_user.lists.where(super_list_id: @super_list_id)
+    @item_lists = @item.lists.pluck(:id)
   end
 
   # Mettre à jour un objet
@@ -96,6 +101,6 @@ class ItemsController < ApplicationController
   end
 
   def item_params
-    params.require(:item).permit(:title, :description, :price, :condition, :category, :purchase_date, :warranty_expiry_date, :photo, :invoice, list_ids: [])
+    params.require(:item).permit(:title, :description, :price, :condition, :category, :issuer, :purchase_date, :warranty_expiry_date, :photo, :invoice, list_ids: [])
   end
 end
