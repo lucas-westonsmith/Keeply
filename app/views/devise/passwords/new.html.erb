@@ -1,17 +1,23 @@
-<div class="form-container">
-  <h1 class="form-title">Forgot Password?</h1>
+<div class="form-container small-width">
+  <h1 class="form-title"><span class="angry-underline-blue">Forgot password?</span></h1>
   <p class="form-description">Enter your email to receive reset instructions.</p>
 
   <%= simple_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
     <%= f.error_notification %>
 
-    <div class="form-group">
-      <%= f.label :email, "Email", class: "form-label" %>
-      <%= f.input :email, required: true, autofocus: true, label: false, class: "form-input" %>
+    <div class="form-columns">
+      <div class="form-column">
+        <div class="form-group">
+          <%= f.label :email, class: "form-label" do %>
+            <span style="font-weight: bold;">Email</span>
+          <% end %>
+          <%= f.input :email, required: true, autofocus: true, label: false, class: "form-input" %>
+        </div>
+      </div>
     </div>
 
     <div class="form-actions">
-      <%= f.button :submit, "Send Instructions", class: "btn btn-primary" %>
+      <%= f.button :submit, "Send Instructions", class: "btn btn-primary action-button" %>
     </div>
   <% end %>
 

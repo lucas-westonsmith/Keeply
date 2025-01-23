@@ -1,3 +1,10 @@
+<div class="back-button">
+  <%= link_to menu_path, class: "back-link" do %>
+    <i class="back-arrow"></i>
+    Back
+  <% end %>
+</div>
+
 <div class="container my-5 lists-index">
   <h1 class="page-title text-gradient angry-underline-pink"><%= @super_list.title %></h1>
   <p class="page-description"><%= @super_list.description || "Browse through all your lists in this category." %></p>
@@ -11,7 +18,7 @@
           <div class="list-card">
             <div class="list-image">
               <% if list.photo.attached? %>
-                <%= image_tag list.photo, alt: "List photo" %>
+                <%= cl_image_tag list.photo.key, alt: "List photo", class: "list-photo" %>
               <% else %>
                 <%= image_tag "default-list.avif", alt: "Default list photo", class: "default-list-photo" %>
               <% end %>

@@ -12,7 +12,7 @@
             <!-- Image -->
             <div class="list-image">
               <% if list.photo.attached? %>
-                <%= image_tag list.photo, alt: "List photo" %>
+                <%= cl_image_tag list.photo.key, alt: "List photo", class: "list-photo" %>
               <% else %>
                 <%= image_tag "default-list.avif", alt: "Default list photo", class: "default-list-photo" %>
               <% end %>

@@ -2,7 +2,7 @@
   <div class="profile-card p-4 rounded shadow">
     <div class="profile-header text-center mb-4">
       <% if current_user.avatar.attached? %>
-        <%= image_tag current_user.avatar, class: "profile-avatar rounded-circle" %>
+        <%= cl_image_tag current_user.avatar.key, class: "profile-avatar rounded-circle", alt: "#{current_user.first_name}'s avatar" %>
       <% else %>
         <%= image_tag "default-avatar.png", class: "profile-avatar rounded-circle" %>
       <% end %>
@@ -11,7 +11,7 @@
     </div>
 
     <div class="profile-details">
-      <p><strong>Date of birth:</strong> <%= current_user.date_of_birth.present? ? current_user.date_of_birth : 'Not specified' %></p>
+      <p><strong>Date of birth:</strong> <%= current_user.date_of_birth.present? ? current_user.date_of_birth.strftime("%d %B %Y") : 'Not specified' %></p>
       <p><strong>Country:</strong> <%= current_user.country.present? ? current_user.country : 'Not specified' %></p>
       <p><strong>Phone number:</strong> <%= current_user.phone_number.present? ? current_user.phone_number : 'Not specified' %></p>
       <p><strong>Preferred language:</strong> <%= current_user.preferred_language.present? ? current_user.preferred_language : 'Not specified' %></p>
@@ -19,7 +19,6 @@
 
     <div class="profile-actions mt-4 text-center">
       <%= link_to 'Edit', edit_user_registration_path, class: 'btn edit-button' %>
-      <%= link_to 'Back to Home', root_path, class: 'btn back-button ms-2' %>
     </div>
   </div>
 </div>

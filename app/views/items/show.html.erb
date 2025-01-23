@@ -1,3 +1,10 @@
+<div class="back-button">
+  <%= link_to request.referer || root_path, class: "back-link" do %>
+    <i class="back-arrow"></i>
+    Back
+  <% end %>
+</div>
+
 <div class="single-item-container">
   <!-- Titre de l'item -->
   <h1 class="single-item-title">
@@ -64,7 +71,7 @@
     <div class="item-media">
       <div class="item-photo-container">
         <% if @item.photo.attached? %>
-          <%= image_tag @item.photo, alt: "Photo of #{@item.title}", class: "item-photo" %>
+          <%= cl_image_tag @item.photo.key, alt: "Photo of #{@item.title}", class: "item-photo" %>
         <% else %>
           <%= image_tag @item.default_image, alt: "Default item photo", class: "item-photo" %>
         <% end %>
@@ -73,9 +80,18 @@
       <% if @item.invoice.attached? %>
         <div class="invoice-preview">
           <p><strong>Invoice:</strong></p>
+
+          <!-- Lien de téléchargement -->
           <%= link_to 'Download Invoice', rails_blob_path(@item.invoice, disposition: "attachment"), target: "_blank", class: 'invoice-link' %>
-          <%= tag.embed src: rails_blob_path(@item.invoice, disposition: "inline"), class: 'invoice-iframe' if @item.invoice.blob.content_type == 'application/pdf' %>
-          <%= image_tag @item.invoice, class: 'invoice-image' if @item.invoice.blob.content_type.start_with?('image/') %>
+
+          <!-- Si la facture est un PDF -->
+          <% if @item.invoice.blob.content_type == 'application/pdf' %>
+            <%= tag.embed src: rails_blob_path(@item.invoice, disposition: "inline"), class: 'invoice-iframe' %>
+
+          <!-- Si la facture est une image -->
+          <% elsif @item.invoice.blob.content_type.start_with?('image/') %>
+            <%= cl_image_tag @item.invoice.key, alt: "Invoice preview", class: "invoice-image" %>
+          <% end %>
         </div>
       <% else %>
         <p><strong>Invoice:</strong> No invoice uploaded.</p>

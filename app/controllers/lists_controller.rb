@@ -14,6 +14,18 @@ class ListsController < ApplicationController
   def show
     @list = List.includes(:users, :list_users).find(params[:id])
     @items_in_list = @list.items
+
+    # Calcul du chemin de retour
+    @back_path = case @list.super_list.title
+                  when 'Home items'
+                    menu_home_items_path
+                  when 'Everyday life'
+                    menu_everyday_life_path
+                  when 'Administrative papers'
+                    menu_administrative_papers_path
+                  else
+                    menu_path
+                  end
   end
 
   # Formulaire pour créer une nouvelle liste
