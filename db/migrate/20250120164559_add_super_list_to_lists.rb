@@ -13,7 +13,7 @@ class AddSuperListToLists < ActiveRecord::Migration[7.0]
           date_of_birth: Date.new(1990, 1, 1)
         )
 
-        # Désactiver les callbacks
+        # Désactiver les validations et les callbacks pour cette migration
         SuperList.skip_callback(:create, :after, :create_default_lists)
 
         # Créez les sur-listes par défaut sans validations
@@ -24,7 +24,8 @@ class AddSuperListToLists < ActiveRecord::Migration[7.0]
         ]
 
         super_lists.each do |attributes|
-          SuperList.create!(attributes) # Désactiver les validations
+          super_list = SuperList.new(attributes)
+          super_list.save!(validate: false) # Désactivation des validations
         end
 
         # Réactiver les callbacks
