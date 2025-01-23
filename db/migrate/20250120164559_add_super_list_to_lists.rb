@@ -20,8 +20,11 @@ class AddSuperListToLists < ActiveRecord::Migration[7.0]
           { title: "Administrative papers", default: true, user: user }
         ]
 
-        # Ignorer les validations pour éviter les erreurs
-        SuperList.create!(super_lists, validate: false)
+        # Crée chaque SuperList individuellement sans validation
+        super_lists.each do |attributes|
+          super_list = SuperList.new(attributes)
+          super_list.save!(validate: false) # Sauvegarder sans validation
+        end
       end
     end
   end
