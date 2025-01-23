@@ -13,18 +13,22 @@ class AddSuperListToLists < ActiveRecord::Migration[7.0]
           date_of_birth: Date.new(1990, 1, 1)
         )
 
-        # Créez les sur-listes par défaut
+        # Désactiver les callbacks
+        SuperList.skip_callback(:create, :after, :create_default_lists)
+
+        # Créez les sur-listes par défaut sans validations
         super_lists = [
           { title: "Home items", default: true, user: user },
           { title: "Everyday life", default: true, user: user },
           { title: "Administrative papers", default: true, user: user }
         ]
 
-        # Crée chaque SuperList individuellement sans validation
         super_lists.each do |attributes|
-          super_list = SuperList.new(attributes)
-          super_list.save!(validate: false) # Sauvegarder sans validation
+          SuperList.create!(attributes) # Désactiver les validations
         end
+
+        # Réactiver les callbacks
+        SuperList.set_callback(:create, :after, :create_default_lists)
       end
     end
   end
