@@ -84,7 +84,7 @@
             <!-- Image -->
             <div class="item-image">
               <% if item.photo.attached? %>
-                <%= image_tag item.photo, alt: "Item photo" %>
+                <%= cl_image_tag item.photo.key, alt: "Item photo" %>
               <% else %>
                 <%= image_tag item.default_image, alt: "Default item photo" %>
               <% end %>

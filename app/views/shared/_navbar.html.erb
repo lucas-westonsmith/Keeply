@@ -3,28 +3,35 @@
     <!-- Logo -->
     <%= link_to root_path, class: "navbar-brand" do %>
       <div class="navbar-brand-text black-ops-one-regular">
-        Propeez
+        Keeply
       </div>
     <% end %>
 
-    <% if user_signed_in? %>
-      <!-- Centered Items for Logged-in Users -->
-      <div class="navbar-center">
-        <%= link_to "Menu", menu_path, class: "nav-link #{'active' if current_page?(menu_path)}" %>
-        <div class="nav-separator"></div>
-        <%= link_to "Home items", menu_home_items_path, class: "nav-link #{'active' if current_page?(menu_home_items_path)}" %>
-        <%= link_to "Everyday life", menu_everyday_life_path, class: "nav-link #{'active' if current_page?(menu_everyday_life_path)}" %>
-        <%= link_to "Admin papers", menu_administrative_papers_path, class: "nav-link #{'active' if current_page?(menu_administrative_papers_path)}" %>
-        <div class="nav-separator"></div>
-        <%= link_to "All items", items_path, class: "nav-link #{'active' if current_page?(items_path)}" %>
-        <%= link_to "Add item", new_item_path, class: "nav-link #{'active' if current_page?(new_item_path)}" %>
-      </div>
-    <% end %>
+    <!-- Hamburger Button (Visible on small screens) -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu" aria-controls="navbarMenu" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Central Menu -->
+    <div class="collapse navbar-collapse justify-content-center" id="navbarMenu">
+      <% if user_signed_in? %>
+        <div class="navbar-center">
+          <%= link_to "Menu", menu_path, class: "nav-link #{'active' if current_page?(menu_path)}" %>
+          <div class="nav-separator"></div>
+          <%= link_to "Home items", menu_home_items_path, class: "nav-link #{'active' if current_page?(menu_home_items_path)}" %>
+          <%= link_to "Everyday life", menu_everyday_life_path, class: "nav-link #{'active' if current_page?(menu_everyday_life_path)}" %>
+          <%= link_to "Admin papers", menu_administrative_papers_path, class: "nav-link #{'active' if current_page?(menu_administrative_papers_path)}" %>
+          <div class="nav-separator"></div>
+          <%= link_to "All items", items_path, class: "nav-link #{'active' if current_page?(items_path)}" %>
+          <%= link_to "Add item", new_item_path, class: "nav-link #{'active' if current_page?(new_item_path)}" %>
+        </div>
+      <% end %>
+    </div>
 
     <!-- Right Section -->
-    <div class="d-flex align-items-center">
+    <div class="d-flex align-items-center ms-auto">
       <!-- Language Switcher -->
-      <div class="dropdown">
+      <div class="dropdown me-3">
         <i class="fa-solid fa-globe fa-xl dropdown-toggle language-icon" id="languageDropdown" data-bs-toggle="dropdown" aria-expanded="false"></i>
         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdown">
           <li><a class="dropdown-item" href="#">English</a></li>
@@ -36,7 +43,7 @@
       <% if user_signed_in? %>
         <!-- Avatar -->
         <% if current_user.avatar&.attached? %>
-          <%= image_tag current_user.avatar, class: "avatar dropdown-toggle", id: "avatarDropdown", data: { bs_toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false %>
+          <%= cl_image_tag current_user.avatar.key, class: "avatar dropdown-toggle", id: "avatarDropdown", data: { bs_toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false, alt: "#{current_user.first_name}'s avatar" %>
         <% else %>
           <%= image_tag "default-avatar.png", class: "avatar dropdown-toggle", id: "avatarDropdown", data: { bs_toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false %>
         <% end %>

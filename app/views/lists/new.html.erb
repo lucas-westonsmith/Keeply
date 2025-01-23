@@ -1,3 +1,10 @@
+<div class="back-button">
+  <%= link_to request.referer || root_path, class: "back-link" do %>
+    <i class="back-arrow"></i>
+    Back
+  <% end %>
+</div>
+
 <div class="form-container lists">
   <h1 class="form-title" style="color: #F9A5A3;"><span class="angry-underline-pink">Create a new list</span></h1>
   <p class="form-description">Fill out the details below to create your list.</p>

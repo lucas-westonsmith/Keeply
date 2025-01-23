@@ -1,3 +1,10 @@
+<div class="back-button">
+  <%= link_to request.referer || root_path, class: "back-link" do %>
+    <i class="back-arrow"></i>
+    Back
+  <% end %>
+</div>
+
 <div class="form-container">
   <h1 class="form-title"><span class="text-gradient angry-underline-blue" style="color: #3699e0; font-weight: bold;">Add a new item</span></h1>
   <p class="form-description">Fill out the details below to add a new item to your collection.</p>

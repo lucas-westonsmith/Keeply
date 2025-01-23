@@ -2,13 +2,20 @@
   <!-- Image en haut -->
   <% if @list.photo.attached? %>
     <div class="list-image">
-      <%= image_tag @list.photo, alt: "List photo" %>
+      <%= cl_image_tag @list.photo.key, alt: "List photo", class: "list-photo" %>
     </div>
   <% else %>
     <div class="list-image">
       <%= image_tag "default-list.avif", alt: "Default list photo" %>
     </div>
   <% end %>
+
+  <div class="back-button">
+    <%= link_to @back_path, class: "back-link" do %>
+      <i class="back-arrow"></i>
+      Back
+    <% end %>
+  </div>
 
   <!-- Conteneur principal -->
   <div class="list-content-wrapper d-flex justify-content-between mt-4">
@@ -144,7 +151,7 @@
             <%= link_to item_path(item), class: "item-link" do %>
               <div class="item-image">
                 <% if item.photo.attached? %>
-                  <%= image_tag item.photo, alt: "Item photo" %>
+                  <%= cl_image_tag item.photo.key, alt: "Item photo", class: "item-photo" %>
                 <% else %>
                   <%= image_tag item.default_image, alt: "Default item photo" %>
                 <% end %>
