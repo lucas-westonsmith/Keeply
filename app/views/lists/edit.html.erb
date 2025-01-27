@@ -59,7 +59,7 @@
         <div class="form-group">
           <p class="form-label" style="font-weight: bold;">Or select a picture:</p>
           <div class="thumbnail-gallery">
-            <% ["living-room.avif", "dining-room.avif", "bedroom.avif", "kitchen.avif", "bathroom.avif", "office.avif", "library.avif", "bedroom-kids.avif"].each do |image| %>
+            <% ["living-room.avif", "dining-room.avif", "bedroom.avif", "kitchen.avif", "bathroom.avif", "office.avif", "library.avif", "bedroom-kids.avif", "garage.avif", "theater.avif", "stadium.avif", "bikes.avif", "train.avif", "plane.avif", "travel.avif", "papers.avif"].each do |image| %>
               <label class="thumbnail">
                 <%= radio_button_tag :default_photo, image, @list.photo.attached? && @list.photo.filename.to_s == image, class: "thumbnail-radio" %>
                 <%= image_tag image, alt: image.split('.').first.humanize, class: "thumbnail-image" %>

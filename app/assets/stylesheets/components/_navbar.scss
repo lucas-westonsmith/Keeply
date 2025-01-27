@@ -101,20 +101,24 @@
 
   .dropdown-item {
     color: #333;
+    text-decoration: none;
 
     &:hover {
       background-color: #f1f1f1;
       color: #1899e0;
+      text-decoration: none;
     }
   }
 
   .btn-primary {
     background-color: #1899e0;
     border-color: #1899e0;
+    text-decoration: none;
 
     &:hover {
       background-color: #157abc;
       border-color: #157abc;
+      text-decoration: none;
     }
   }
 
@@ -128,6 +132,14 @@
     }
   }
 
+  .no-underline {
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
   @media (max-width: 768px) {
     .navbar-toggler {
       display: block;
@@ -138,9 +150,9 @@
 
       &.show {
         display: flex;
-        flex-direction: column; /* Liste verticale */
+        flex-direction: column;
         align-items: flex-start;
-        background-color: #313131; /* Fond de couleur */
+        background-color: #313131;
         padding: 10px 0;
       }
 
