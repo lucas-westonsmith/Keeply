@@ -1,0 +1,105 @@
+.not-found-page {
+  background: rgb(249, 156, 160);
+  background: linear-gradient(0deg, rgba(249, 156, 160, 1) 0%, rgba(243, 251, 192, 1) 100%);
+  color: black;
+  text-align: center;
+  padding: 5rem 2rem;
+
+  .not-found-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+
+    @media (min-width: 768px) {
+      flex-direction: row;
+      justify-content: space-between;
+    }
+
+    .not-found-content {
+      max-width: 500px;
+
+      h1 {
+        font-size: 5rem;
+        font-weight: bold;
+
+        .text-gradient {
+          background: linear-gradient(90deg, #1899e0 0%, #c0e6fb 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+        }
+      }
+
+      h2 {
+        font-size: 1.75rem;
+        margin: 1rem 0;
+      }
+
+      p {
+        font-size: 1.25rem;
+        margin-bottom: 2rem;
+        color: #333;
+      }
+
+      .not-found-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+
+        .btn {
+          padding: 0.6rem 1.5rem;
+          border-radius: 0.5rem;
+          text-decoration: none;
+          font-weight: 600;
+          font-size: 1.25rem;
+          transition: all 0.2s ease-in-out;
+
+          &.btn-primary {
+            background-color: #1899e0;
+            color: #fff;
+            box-shadow: 0 3px 6px rgba(24, 153, 224, 0.3);
+            border: none;
+
+            &:hover {
+              background-color: darken(#1899e0, 10%);
+              box-shadow: 0 6px 12px rgba(24, 153, 224, 0.4);
+              transform: translateY(-1px);
+            }
+          }
+
+          &.btn-secondary {
+            background-color: #c0e6fb;
+            color: #000;
+            box-shadow: 0 3px 6px rgba(192, 230, 251, 0.3);
+            border: none;
+
+            &:hover {
+              background-color: lighten(#c0e6fb, 10%);
+              box-shadow: 0 6px 12px rgba(192, 230, 251, 0.4);
+              transform: translateY(-1px);
+            }
+          }
+        }
+      }
+    }
+
+    .not-found-illustration {
+      img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 0.5rem;
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    .not-found-container {
+      .not-found-illustration {
+        margin-top: 2rem;
+      }
+    }
+  }
+}
