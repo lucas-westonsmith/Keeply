@@ -1,67 +1,108 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>The change you wanted was rejected (422)</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Oops! Action Rejected - Keeply</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-  .rails-default-error-page {
-    background-color: #EFEFEF;
-    color: #2E2F30;
-    text-align: center;
-    font-family: arial, sans-serif;
-    margin: 0;
-  }
+    body {
+      font-family: 'Inter', 'Helvetica', 'sans-serif';
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(0deg, rgba(249, 156, 160, 1) 0%, rgba(243, 251, 192, 1) 100%);
+      color: black;
+      text-align: center;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
 
-  .rails-default-error-page div.dialog {
-    width: 95%;
-    max-width: 33em;
-    margin: 4em auto 0;
-  }
+    .error-container {
+      max-width: 700px;
+      padding: 2rem;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      border-radius: 1rem;
+      background: white;
+    }
 
-  .rails-default-error-page div.dialog > div {
-    border: 1px solid #CCC;
-    border-right-color: #999;
-    border-left-color: #999;
-    border-bottom-color: #BBB;
-    border-top: #B00100 solid 4px;
-    border-top-left-radius: 9px;
-    border-top-right-radius: 9px;
-    background-color: white;
-    padding: 7px 12% 0;
-    box-shadow: 0 3px 8px rgba(50, 50, 50, 0.17);
-  }
+    h1 {
+      font-size: 3rem; /* Correspond à $font-size-h1 */
+      font-weight: 700;
+      margin-bottom: 1rem;
+      background: linear-gradient(90deg, #1899e0 0%, #c0e6fb 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
 
-  .rails-default-error-page h1 {
-    font-size: 100%;
-    color: #730E15;
-    line-height: 1.5em;
-  }
+    h2 {
+      font-size: 1.75rem; /* Correspond à $font-size-h3 */
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: #333;
+    }
 
-  .rails-default-error-page div.dialog > p {
-    margin: 0 0 1em;
-    padding: 1em;
-    background-color: #F7F7F7;
-    border: 1px solid #CCC;
-    border-right-color: #999;
-    border-left-color: #999;
-    border-bottom-color: #999;
-    border-bottom-left-radius: 4px;
-    border-bottom-right-radius: 4px;
-    border-top-color: #DADADA;
-    color: #666;
-    box-shadow: 0 3px 8px rgba(50, 50, 50, 0.17);
-  }
+    p {
+      font-size: 1rem; /* Correspond à $font-size-body */
+      line-height: 1.6;
+      color: #666;
+      margin-bottom: 2rem;
+    }
+
+    .error-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+    }
+
+    .btn {
+      padding: 0.6rem 1.5rem;
+      border-radius: 0.5rem;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem; /* Correspond à $font-size-h6 */
+      transition: all 0.2s ease-in-out;
+    }
+
+    .btn-primary {
+      background-color: #1899e0;
+      color: white;
+      box-shadow: 0 3px 6px rgba(24, 153, 224, 0.3);
+      border: none;
+    }
+
+    .btn-primary:hover {
+      background-color: #157bc2;
+      box-shadow: 0 6px 12px rgba(24, 153, 224, 0.4);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background-color: #c0e6fb;
+      color: black;
+      box-shadow: 0 3px 6px rgba(192, 230, 251, 0.3);
+      border: none;
+    }
+
+    .btn-secondary:hover {
+      background-color: #b0d6eb;
+      box-shadow: 0 6px 12px rgba(192, 230, 251, 0.4);
+      transform: translateY(-1px);
+    }
   </style>
 </head>
-
-<body class="rails-default-error-page">
-  <!-- This file lives in public/422.html -->
-  <div class="dialog">
-    <div>
-      <h1>The change you wanted was rejected.</h1>
-      <p>Maybe you tried to change something you didn't have access to.</p>
+<body>
+  <div class="error-container">
+    <h1>Oops! <span>422</span></h1>
+    <h2>The action was rejected.</h2>
+    <p>
+      Maybe you tried to perform an action you don’t have permission for, or something went wrong. Try again or contact support if the issue persists.
+    </p>
+    <div class="error-buttons">
+      <a href="/" class="btn btn-primary">Go to Homepage</a>
+      <a href="javascript:history.back()" class="btn btn-secondary">Go Back</a>
     </div>
-    <p>If you are the application owner check the logs for more information.</p>
   </div>
 </body>
 </html>
