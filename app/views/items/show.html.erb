@@ -39,14 +39,14 @@
         </div>
       <% end %>
 
-      <% if @item.lists.any? %>
-        <div class="info-box">
-          <p>
-            <strong><%= @item.lists.count > 1 ? "Lists:" : "List:" %></strong>
-            <%= @item.lists.map(&:title).join(", ") %>
-          </p>
-        </div>
-      <% end %>
+    <% if @item.lists.any? %>
+      <div class="info-box">
+        <p>
+          <strong><%= @item.lists.count > 1 ? "Lists:" : "List:" %></strong>
+          <%= @item.lists.map { |list| link_to list.title, list_path(list), class: "list-link" }.join(", ").html_safe %>
+        </p>
+      </div>
+    <% end %>
 
       <% if @item.category.present? %>
         <div class="info-box">

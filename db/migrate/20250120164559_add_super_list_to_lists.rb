@@ -4,10 +4,7 @@ class AddSuperListToLists < ActiveRecord::Migration[7.0]
 
     reversible do |dir|
       dir.up do
-        # Désactiver les validations et les callbacks pour éviter les erreurs
-        SuperList.skip_callback(:create, :after, :create_default_lists)
-
-        # Assurez-vous qu'un utilisateur existe pour associer les super-listes
+        # Créer un utilisateur par défaut si aucun n'existe
         user = User.first || User.create!(
           email: "default@example.com",
           password: "password",
@@ -16,16 +13,19 @@ class AddSuperListToLists < ActiveRecord::Migration[7.0]
           date_of_birth: Date.new(1990, 1, 1)
         )
 
-        # Créez les sur-listes par défaut
+        # Désactiver temporairement les validations de modèle
+        SuperList.reset_column_information
         super_lists = [
-          { title: "Home items", default: true, user: user },
-          { title: "Everyday life", default: true, user: user },
-          { title: "Administrative papers", default: true, user: user }
+          { title: "Home items", default: true, user_id: user.id },
+          { title: "Everyday life", default: true, user_id: user.id },
+          { title: "Administrative papers", default: true, user_id: user.id }
         ]
-        SuperList.create!(super_lists)
 
-        # Réactiver les callbacks
-        SuperList.set_callback(:create, :after, :create_default_lists)
+        super_lists.each do |attributes|
+          unless SuperList.exists?(title: attributes[:title], user_id: attributes[:user_id])
+            SuperList.create!(attributes)
+          end
+        end
       end
     end
   end

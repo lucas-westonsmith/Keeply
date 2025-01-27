@@ -46,6 +46,7 @@
       font-weight: 600;
       transition: all 0.2s ease-in-out;
       border: none;
+      text-decoration: none;
 
       &.btn-primary {
         background-color: #1899e0;
@@ -86,6 +87,16 @@
       font-size: 1.1em;
       color: #555;
       margin-bottom: 20px;
+
+      .list-link {
+        color: #1899e0; /* Couleur des liens */
+        text-decoration: none; /* Pas de soulignement par défaut */
+      }
+
+      .list-link:hover {
+        text-decoration: none;
+        color: #157abc; /* Change la couleur au survol */
+      }
 
       p {
         margin: 0;
