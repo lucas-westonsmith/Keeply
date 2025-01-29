@@ -1,11 +1,18 @@
 <div class="container my-5 user-profile">
   <div class="profile-card p-4 rounded shadow">
     <div class="profile-header text-center mb-4">
-      <% if current_user.avatar.attached? %>
-        <%= cl_image_tag current_user.avatar.key, class: "profile-avatar rounded-circle", alt: "#{current_user.first_name}'s avatar" %>
-      <% else %>
-        <%= image_tag "default-avatar.png", class: "profile-avatar rounded-circle" %>
-      <% end %>
+        <% profile_avatar_url = cloudinary_avatar_url(current_user) %>
+
+        <% if profile_avatar_url.present? %>
+          <%= image_tag profile_avatar_url,
+            class: "profile-avatar rounded-circle",
+            alt: "#{current_user.first_name}'s avatar"
+          %>
+        <% else %>
+          <%= image_tag "default-avatar.png",
+            class: "profile-avatar rounded-circle"
+          %>
+        <% end %>
       <h1 class="mt-3"><span class="angry-underline-pink"><%= current_user.first_name %> <%= current_user.last_name %></span></h1>
       <p class="text-muted"><%= current_user.email %></p>
     </div>
