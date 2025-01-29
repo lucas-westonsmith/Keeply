@@ -68,35 +68,42 @@
     </div>
 
     <!-- Colonne droite : Image et facture -->
-    <div class="item-media">
-      <div class="item-photo-container">
-        <% if @item.photo.attached? %>
-          <%= cl_image_tag @item.photo.key, alt: "Photo of #{@item.title}", class: "item-photo" %>
+ <div class="item-media">
+  <div class="item-photo-container">
+    <% if @item.photo.attached? %>
+      <%= cl_image_tag @item.photo.key, alt: "Photo of #{@item.title}", class: "item-photo" %>
+    <% else %>
+      <%= image_tag @item.default_image, alt: "Default item photo", class: "item-photo" %>
+    <% end %>
+  </div>
+
+  <% if @item.invoice.attached? %>
+    <div class="invoice-preview">
+      <p><strong>Invoice:</strong></p>
+
+      <!-- Lien de téléchargement -->
+      <%= link_to 'Download Invoice', rails_blob_url(@item.invoice, disposition: "attachment"), target: "_blank", class: 'invoice-link' %>
+
+      <!-- TESTER SI L'URL FONCTIONNE -->
+      <p><%= link_to "Test PDF", rails_blob_url(@item.invoice, disposition: "inline"), target: "_blank" %></p>
+
+      <% if @item.invoice.blob.content_type == 'application/pdf' %>
+        <% if Rails.application.config.active_storage.service == :cloudinary %>
+          <!-- Cloudinary ne supporte pas l'iframe pour les PDFs, donc on affiche un lien -->
+          <%= link_to 'View Invoice', url_for(@item.invoice), target: "_blank", class: 'invoice-link' %>
         <% else %>
-          <%= image_tag @item.default_image, alt: "Default item photo", class: "item-photo" %>
+          <!-- Pour les PDFs en stockage local, on utilise un iframe -->
+          <iframe src="<%= rails_blob_url(@item.invoice, disposition: "inline") %>" class="invoice-iframe" width="100%" height="500px"></iframe>
         <% end %>
-      </div>
-
-      <% if @item.invoice.attached? %>
-        <div class="invoice-preview">
-          <p><strong>Invoice:</strong></p>
-
-          <!-- Lien de téléchargement -->
-          <%= link_to 'Download Invoice', rails_blob_path(@item.invoice, disposition: "attachment"), target: "_blank", class: 'invoice-link' %>
-
-          <% if @item.invoice.blob.content_type == 'application/pdf' %>
-            <!-- ✅ Utilisation d'un iframe pour afficher le PDF -->
-            <iframe src="<%= rails_blob_url(@item.invoice, disposition: "inline") %>"
-                    class="invoice-iframe" width="100%" height="500px"></iframe>
-
-          <% elsif @item.invoice.blob.content_type.start_with?('image/') %>
-            <!-- ✅ Affichage de l'image si la facture est une image -->
-            <%= cl_image_tag @item.invoice.key, alt: "Invoice preview", class: "invoice-image" %>
-          <% end %>
-        </div>
-      <% else %>
-        <p><strong>Invoice:</strong> No invoice uploaded.</p>
+      <% elsif @item.invoice.blob.content_type.start_with?('image/') %>
+        <%= cl_image_tag @item.invoice.key, alt: "Invoice preview", class: "invoice-image" %>
       <% end %>
     </div>
+  <% else %>
+    <p><strong>Invoice:</strong> No invoice uploaded.</p>
+  <% end %>
+</div>
+
+
   </div>
 </div>
