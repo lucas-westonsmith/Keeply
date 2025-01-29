@@ -42,15 +42,17 @@
 
       <% if user_signed_in? %>
         <!-- Avatar -->
-        <% if current_user.avatar&.attached? %>
-          <%= cl_image_tag(current_user.avatar.key,
+        <% avatar_url = cloudinary_avatar_url(current_user) %>
+
+        <% if avatar_url.present? %>
+          <%= image_tag avatar_url,
             class: "avatar dropdown-toggle",
             id: "avatarDropdown",
             data: { "bs-toggle" => "dropdown" },
             "aria-haspopup" => "true",
             "aria-expanded" => "false",
             alt: "#{current_user.first_name}'s avatar"
-          ) %>
+          %>
         <% else %>
           <%= image_tag "default-avatar.png",
             class: "avatar dropdown-toggle",

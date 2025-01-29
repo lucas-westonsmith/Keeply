@@ -17,10 +17,16 @@
         <%= link_to list_path(list), class: "list-card-link" do %>
           <div class="list-card">
             <div class="list-image">
-              <% if list.photo.attached? %>
-                <%= cl_image_tag list.photo.key, alt: "List photo", class: "list-photo" %>
+              <% list_photo_url = cloudinary_list_photo_url(list) %>
+
+              <% if list_photo_url.present? %>
+                <div class="list-image">
+                  <%= image_tag list_photo_url, alt: "List photo", class: "list-photo" %>
+                </div>
               <% else %>
-                <%= image_tag "default-list.avif", alt: "Default list photo", class: "default-list-photo" %>
+                <div class="list-image">
+                  <%= image_tag "default-list.avif", alt: "Default list photo" %>
+                </div>
               <% end %>
             </div>
 

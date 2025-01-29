@@ -1,14 +1,17 @@
 <div class="list-show-container">
   <!-- Image en haut -->
-  <% if @list.photo.attached? %>
+  <% list_photo_url = cloudinary_list_photo_url(@list) %>
+
+  <% if list_photo_url.present? %>
     <div class="list-image">
-      <%= cl_image_tag @list.photo.key, alt: "List photo", class: "list-photo" %>
+      <%= image_tag list_photo_url, alt: "List photo", class: "list-photo" %>
     </div>
   <% else %>
     <div class="list-image">
       <%= image_tag "default-list.avif", alt: "Default list photo" %>
     </div>
   <% end %>
+
 
   <div class="back-button">
     <%= link_to @back_path, class: "back-link" do %>
@@ -150,10 +153,12 @@
           <div class="item-card">
             <%= link_to item_path(item), class: "item-link" do %>
               <div class="item-image">
-                <% if item.photo.attached? %>
-                  <%= cl_image_tag item.photo.key, alt: "Item photo", class: "item-photo" %>
+                <% item_photo_url = cloudinary_item_photo_url(item) %>
+
+                <% if item_photo_url.present? %>
+                  <%= image_tag item_photo_url, alt: "Item photo", class: "item-photo" %>
                 <% else %>
-                  <%= image_tag item.default_image, alt: "Default item photo" %>
+                  <%= image_tag item.default_image, alt: "Default item photo", class: "item-photo" %>
                 <% end %>
               </div>
               <div class="item-title">
