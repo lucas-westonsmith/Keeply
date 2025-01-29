@@ -22,12 +22,15 @@ module Propeez
     # Common ones are `templates`, `generators`, or `middleware`, for example.
     config.autoload_lib(ignore: %w(assets tasks))
 
-    # Configuration for the application, engines, and railties goes here.
-    #
-    # These settings can be overridden in specific environments using the files
-    # in config/environments, which are processed later.
-    #
-    # config.time_zone = "Central Time (US & Canada)"
-    # config.eager_load_paths << Rails.root.join("extras")
+    # ✅ FORCER LE CHARGEMENT D'IMPORTMAP
+    config.importmap.draw do
+      pin "application"
+      pin "@hotwired/turbo-rails", to: "turbo.min.js"
+      pin "@hotwired/stimulus", to: "stimulus.min.js"
+      pin "@hotwired/stimulus-loading", to: "stimulus-loading.js"
+      pin_all_from "app/javascript/controllers", under: "controllers"
+      pin "bootstrap", to: "bootstrap.min.js", preload: true
+      pin "@popperjs/core", to: "popper.js", preload: true
+    end
   end
 end
