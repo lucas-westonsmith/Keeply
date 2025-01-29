@@ -1,5 +1,6 @@
-require_relative "boot"
+# config/application.rb
 
+require_relative "boot"
 require "rails/all"
 
 # Require the gems listed in Gemfile, including any gems
@@ -8,21 +9,20 @@ Bundler.require(*Rails.groups)
 
 module Propeez
   class Application < Rails::Application
+    # Initialize configuration defaults for originally generated Rails version.
+    config.load_defaults 7.1
 
-    config.action_controller.raise_on_missing_callback_actions = false if Rails.version >= "7.1.0"
+    # Enable Importmap for JavaScript management
+    config.importmap.enabled = true  # Active Importmap
 
+    # Set up the generators
     config.generators do |generate|
       generate.assets false
       generate.helper false
       generate.test_framework :test_unit, fixture: false
     end
 
-    # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 7.1
-
-    # Please, add to the `ignore` list any other `lib` subdirectories that do
-    # not contain `.rb` files, or that should not be reloaded or eager loaded.
-    # Common ones are `templates`, `generators`, or `middleware`, for example.
+    # Autoload libraries (optional)
     config.autoload_lib(ignore: %w(assets tasks))
   end
 end

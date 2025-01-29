@@ -175,7 +175,10 @@
                   <p class="item-condition"><strong>Condition:</strong> <%= item.condition.capitalize %></p>
                 <% end %>
                 <% if item.lists.any? %>
-                  <p class="item-list"><strong>List:</strong> <%= item.lists.map(&:title).join(", ") %></p>
+                  <p class="item-list">
+                    <strong><%= item.lists.count > 1 ? "Lists" : "List" %>:</strong>
+                    <%= item.lists.map { |list| link_to list.title, list_path(list), class: "list-link" }.join(", ").html_safe %>
+                  </p>
                 <% end %>
               </div>
             <% end %>

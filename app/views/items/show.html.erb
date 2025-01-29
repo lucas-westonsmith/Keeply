@@ -39,14 +39,14 @@
         </div>
       <% end %>
 
-    <% if @item.lists.any? %>
-      <div class="info-box">
-        <p>
-          <strong><%= @item.lists.count > 1 ? "Lists:" : "List:" %></strong>
-          <%= @item.lists.map { |list| link_to list.title, list_path(list), class: "list-link" }.join(", ").html_safe %>
-        </p>
-      </div>
-    <% end %>
+      <% if @item.lists.any? %>
+        <div class="info-box">
+          <p>
+            <strong><%= @item.lists.count > 1 ? "Lists:" : "List:" %></strong>
+            <%= @item.lists.map { |list| link_to list.title, list_path(list), class: "list-link" }.join(", ").html_safe %>
+          </p>
+        </div>
+      <% end %>
 
       <% if @item.category.present? %>
         <div class="info-box">
@@ -79,18 +79,33 @@
 
       <% if @item.invoice.attached? %>
         <div class="invoice-preview">
-          <p><strong>Invoice:</strong></p>
+          <!-- ✅ Récupération correcte de l'URL Cloudinary -->
+          <% invoice_url = cloudinary_invoice_url(@item) %>
 
-          <!-- Lien de téléchargement -->
-          <%= link_to 'Download Invoice', rails_blob_path(@item.invoice, disposition: "attachment"), target: "_blank", class: 'invoice-link' %>
+          <% if invoice_url.present? %>
+            <!-- ✅ Lien de téléchargement avec espacement -->
+            <div class="download-section">
+              <%= link_to 'Download Invoice', invoice_url, target: "_blank", class: 'invoice-link' %>
+            </div>
 
-          <!-- Si la facture est un PDF -->
-          <% if @item.invoice.blob.content_type == 'application/pdf' %>
-            <%= tag.embed src: rails_blob_path(@item.invoice, disposition: "inline"), class: 'invoice-iframe' %>
+            <!-- ✅ Prévisualisation -->
+            <div class="invoice-preview-container">
+              <% pdf_preview_url = invoice_url.sub('.pdf', '.jpg') + "?pg=1&w=700" %>
+              <img id="invoice-preview-image" src="<%= pdf_preview_url %>" class="invoice-preview-image" alt="Invoice Image">
 
-          <!-- Si la facture est une image -->
-          <% elsif @item.invoice.blob.content_type.start_with?('image/') %>
-            <%= cl_image_tag @item.invoice.key, alt: "Invoice preview", class: "invoice-image" %>
+              <!-- ✅ Miniatures affichées uniquement si plusieurs pages -->
+              <% total_pages = @item.invoice.blob.metadata["pages"].to_i %>
+              <% if total_pages > 1 %>
+                <div class="invoice-pages">
+                  <% (1..total_pages).each do |page| %>
+                    <% page_url = invoice_url.sub('.pdf', '.jpg') + "?pg=#{page}&w=100" %>
+                    <img src="<%= page_url %>" class="invoice-page-thumb" alt="Invoice Page <%= page %>" onclick="updatePreview('<%= page_url %>')">
+                  <% end %>
+                </div>
+              <% end %>
+            </div>
+          <% else %>
+            <p><strong>Invoice:</strong> Error loading file.</p>
           <% end %>
         </div>
       <% else %>
@@ -99,3 +114,10 @@
     </div>
   </div>
 </div>
+
+<!-- ✅ Script pour changer la prévisualisation -->
+<script>
+  function updatePreview(url) {
+    document.getElementById('invoice-preview-image').src = url;
+  }
+</script>

@@ -7,9 +7,8 @@
     <%= csp_meta_tag %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
 
-    <!-- ✅ FIX pour charger controllers/application.js avec le bon fingerprint -->
+    <!-- Charge les modules JavaScript depuis Importmap -->
     <%= javascript_importmap_tags %>
-    <%= javascript_include_tag "controllers/application", "data-turbo-track": "reload", type: "module" %>
 
     <link href="<%= asset_path('favicon.ico') %>" rel="icon" type="image/x-icon" />
     <meta property="og:title" content="<%= meta_title %>" />

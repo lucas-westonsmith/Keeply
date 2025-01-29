@@ -97,18 +97,28 @@
               </h3>
             </div>
 
-            <!-- Details -->
             <div class="item-details">
-              <p class="item-price"><strong>Price:</strong> <%= item.price %>€</p>
+              <% if item.price.present? %>
+                <p class="item-price"><strong>Price / Amount:</strong> <%= item.price %>€</p>
+              <% end %>
+
               <% if item.issuer.present? %>
                 <p class="item-issuer"><strong>Issuer:</strong> <%= item.issuer %></p>
               <% end %>
-              <p class="item-category"><strong>Category:</strong> <%= item.category %></p>
-              <p class="item-condition">
-                <strong>Condition:</strong> <%= (item.condition || "Unknown").capitalize %>
-              </p>
+
+              <% if item.category.present? %>
+                <p class="item-category"><strong>Category:</strong> <%= item.category %></p>
+              <% end %>
+
+              <% if item.condition.present? %>
+                <p class="item-condition"><strong>Condition:</strong> <%= item.condition.capitalize %></p>
+              <% end %>
+
               <% if item.lists.any? %>
-                <p class="item-list"><strong>List:</strong> <%= item.lists.map(&:title).join(", ") %></p>
+                <p class="item-list">
+                  <strong><%= item.lists.count > 1 ? "Lists" : "List" %>:</strong>
+                  <%= item.lists.map { |list| link_to list.title, list_path(list), class: "list-link" }.join(", ").html_safe %>
+                </p>
               <% end %>
             </div>
           <% end %>
