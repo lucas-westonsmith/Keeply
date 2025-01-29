@@ -4,7 +4,5 @@ import "controllers";
 import "@popperjs/core";
 import "bootstrap";
 
-console.log("Bootstrap successfully imported!");
+console.log("Bootstrap et Popper importés avec succès !");
 
-
-console.log("Main application.js loaded");
