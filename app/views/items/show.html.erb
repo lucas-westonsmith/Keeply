@@ -71,7 +71,7 @@
     <div class="item-media">
       <div class="item-photo-container">
         <% if @item.photo.attached? %>
-          <%= cl_image_tag @item.photo.key, alt: "Photo of #{@item.title}", class: "item-photo" %>
+          <%= cl_image_tag("#{Rails.env}/#{@item.photo.key}", alt: "Photo of #{@item.title}", class: "item-photo") %>
         <% else %>
           <%= image_tag @item.default_image, alt: "Default item photo", class: "item-photo" %>
         <% end %>
