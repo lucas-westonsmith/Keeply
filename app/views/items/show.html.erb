@@ -70,8 +70,10 @@
     <!-- Colonne droite : Image et facture -->
     <div class="item-media">
       <div class="item-photo-container">
-        <% if @item.photo.attached? %>
-          <%= cl_image_tag("#{Rails.env}/#{@item.photo.key}", alt: "Photo of #{@item.title}", class: "item-photo") %>
+        <% item_photo_url = cloudinary_item_photo_url(@item) %>
+
+        <% if item_photo_url.present? %>
+          <%= image_tag item_photo_url, alt: "Photo of #{@item.title}", class: "item-photo" %>
         <% else %>
           <%= image_tag @item.default_image, alt: "Default item photo", class: "item-photo" %>
         <% end %>
