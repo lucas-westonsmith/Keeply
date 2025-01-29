@@ -2,8 +2,9 @@
 import "@hotwired/turbo-rails";
 import "controllers";
 import "@popperjs/core";
-import "bootstrap/dist/js/bootstrap.bundle";
-window.bootstrap = require("bootstrap");
-console.log("Bootstrap forced import loaded:", window.bootstrap);
+import "bootstrap";
+
+console.log("Bootstrap successfully imported!");
+
 
 console.log("Main application.js loaded");
