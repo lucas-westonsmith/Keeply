@@ -8,7 +8,7 @@
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
 
     <!-- ✅ FIX pour charger controllers/application.js avec le bon fingerprint -->
-    <%= javascript_include_tag "controllers/application", "data-turbo-track": "reload", defer: true %>
+    <%= javascript_include_tag "controllers/application", "data-turbo-track": "reload", type: "module" %>
     <%= javascript_importmap_tags %>
 
     <link href="<%= asset_path('favicon.ico') %>" rel="icon" type="image/x-icon" />
