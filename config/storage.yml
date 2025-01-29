@@ -36,3 +36,4 @@ local:
 cloudinary:
   service: Cloudinary
   folder: <%= Rails.env %>
+  resource_type: auto  # Permet de stocker correctement les PDFs et les autres fichiers
