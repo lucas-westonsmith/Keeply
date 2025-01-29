@@ -8,8 +8,6 @@ Bundler.require(*Rails.groups)
 
 module Propeez
   class Application < Rails::Application
-    # 🔥 ✅ FORCER LE CHARGEMENT D'IMPORTMAP 🔥
-    require Rails.root.join("config", "importmap.rb")
 
     config.action_controller.raise_on_missing_callback_actions = false if Rails.version >= "7.1.0"
 
