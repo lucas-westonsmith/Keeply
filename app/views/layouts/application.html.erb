@@ -6,7 +6,11 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+
+    <!-- ✅ FIX pour charger controllers/application.js avec le bon fingerprint -->
+    <%= javascript_include_tag asset_path("controllers/application"), "data-turbo-track": "reload", defer: true %>
     <%= javascript_importmap_tags %>
+
     <link href="<%= asset_path('favicon.ico') %>" rel="icon" type="image/x-icon" />
     <meta property="og:title" content="<%= meta_title %>" />
     <meta property="og:type" content="website" />
