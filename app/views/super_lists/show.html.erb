@@ -17,7 +17,7 @@
         <%= link_to list_path(list), class: "list-card-link" do %>
           <div class="list-card">
             <div class="list-image">
-              <% list_photo_url = cloudinary_list_photo_url(@list) %>
+              <% list_photo_url = cloudinary_list_photo_url(list) %>
 
               <% if list_photo_url.present? %>
                 <div class="list-image">
