@@ -510,3 +510,88 @@
   }
 }
 
+.preview-section {
+  background: #F8CCB0;
+  padding: 2rem 0; /* ✅ Moins de padding en haut */
+
+  .preview-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 3rem;
+  }
+
+  /* 📸 Zone des images */
+  .preview-images {
+    position: relative;
+    width: 50%; /* ✅ Taille globale des images */
+    max-width: 500px;
+    height: auto;
+  }
+
+  .preview-image {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  }
+
+  /* 📸 Positionnement des images */
+  .items-image {
+    position: relative;
+    z-index: 1;
+    transform: translateY(-30%); /* ✅ Monte l'image items.png  ➡ MODIFIE ICI */
+  }
+
+  .lists-image {
+    position: absolute;
+    bottom: -30%; /* ✅ Descend l'image lists.png  ➡ MODIFIE ICI */
+    right: -40%;  /* ✅ Déplace lists.png plus à droite  ➡ MODIFIE ICI */
+    width: 100%;  /* ✅ Assure que lists.png a la même taille que items.png */
+    z-index: 2;
+  }
+
+  /* 📝 Texte explicatif */
+  .preview-text {
+    width: 40%;
+    max-width: 400px;
+
+    h2 {
+      font-size: 2.5rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
+    }
+
+    p {
+      font-size: 1.25rem;
+      color: #555;
+      margin-bottom: 1rem;
+    }
+  }
+
+  /* 📱 Responsive */
+  @media (max-width: 1024px) {
+    .preview-container {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .preview-images {
+      width: 80%;
+      max-width: 400px;
+      margin-bottom: 2rem;
+    }
+
+    .lists-image {
+      bottom: -10%;
+      right: -10%;
+      width: 100%; /* ✅ Assure que lists.png garde la même taille que items.png */
+    }
+
+    .preview-text {
+      width: 90%;
+    }
+  }
+}

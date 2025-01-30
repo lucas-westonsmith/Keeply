@@ -1,5 +1,12 @@
 <div class="back-button">
-  <%= link_to request.referer || root_path, class: "back-link" do %>
+  <% back_path = if request.referer&.include?(new_item_path)
+                  items_path  # ✅ Après création d’un item, renvoie à l’index
+                else
+                  request.referer || items_path  # ✅ Sinon, revient à la page précédente (liste ou index)
+                end
+  %>
+
+  <%= link_to back_path, class: "back-link" do %>
     <i class="back-arrow"></i>
     Back
   <% end %>
