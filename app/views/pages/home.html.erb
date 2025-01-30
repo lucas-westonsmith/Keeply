@@ -179,3 +179,57 @@
     </div>
   </div>
 </div>
+
+<div id="faq" class="faq-section" data-controller="faq">
+  <div class="section-title">
+    <h2><span class="angry-underline-black">Frequently Asked Questions</span></h2>
+  </div>
+
+  <div class="faq-container">
+    <% faqs = [
+      { question: "How do I upload receipts?",
+        answer: "You can upload receipts directly from your computer by selecting the file from your device. Additionally, you can scan them with your phone, forward email receipts to your Keeply account, or sync purchases from partnered merchants. Each method ensures your documents are safely stored and easily accessible." },
+
+      { question: "Can I share my inventory with others?",
+        answer: "Yes! You can invite family members or colleagues to view and manage specific lists. This feature is great for shared purchases, family budgeting, or business expense tracking." },
+
+      { question: "How can I organize my items?",
+        answer: "Keeply allows you to create custom lists and categories to manage your items. You can tag items by type, condition, and issuer, making it easy to find them later." },
+
+      { question: "Can I scan receipts automatically?",
+        answer: "Yes, Keeply supports automatic OCR (Optical Character Recognition) scanning for paper receipts. Simply take a picture of your receipt, and our system will extract the relevant details for easy tracking." },
+
+      { question: "What happens if I lose access to my account?",
+        answer: "You can reset your password anytime by clicking 'Forgot Password' on the login page. If you need further assistance, contact our support team at support@keeply.tech." },
+
+      { question: "Is my data secure?",
+        answer: "Absolutely! Keeply uses end-to-end encryption and advanced cloud security protocols to protect your information. Your data is only accessible by you and those you choose to share it with." },
+
+      { question: "Can I export my data?",
+        answer: "Yes! You can export your inventory, receipts, and warranty details in multiple formats, including PDF and CSV. This is helpful for insurance claims or financial tracking." },
+
+      { question: "Does Keeply offer reminders for warranties?",
+        answer: "Yes! You will receive notifications before your warranties expire, so you never miss the chance to claim a repair or refund. You can customize reminder settings in your profile." },
+
+      { question: "Can I use Keeply on my mobile device?",
+        answer: "Yes! Keeply is fully optimized for mobile use. You can access your account from any device through a web browser, and we're working on a dedicated mobile app for an even better experience." },
+
+      { question: "How does the loyalty card feature work?",
+        answer: "The Keeply loyalty card syncs purchases automatically when used at checkout with partnered merchants. This means you don’t have to manually add receipts—your purchases will be saved in Keeply instantly." }
+    ] %>
+
+    <% faqs.each_with_index do |faq, index| %>
+      <div class="faq-item">
+        <div class="faq-question" data-action="click->faq#toggle" data-index="<%= index %>">
+          <span><%= faq[:question] %></span>
+          <i class="fa-solid fa-plus faq-icon" data-faq-target="icon"></i>
+        </div>
+        <div class="faq-answer" data-faq-target="answer">
+          <p><%= faq[:answer] %></p>
+        </div>
+        <hr class="faq-divider">
+      </div>
+    <% end %>
+  </div>
+</div>
+
