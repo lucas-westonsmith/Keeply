@@ -167,6 +167,141 @@ class Item < ApplicationRecord
     potentially_obsolete
   end
 
+  def self.category_life_expectancy
+    {
+      "Bedside lamp" => 10,
+      "Blender" => 8,
+      "Bookshelf" => 15,
+      "Chair" => 12,
+      "Coffee machine" => 7,
+      "Console" => 6,
+      "Dishwasher" => 11,
+      "Dresser" => 15,
+      "Electric kettle" => 7,
+      "Hi-Fi system" => 9,
+      "Lamp" => 10,
+      "Laptop" => 4,
+      "Microwave" => 8,
+      "Oven" => 13,
+      "Piano" => 50,
+      "Refrigerator" => 12,
+      "Shoes" => 5,
+      "Smartphone" => 3,
+      "Sofa" => 15,
+      "Table" => 12,
+      "Television" => 8,
+      "Toaster" => 7,
+      "TV stand" => 15,
+      "Washing machine" => 10,
+      "Wardrobe" => 15
+    }
+  end
+
+  def self.lifespan_messages
+    {
+      "Bedside lamp" => {
+        reason: "Bedside lamps have simple electrical components, but wiring and switches degrade over time.",
+        risk: "Loose wiring can cause short circuits or fire hazards."
+      },
+      "Blender" => {
+        reason: "Frequent motor use and blade wear contribute to its limited lifespan.",
+        risk: "Motor burnout and dull blades can cause inefficiencies and safety risks."
+      },
+      "Bookshelf" => {
+        reason: "Bookshelves last long but are affected by humidity, weight stress, and material aging.",
+        risk: "Weak shelves may collapse, causing injury or damage to stored items."
+      },
+      "Chair" => {
+        reason: "Daily use causes material fatigue and weakens joints over time.",
+        risk: "A weakened chair can break unexpectedly, leading to falls and injuries."
+      },
+      "Coffee machine" => {
+        reason: "Frequent heating and water exposure cause scale buildup and pump degradation.",
+        risk: "Limescale buildup can lead to leaks, overheating, and potential electrical failures."
+      },
+      "Console" => {
+        reason: "Cooling fans, processors, and storage wear out due to heat and frequent use.",
+        risk: "Overheating, system crashes, and disk drive failures can occur."
+      },
+      "Dishwasher" => {
+        reason: "Water exposure and moving parts degrade seals, pumps, and heating elements.",
+        risk: "Leaks can cause water damage, and mold growth in old seals poses health risks."
+      },
+      "Dresser" => {
+        reason: "Wood and MDF degrade over time due to humidity and drawer friction.",
+        risk: "Warping and cracks can make drawers difficult to open or unstable."
+      },
+      "Electric kettle" => {
+        reason: "Mineral deposits from water reduce efficiency, and heating elements degrade.",
+        risk: "Old kettles can overheat, leak, or fail to shut off, posing a fire risk."
+      },
+      "Hi-Fi system" => {
+        reason: "Speakers and electronic components wear out due to dust, wiring wear, and aging parts.",
+        risk: "Sound distortion, connectivity issues, and electrical failures may occur."
+      },
+      "Lamp" => {
+        reason: "Wiring degradation and switch wear affect longevity.",
+        risk: "Old lamps can flicker, short-circuit, or overheat, leading to fire risks."
+      },
+      "Laptop" => {
+        reason: "Battery degradation, software updates, and overheating affect performance.",
+        risk: "Battery swelling, slow performance, and security vulnerabilities increase over time."
+      },
+      "Microwave" => {
+        reason: "Magnetron wear, door seal degradation, and electrical aging affect longevity.",
+        risk: "Radiation leaks, uneven heating, and fire hazards are possible with old microwaves."
+      },
+      "Oven" => {
+        reason: "Heating elements, thermostats, and insulation degrade over time.",
+        risk: "Temperature inconsistencies, gas leaks, or electrical malfunctions can pose safety risks."
+      },
+      "Piano" => {
+        reason: "High-quality wood, metal strings, and felt components are built to last for decades.",
+        risk: "Poor maintenance can lead to string tension loss, key misalignment, and sound degradation."
+      },
+      "Refrigerator" => {
+        reason: "Continuous operation wears out compressors and cooling systems.",
+        risk: "Higher energy consumption, food spoilage, and coolant leaks are common issues."
+      },
+      "Shoes" => {
+        reason: "Frequent wear leads to sole degradation, material cracking, and loss of support.",
+        risk: "Worn-out shoes can cause joint pain and increase the risk of slips and falls."
+      },
+      "Smartphone" => {
+        reason: "Battery degradation, hardware wear, and software obsolescence limit lifespan.",
+        risk: "Battery swelling, security risks, and performance issues affect usability."
+      },
+      "Sofa" => {
+        reason: "Cushions, fabric, and frame materials degrade with use and environmental exposure.",
+        risk: "Sagging cushions and weakened frames cause discomfort and structural failure."
+      },
+      "Table" => {
+        reason: "Weight pressure, scratches, and joint loosening contribute to wear over time.",
+        risk: "A weakened table may collapse under heavy loads, leading to damage or injury."
+      },
+      "Television" => {
+        reason: "Capacitor failure, screen burn-in, and power supply degradation affect longevity.",
+        risk: "Dim screens, flickering, or total failure may occur, making the TV unusable."
+      },
+      "Toaster" => {
+        reason: "Heating elements degrade, and crumbs accumulate, reducing efficiency.",
+        risk: "Fire hazards increase due to stuck crumbs and failing heating elements."
+      },
+      "TV stand" => {
+        reason: "Heavy materials last long, but weight stress and humidity exposure cause joint weakening.",
+        risk: "A weak stand can collapse, leading to damage to the TV and potential injuries."
+      },
+      "Washing machine" => {
+        reason: "Water exposure, motor wear, and drum stress lead to mechanical failures.",
+        risk: "Leaks, increased noise, and fire hazards from electrical faults become concerns."
+      },
+      "Wardrobe" => {
+        reason: "Wood and hinges wear over time, and humidity exposure can cause warping.",
+        risk: "Unstable doors and weak structures may collapse or fail to close properly."
+      }
+    }
+  end
+
   private
 
   def normalize_blank_values

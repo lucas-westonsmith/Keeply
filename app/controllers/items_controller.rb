@@ -101,19 +101,21 @@ class ItemsController < ApplicationController
     redirect_to items_path, alert: "Failed to delete the item: #{e.message}"
   end
 
-  # Liste des items nécessitant une attention
   def alerts
     @items = current_user.items
 
-    # 📌 Appliquer les filtres utilisateur (catégorie, état, liste)
-    @items = @items.where(category: params[:category]) if params[:category].present? && Item.distinct.pluck(:category).include?(params[:category])
-    @items = @items.where(condition: params[:condition]) if params[:condition].present?
-    @items = @items.joins(:lists).where(lists: { id: params[:list_id] }) if params[:list_id].present?
+    # ✅ Appliquer les filtres utilisateur pour les garanties uniquement
+    warranty_items = @items.dup
+    if params[:filter_type] == "warranty"
+      warranty_items = warranty_items.where(category: params[:warranty_category]) if params[:warranty_category].present?
+      warranty_items = warranty_items.where(condition: params[:warranty_condition]) if params[:warranty_condition].present?
+      warranty_items = warranty_items.joins(:lists).where(lists: { id: params[:warranty_list_id] }) if params[:warranty_list_id].present?
+    end
 
-    # 📌 Gérer le filtre Expiration (inchangé)
+    # 📌 Gérer le filtre Expiration (ne s’applique qu’aux warranties)
     if params[:expiration] == "expired"
-      @expiring_warranties = @items.where('warranty_expiry_date < ?', Date.today)
-                                  .order(warranty_expiry_date: :asc)
+      @expiring_warranties = warranty_items.where('warranty_expiry_date < ?', Date.today)
+                                           .order(warranty_expiry_date: :asc)
     else
       expiration_period = case params[:expiration]
                           when '1_month' then 1.month.from_now
@@ -122,30 +124,27 @@ class ItemsController < ApplicationController
                           else 3.months.from_now
                           end
 
-      @expiring_warranties = @items.where('warranty_expiry_date BETWEEN ? AND ?', Date.today, expiration_period)
-                                  .order(warranty_expiry_date: :asc)
+      @expiring_warranties = warranty_items.where('warranty_expiry_date BETWEEN ? AND ?', Date.today, expiration_period)
+                                           .order(warranty_expiry_date: :asc)
+    end
+
+    # ✅ Appliquer les filtres utilisateur pour l'obsolescence uniquement
+    obsolescence_items = @items.dup
+    if params[:filter_type] == "obsolescence"
+      obsolescence_items = obsolescence_items.where(category: params[:obsolescence_category]) if params[:obsolescence_category].present?
+      obsolescence_items = obsolescence_items.where(condition: params[:obsolescence_condition]) if params[:obsolescence_condition].present?
+      obsolescence_items = obsolescence_items.joins(:lists).where(lists: { id: params[:obsolescence_list_id] }) if params[:obsolescence_list_id].present?
     end
 
     # 📌 Récupérer les items potentiellement obsolètes
-    all_obsolete_items = Item.find_potentially_obsolete_items(@items)
+    all_obsolete_items = Item.find_potentially_obsolete_items(obsolescence_items)
 
     # ✅ Vérifier que chaque item a `years_old` et `lifespan`
     all_obsolete_items.select! { |entry| entry[:years_old] && entry[:lifespan] }
 
-    # ✅ LOG : Voir la liste complète avant le filtrage
-    puts "🎯 LISTE INITIALE DES OBSOLÈTES:"
-    all_obsolete_items.each { |entry| puts "#{entry[:item].title} | Age: #{entry[:years_old]} | Lifespan: #{entry[:lifespan]}" }
-
     # 📌 Séparer les objets complètement obsolètes et ceux qui approchent de l'obsolescence
     @completely_obsolete = all_obsolete_items.select { |entry| entry[:years_old] >= entry[:lifespan] }
     @potentially_obsolete = all_obsolete_items.reject { |entry| entry[:years_old] >= entry[:lifespan] }
-
-    # ✅ LOG : Vérifier la séparation entre Obsolètes et Potentiellement obsolètes
-    puts "⚠️ COMPLÈTEMENT OBSOLÈTES:"
-    @completely_obsolete.each { |entry| puts "#{entry[:item].title} | Age: #{entry[:years_old]} | Lifespan: #{entry[:lifespan]}" }
-
-    puts "⏳ POTENTIELLEMENT OBSOLÈTES:"
-    @potentially_obsolete.each { |entry| puts "#{entry[:item].title} | Age: #{entry[:years_old]} | Lifespan: #{entry[:lifespan]}" }
 
     # 📌 Appliquer le filtre d'obsolescence correctement
     case params[:obsolescence]
@@ -162,9 +161,6 @@ class ItemsController < ApplicationController
     else
       @filtered_obsolete = @potentially_obsolete
     end
-
-    # ✅ **LOG FINAL**
-    puts "🎯 FINAL FILTERED LIST: #{@filtered_obsolete.map { |entry| entry[:item].title }}"
   end
 
   private

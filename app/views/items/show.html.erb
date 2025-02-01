@@ -62,17 +62,50 @@
 
       <% if @item.purchase_date.present? %>
         <div class="info-box">
-          <p><strong>Purchase Date:</strong> <%= @item.purchase_date %></p>
+          <p><strong>Purchase date:</strong> <%= @item.purchase_date.strftime("%d %B %Y") %></p>
         </div>
       <% end %>
 
       <% if @item.warranty_expiry_date.present? %>
         <div class="info-box">
           <p>
-            <strong>Warranty Expiry Date:</strong>
-            <%= @item.warranty_expiry_date %>
+            <strong>Warranty expiry date:</strong>
+            <%= @item.warranty_expiry_date.strftime("%d %B %Y") %>
             <% if @item.warranty_expiry_date < Date.today %>
               <span class="expired-text"> (EXPIRED) </span>
+            <% end %>
+          </p>
+        </div>
+      <% end %>
+
+      <!-- ✅ Boîte affichant la durée de vie moyenne et les risques si disponibles -->
+      <% lifespan = Item.category_life_expectancy[@item.category] %>
+      <% lifespan_message = Item.lifespan_messages[@item.category] %>
+
+      <% if lifespan.present? %>
+        <div class="info-box lifespan-box">
+          <p>
+            <strong>📅 Expected lifespan:</strong> <%= lifespan %> years
+
+            <% if @item.purchase_date.present? %>
+              <% end_of_life = @item.purchase_date + lifespan.years %>
+              <% days_remaining = (end_of_life - Date.today).to_i %>
+
+              <br><strong>⏳ Estimated end of life:</strong> <%= end_of_life.strftime("%d %B %Y") %>
+              <% if days_remaining.positive? %>
+                (in <%= days_remaining %> days).
+              <% else %>
+                (⚠️ <%= days_remaining.abs %> days overdue).
+              <% end %>
+            <% end %>
+
+            <!-- ✅ Afficher la raison de la durée de vie -->
+            <% if lifespan_message.present? %>
+              <br><br><strong>🔍 Why this lifespan?</strong>
+              <br><span class="lifespan-reason"><%= lifespan_message[:reason] %></span>
+
+              <br><br><strong>⚠️ Risks of exceeding lifespan:</strong>
+              <br><span class="lifespan-risk"><%= lifespan_message[:risk] %></span>
             <% end %>
           </p>
         </div>
