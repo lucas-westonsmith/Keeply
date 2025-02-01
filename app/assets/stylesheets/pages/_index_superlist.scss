@@ -1,10 +1,11 @@
 .super-lists-index {
   text-align: center;
+  background-color: transparent; /* ✅ Rend le fond transparent pour voir le halo */
 
   .page-title {
     font-size: 3rem;
     font-weight: bold;
-    margin-bottom: 70px;
+    margin-bottom: 110px;
   }
 
   .super-lists-container {
@@ -12,6 +13,7 @@
     gap: 30px;
     justify-content: space-between;
     flex-wrap: wrap;
+    margin-bottom: 140px;
   }
 
   .super-list-card-link {
@@ -29,6 +31,7 @@
   }
 
   .super-list-card {
+    position: relative; /* ✅ Assure que le halo reste en arrière-plan */
     border-radius: 15px;
     height: 300px;
     display: flex;
@@ -39,31 +42,41 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
 
+    /* ✅ HALO LUMINEUX */
+    &::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 140%;
+      height: 140%;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      z-index: -1; /* ✅ Garde le halo en arrière-plan */
+      opacity: 0.6;
+      filter: blur(50px);
+      transition: opacity 0.3s ease-in-out;
+      animation: glow 3s infinite alternate ease-in-out;
+    }
+
     &.home-card {
       background-color: #cfe8fc;
-      .super-list-icon {
-        color: darken(#cfe8fc, 20%);
+      &::before {
+        background-color: rgba(24, 153, 224, 0.5);
       }
     }
 
     &.everyday-life-card {
       background-color: #fceacc;
-      .super-list-icon {
-        color: darken(#fceacc, 20%);
+      &::before {
+        background-color: rgba(255, 200, 0, 0.5);
       }
     }
 
     &.administrative-papers-card {
       background-color: #fde1e1;
-      .super-list-icon {
-        color: darken(#fde1e1, 20%);
-      }
-    }
-
-    &.default-card {
-      background-color: #f4f4f4;
-      .super-list-icon {
-        color: darken(#f4f4f4, 20%);
+      &::before {
+        background-color: rgba(244, 67, 54, 0.5);
       }
     }
 
@@ -114,6 +127,18 @@
     .super-list-icon {
       text-align: right;
       font-size: 3rem;
+    }
+  }
+
+  /* ✅ Animation pour le halo lumineux */
+  @keyframes glow {
+    0% {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 0.5;
+    }
+    100% {
+      transform: translate(-50%, -50%) scale(1.2);
+      opacity: 0.8;
     }
   }
 
