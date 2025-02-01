@@ -425,8 +425,8 @@
 }
 
 .faq-section {
-  background: #fff;
-  padding: 5rem 2rem;
+  background: rgb(243, 251, 192);
+  background: linear-gradient(0deg, rgba(243, 251, 192, 1) 0%, rgba(249, 156, 160, 1) 100%);  padding: 5rem 2rem;
   text-align: center;
 
   .section-title {
@@ -511,7 +511,7 @@
 }
 
 .preview-section {
-  background: #F8CCB0;
+  background: #b8d7e3;
   padding: 2rem 0; /* ✅ Moins de padding en haut */
 
   .preview-container {
@@ -592,6 +592,94 @@
 
     .preview-text {
       width: 90%;
+    }
+  }
+}
+
+.longevity-section {
+  background: #F8CCB0;
+  padding: 3rem 0; /* ✅ Un peu plus de padding pour aérer */
+
+  .longevity-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 3rem;
+  }
+
+  /* 📝 Texte explicatif */
+  .longevity-text {
+    width: 45%;
+    max-width: 450px;
+
+    h2 {
+      font-size: 2.5rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
+    }
+
+    p {
+      font-size: 1.25rem;
+      color: #555;
+      margin-bottom: 1rem;
+    }
+  }
+
+  /* 📸 Zone des images */
+  .longevity-images {
+    position: relative;
+    width: 50%; /* ✅ Taille globale des images */
+    max-width: 500px;
+    height: auto;
+    transform: translateX(-30%); /* ✅ Décale les images de 20% vers la gauche */
+  }
+
+  .longevity-image {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  }
+
+  /* 📸 Positionnement des images */
+  .show-tv {
+    position: relative;
+    z-index: 1;
+    transform: translateY(-30%); /* ✅ Monte l’image principale */
+  }
+
+  .alerts-image {
+    position: absolute;
+    bottom: -30%; /* ✅ Descend l’image de l'alerte */
+    right: -40%;  /* ✅ Déplace l’image plus à droite */
+    width: 100%;  /* ✅ Assure que les images ont la même taille */
+    z-index: 2;
+  }
+
+  /* 📱 Responsive */
+  @media (max-width: 1024px) {
+    .longevity-container {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .longevity-text {
+      width: 90%;
+      max-width: 500px;
+      margin-bottom: 2rem;
+    }
+
+    .longevity-images {
+      width: 80%;
+      max-width: 400px;
+    }
+
+    .alerts-image {
+      bottom: -10%;
+      right: -10%;
+      width: 100%;
     }
   }
 }

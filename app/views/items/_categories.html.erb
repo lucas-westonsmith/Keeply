@@ -8,12 +8,13 @@
   <% end %>
 
   <select class="form-select" name="item[category]" id="item_category">
-    <option value="">Select a category</option> <!-- ✅ Option vide par défaut -->
+    <!-- ✅ Option vide par défaut -->
+    <option value="" <%= @item&.category.blank? ? "selected" : "" %>>Select a category</option>
 
     <% if categories[:specific].any? %>
       <optgroup label="Specific to selected lists">
         <% categories[:specific].each do |category| %>
-          <option value="<%= category %>"><%= category %></option>
+          <option value="<%= category %>" <%= @item&.category == category ? "selected" : "" %>><%= category %></option>
         <% end %>
       </optgroup>
     <% end %>
@@ -21,11 +22,12 @@
     <% if categories[:common].any? %>
       <optgroup label="Common categories">
         <% categories[:common].each do |category| %>
-          <option value="<%= category %>"><%= category %></option>
+          <option value="<%= category %>" <%= @item&.category == category ? "selected" : "" %>><%= category %></option>
         <% end %>
       </optgroup>
     <% end %>
 
-    <option value="other">Other category</option>
+    <!-- ✅ Garde "Other category" bien positionné et évite les sélections vides -->
+    <option value="other" <%= @item&.category == "other" ? "selected" : "" %>>Other category</option>
   </select>
 </div>

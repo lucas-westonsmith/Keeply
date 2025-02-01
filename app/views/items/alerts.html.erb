@@ -68,7 +68,13 @@
   <!-- 📌 Garantie expirant bientôt -->
   <% if @expiring_warranties.any? %>
     <div class="alerts-section">
-      <h2 class="alert-title">📌 Warranties expired / expiring soon</h2>
+      <h2 class="alert-title">
+        <% if params[:expiration] == "expired" %>
+          ⚠️ Warranties expired
+        <% else %>
+          📌 Warranties expiring soon
+        <% end %>
+      </h2>
       <ul class="alert-list">
         <% @expiring_warranties.each do |item| %>
           <% days_until_expiry = (item.warranty_expiry_date - Date.today).to_i %>
@@ -154,36 +160,42 @@
     </div>
   </div>
 
-<!-- 📌 Afficher les items dont l'obsolescence approche -->
-<% if @filtered_obsolete.any? %>
-  <div class="alerts-section">
-    <h2 class="alert-title">⏳ Items obsolete / approaching obsolescence</h2>
-    <ul class="alert-list">
-      <% @filtered_obsolete.each do |entry| %>
-        <% end_of_life_date = entry[:item].purchase_date + entry[:lifespan].years %>
-        <% days_until_obsolescence = (end_of_life_date - Date.today).to_i %>
+  <!-- 📌 Afficher les items dont l'obsolescence approche -->
+  <% if @filtered_obsolete.any? %>
+    <div class="alerts-section">
+      <h2 class="alert-title">
+        <% if params[:obsolescence] == "obsolete" %>
+          ⚠️ Items obsolete
+        <% else %>
+          ⏳ Items approaching obsolescence
+        <% end %>
+      </h2>
+      <ul class="alert-list">
+        <% @filtered_obsolete.each do |entry| %>
+          <% end_of_life_date = entry[:item].purchase_date + entry[:lifespan].years %>
+          <% days_until_obsolescence = (end_of_life_date - Date.today).to_i %>
 
-        <li class="alert-item">
-          <strong>
-            <%= link_to entry[:item].title, item_path(entry[:item]), class: "item-link" %>
-          </strong>
-          (Category: <%= entry[:item].category %>)
+          <li class="alert-item">
+            <strong>
+              <%= link_to entry[:item].title, item_path(entry[:item]), class: "item-link" %>
+            </strong>
+            (Category: <%= entry[:item].category %>)
 
-          <br>📅 Purchased on <%= entry[:item].purchase_date.strftime("%d %B %Y") %>
-          (<%= entry[:years_old] %> years old).
+            <br>📅 Purchased on <%= entry[:item].purchase_date.strftime("%d %B %Y") %>
+            (<%= entry[:years_old] %> years old).
 
-          <br>⏳ Expected end of life: <%= end_of_life_date.strftime("%d %B %Y") %>
-          <% if days_until_obsolescence.positive? %>
-            (in <%= days_until_obsolescence %> days).
-          <% else %>
-            (⚠️ <%= days_until_obsolescence.abs %> days overdue).
-          <% end %>
-        </li>
-      <% end %>
-    </ul>
-  </div>
-<% else %>
-  <p class="no-alerts">✅ No items at risk of obsolescence.</p>
-<% end %>
+            <br><strong>⏳ Expected end of life:</strong> <%= end_of_life_date.strftime("%d %B %Y") %>
+            <% if days_until_obsolescence.positive? %>
+              (in <%= days_until_obsolescence %> days).
+            <% else %>
+              (⚠️ <%= days_until_obsolescence.abs %> days overdue).
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  <% else %>
+    <p class="no-alerts">✅ No items at risk of obsolescence.</p>
+  <% end %>
 
 </div>
