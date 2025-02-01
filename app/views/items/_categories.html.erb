@@ -1,0 +1,31 @@
+<% categories ||= { specific: [], common: [] } %>
+
+<div class="form-group" data-category-target="categoriesContainer">
+  <% if local_assigns[:f] %>
+    <%= f.label :category, "Category", class: "form-label", style: "font-weight: bold;" %>
+  <% else %>
+    <label class="form-label" style="font-weight: bold;">Category</label>
+  <% end %>
+
+  <select class="form-select" name="item[category]" id="item_category">
+    <option value="">Select a category</option> <!-- ✅ Option vide par défaut -->
+
+    <% if categories[:specific].any? %>
+      <optgroup label="Specific to selected lists">
+        <% categories[:specific].each do |category| %>
+          <option value="<%= category %>"><%= category %></option>
+        <% end %>
+      </optgroup>
+    <% end %>
+
+    <% if categories[:common].any? %>
+      <optgroup label="Common categories">
+        <% categories[:common].each do |category| %>
+          <option value="<%= category %>"><%= category %></option>
+        <% end %>
+      </optgroup>
+    <% end %>
+
+    <option value="other">Other category</option>
+  </select>
+</div>

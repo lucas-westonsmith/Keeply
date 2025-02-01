@@ -20,6 +20,8 @@ Rails.application.routes.draw do
   resources :items do
     collection do
       get :update_lists
+      get :alerts  # ✅ Ajoute la page d'alertes
+      get :update_categories  # ✅ Ajout de la mise à jour AJAX des catégories
     end
   end
 

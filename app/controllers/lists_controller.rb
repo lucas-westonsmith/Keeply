@@ -15,29 +15,43 @@ class ListsController < ApplicationController
     @list = List.includes(:users, :list_users).find(params[:id])
     @items_in_list = @list.items
 
+    # 🔥 Appliquer les Filtres
+    @items_in_list = @items_in_list.where(category: params[:category]) if params[:category].present?
+    @items_in_list = @items_in_list.where(condition: params[:condition]) if params[:condition].present?
+    @items_in_list = @items_in_list.where(issuer: params[:issuer]) if params[:issuer].present?
+
+    # 🔥 Appliquer le Tri (en respectant la sélection)
+    case params[:sort]
+    when 'price_asc'
+      @items_in_list = @items_in_list.order(price: :asc)
+    when 'price_desc'
+      @items_in_list = @items_in_list.order(price: :desc)
+    when 'newest_first'
+      @items_in_list = @items_in_list.order(created_at: :desc)
+    when 'oldest_first'
+      @items_in_list = @items_in_list.order(created_at: :asc)
+    else
+      @items_in_list = @items_in_list.order(created_at: :desc) if params[:sort].blank?
+    end
+
     # Calcul du chemin de retour
     @back_path = case @list.super_list.title
-                  when 'Home items'
-                    menu_home_items_path
-                  when 'Everyday life'
-                    menu_everyday_life_path
-                  when 'Administrative papers'
-                    menu_administrative_papers_path
-                  else
-                    menu_path
-                  end
+                 when 'Home items' then menu_home_items_path
+                 when 'Everyday life' then menu_everyday_life_path
+                 when 'Administrative papers' then menu_administrative_papers_path
+                 else menu_path
+                 end
   end
 
-  # Formulaire pour créer une nouvelle liste
+  # Formulaire pour créer une liste
   def new
     @list = current_user.lists.build
   end
 
-  # Créer une nouvelle liste
+  # Créer une liste
   def create
     @list = current_user.lists.build(list_params)
 
-    # Si une miniature est sélectionnée, on l'attache comme photo
     if params[:default_photo].present? && !list_params[:photo].present?
       @list.photo.attach(io: File.open(Rails.root.join("app", "assets", "images", params[:default_photo])), filename: params[:default_photo])
     end
@@ -49,7 +63,7 @@ class ListsController < ApplicationController
     end
   end
 
-  # Formulaire pour modifier une liste
+  # Modifier une liste
   def edit; end
 
   # Mettre à jour une liste

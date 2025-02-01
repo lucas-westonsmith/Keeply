@@ -54,6 +54,12 @@
         </div>
       <% end %>
 
+      <% if @item.condition.present? %>
+        <div class="info-box">
+          <p><strong>Condition:</strong> <%= @item.condition.capitalize %></p>
+        </div>
+      <% end %>
+
       <% if @item.purchase_date.present? %>
         <div class="info-box">
           <p><strong>Purchase Date:</strong> <%= @item.purchase_date %></p>
@@ -62,9 +68,16 @@
 
       <% if @item.warranty_expiry_date.present? %>
         <div class="info-box">
-          <p><strong>Warranty Expiry Date:</strong> <%= @item.warranty_expiry_date %></p>
+          <p>
+            <strong>Warranty Expiry Date:</strong>
+            <%= @item.warranty_expiry_date %>
+            <% if @item.warranty_expiry_date < Date.today %>
+              <span class="expired-text"> (EXPIRED) </span>
+            <% end %>
+          </p>
         </div>
       <% end %>
+
     </div>
 
     <!-- Colonne droite : Image et facture -->

@@ -1,0 +1,54 @@
+.alerts-page {
+  text-align: center;
+
+  .page-title {
+    font-size: 3rem; // 48px en rem
+    font-weight: bold;
+    color: black; // Harmonisé avec les autres titres
+    margin-bottom: 20px;
+  }
+
+  .page-description {
+    font-size: 1.2rem;
+    color: $text-secondary;
+    margin-bottom: 20px;
+  }
+
+  .alerts-section {
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+    text-align: left; // ✅ Texte aligné à gauche dans les blocs
+
+    .alert-title {
+      font-size: 2rem; // ✅ Taille adaptée au titre
+      font-weight: bold;
+      margin-bottom: 1rem;
+      color: #d9534f;
+      text-align: center; // ✅ Garde le titre centré dans le bloc
+    }
+
+    .alert-list {
+      list-style: none;
+      padding: 0;
+
+      .alert-item {
+        font-size: 1.2rem;
+        padding: 10px;
+        background: #fff;
+        border-radius: 5px;
+        margin-bottom: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+    }
+  }
+
+  .no-alerts {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #28a745;
+    font-weight: bold;
+  }
+}
