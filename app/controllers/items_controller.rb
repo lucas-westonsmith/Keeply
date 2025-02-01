@@ -77,9 +77,13 @@ class ItemsController < ApplicationController
     @super_list_id = @item.lists.first&.super_list_id || current_user.super_lists.first&.id
     @filtered_lists = current_user.lists.where(super_list_id: @super_list_id)
     @item_lists = @item.lists.pluck(:id)
-    @categories = @item.possible_categories # 🔥 Charge les catégories pour qu'elles soient affichées directement
-  end
+    @categories = @item.possible_categories
 
+    # ✅ Ajoute la catégorie actuelle si elle n’est pas déjà présente
+    unless @categories[:specific].include?(@item.category) || @categories[:common].include?(@item.category)
+      @categories[:specific] << @item.category if @item.category.present?
+    end
+  end
 
   # Mettre à jour un objet
   def update
@@ -160,6 +164,35 @@ class ItemsController < ApplicationController
       @filtered_obsolete = @potentially_obsolete.select { |entry| entry[:years_old] >= entry[:lifespan] - 1 }
     else
       @filtered_obsolete = @potentially_obsolete
+    end
+  end
+
+  def update_categories
+    list_ids = params[:lists].to_s.split(",").map(&:to_i)
+    puts "🧐 IDs des listes reçues : #{list_ids.inspect}"
+
+    lists = List.where(id: list_ids)
+    puts "🔍 Listes trouvées : #{lists.pluck(:title).inspect}"
+
+    if lists.empty?
+      render json: { error: "No lists found" }, status: :unprocessable_entity
+    else
+      categories = Item.fetch_categories_for_lists(lists.pluck(:title))
+      puts "📌 Catégories retournées : #{categories.inspect}"
+
+      # ✅ Empêcher l'ajout d'une catégorie vide (" ")
+      categories[:specific].reject!(&:blank?)
+      categories[:common].reject!(&:blank?)
+
+      # ✅ Vérifier si on est en mode édition et inclure la catégorie actuelle si nécessaire
+      if params[:item_id].present?
+        item = Item.find_by(id: params[:item_id])
+        if item&.category.present? && !categories[:specific].include?(item.category) && !categories[:common].include?(item.category)
+          categories[:specific] << item.category
+        end
+      end
+
+      render partial: "items/categories", locals: { categories: categories }
     end
   end
 

@@ -96,6 +96,7 @@
                 (in <%= days_remaining %> days).
               <% else %>
                 (⚠️ <%= days_remaining.abs %> days overdue).
+                <span class="expired-text"> 🔴 Item already obsolete </span>
               <% end %>
             <% end %>
 
