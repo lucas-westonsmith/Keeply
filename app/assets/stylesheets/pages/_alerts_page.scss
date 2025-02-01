@@ -4,7 +4,7 @@
   .page-title {
     font-size: 3rem; // 48px en rem
     font-weight: bold;
-    color: black; // Harmonisé avec les autres titres
+    color: black;
     margin-bottom: 20px;
   }
 
@@ -41,6 +41,17 @@
         border-radius: 5px;
         margin-bottom: 8px;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+        // ✅ Supprime le soulignement du lien sur le nom de l'item
+        .item-link {
+          text-decoration: none;
+          color: #007bff; // Garder une couleur qui indique qu'il s'agit d'un lien
+          font-weight: bold;
+
+          &:hover {
+            text-decoration: underline; // Ajoute le soulignement uniquement au survol
+          }
+        }
       }
     }
   }

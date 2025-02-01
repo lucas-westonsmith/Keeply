@@ -6,6 +6,7 @@
   <div class="filter-sort-container">
     <div class="filter-sort-box">
       <form class="filter-sort-form" method="get">
+        <input type="hidden" name="filter_type" value="warranty"> <!-- ✅ Indique qu'on filtre les garanties -->
         <div class="filter-options">
           <label for="expiration">Expiration</label>
           <select name="expiration" id="expiration" class="form-select">
@@ -19,36 +20,42 @@
 
         <!-- Filter by Category -->
         <div class="filter-options">
-          <label for="category">Category</label>
-          <select name="category" id="category" class="form-select">
-            <option value="" <%= params[:category].to_s.strip.empty? ? "selected" : "" %>>All Categories</option>
+          <label for="warranty_category">Category</label>
+          <select name="warranty_category" id="warranty_category" class="form-select">
+            <option value="" <%= params[:warranty_category].to_s.strip.empty? ? "selected" : "" %>>All Categories</option>
             <% current_user.items.where.not(category: nil).distinct.pluck(:category).sort.each do |category| %>
-              <option value="<%= category %>" <%= params[:category] == category ? "selected" : "" %>><%= category %></option>
+              <option value="<%= category %>" <%= params[:warranty_category] == category ? "selected" : "" %>><%= category %></option>
             <% end %>
           </select>
         </div>
 
         <!-- Filter by Condition -->
         <div class="filter-options">
-          <label for="condition">Condition</label>
-          <select name="condition" id="condition" class="form-select">
-            <option value="" <%= params[:condition].blank? ? "selected" : "" %>>All Conditions</option>
+          <label for="warranty_condition">Condition</label>
+          <select name="warranty_condition" id="warranty_condition" class="form-select">
+            <option value="" <%= params[:warranty_condition].blank? ? "selected" : "" %>>All Conditions</option>
             <% current_user.items.distinct.pluck(:condition).compact.sort.each do |condition| %>
-              <option value="<%= condition %>" <%= params[:condition] == condition ? "selected" : "" %>><%= condition.capitalize %></option>
+              <option value="<%= condition %>" <%= params[:warranty_condition] == condition ? "selected" : "" %>><%= condition.capitalize %></option>
             <% end %>
           </select>
         </div>
 
         <!-- Filter by List -->
         <div class="filter-options">
-          <label for="list_id">List</label>
-          <select name="list_id" id="list_id" class="form-select">
-            <option value="" <%= params[:list_id].blank? ? "selected" : "" %>>All Lists</option>
+          <label for="warranty_list_id">List</label>
+          <select name="warranty_list_id" id="warranty_list_id" class="form-select">
+            <option value="" <%= params[:warranty_list_id].blank? ? "selected" : "" %>>All Lists</option>
             <% current_user.lists.joins(:items).distinct.order(title: :asc).each do |list| %>
-              <option value="<%= list.id %>" <%= params[:list_id].to_i == list.id ? "selected" : "" %>><%= list.title %></option>
+              <option value="<%= list.id %>" <%= params[:warranty_list_id].to_i == list.id ? "selected" : "" %>><%= list.title %></option>
             <% end %>
           </select>
         </div>
+
+        <!-- ✅ Garde les valeurs des filtres d'obsolescence -->
+        <input type="hidden" name="obsolescence" value="<%= params[:obsolescence] %>">
+        <input type="hidden" name="obsolescence_category" value="<%= params[:obsolescence_category] %>">
+        <input type="hidden" name="obsolescence_condition" value="<%= params[:obsolescence_condition] %>">
+        <input type="hidden" name="obsolescence_list_id" value="<%= params[:obsolescence_list_id] %>">
 
         <div class="filter-sort-actions">
           <button type="submit" class="apply-button btn btn-secondary shiny-cta">Apply</button>
@@ -61,14 +68,21 @@
   <!-- 📌 Garantie expirant bientôt -->
   <% if @expiring_warranties.any? %>
     <div class="alerts-section">
-      <h2 class="alert-title">📌 Warranties expiring soon</h2>
+      <h2 class="alert-title">📌 Warranties expired / expiring soon</h2>
       <ul class="alert-list">
         <% @expiring_warranties.each do |item| %>
+          <% days_until_expiry = (item.warranty_expiry_date - Date.today).to_i %>
+
           <li class="alert-item">
             <strong>
               <%= link_to item.title, item_path(item), class: "item-link" %>
             </strong>
-            - Warranty expires on <%= item.warranty_expiry_date.strftime("%d %B %Y") %>
+
+            <% if days_until_expiry.positive? %>
+              <br>⏳ Warranty expires on <%= item.warranty_expiry_date.strftime("%d %B %Y") %> (in <%= days_until_expiry %> days).
+            <% else %>
+              <br>⚠️ Warranty expired on <%= item.warranty_expiry_date.strftime("%d %B %Y") %> (<%= days_until_expiry.abs %> days ago).
+            <% end %>
           </li>
         <% end %>
       </ul>
@@ -81,6 +95,7 @@
   <div class="filter-sort-container mt-4">
     <div class="filter-sort-box">
       <form class="filter-sort-form" method="get">
+        <input type="hidden" name="filter_type" value="obsolescence"> <!-- ✅ Indique qu'on filtre l'obsolescence -->
         <div class="filter-options">
           <label for="obsolescence">Obsolescence</label>
           <select name="obsolescence" id="obsolescence" class="form-select">
@@ -94,36 +109,42 @@
 
         <!-- Filter by Category -->
         <div class="filter-options">
-          <label for="category">Category</label>
-          <select name="category" id="category" class="form-select">
-            <option value="" <%= params[:category].to_s.strip.empty? ? "selected" : "" %>>All Categories</option>
+          <label for="obsolescence_category">Category</label>
+          <select name="obsolescence_category" id="obsolescence_category" class="form-select">
+            <option value="" <%= params[:obsolescence_category].to_s.strip.empty? ? "selected" : "" %>>All Categories</option>
             <% current_user.items.where.not(category: nil).distinct.pluck(:category).sort.each do |category| %>
-              <option value="<%= category %>" <%= params[:category] == category ? "selected" : "" %>><%= category %></option>
+              <option value="<%= category %>" <%= params[:obsolescence_category] == category ? "selected" : "" %>><%= category %></option>
             <% end %>
           </select>
         </div>
 
         <!-- Filter by Condition -->
         <div class="filter-options">
-          <label for="condition">Condition</label>
-          <select name="condition" id="condition" class="form-select">
-            <option value="" <%= params[:condition].blank? ? "selected" : "" %>>All Conditions</option>
+          <label for="obsolescence_condition">Condition</label>
+          <select name="obsolescence_condition" id="obsolescence_condition" class="form-select">
+            <option value="" <%= params[:obsolescence_condition].blank? ? "selected" : "" %>>All Conditions</option>
             <% current_user.items.distinct.pluck(:condition).compact.sort.each do |condition| %>
-              <option value="<%= condition %>" <%= params[:condition] == condition ? "selected" : "" %>><%= condition.capitalize %></option>
+              <option value="<%= condition %>" <%= params[:obsolescence_condition] == condition ? "selected" : "" %>><%= condition.capitalize %></option>
             <% end %>
           </select>
         </div>
 
         <!-- Filter by List -->
         <div class="filter-options">
-          <label for="list_id">List</label>
-          <select name="list_id" id="list_id" class="form-select">
-            <option value="" <%= params[:list_id].blank? ? "selected" : "" %>>All Lists</option>
+          <label for="obsolescence_list_id">List</label>
+          <select name="obsolescence_list_id" id="obsolescence_list_id" class="form-select">
+            <option value="" <%= params[:obsolescence_list_id].blank? ? "selected" : "" %>>All Lists</option>
             <% current_user.lists.joins(:items).distinct.order(title: :asc).each do |list| %>
-              <option value="<%= list.id %>" <%= params[:list_id].to_i == list.id ? "selected" : "" %>><%= list.title %></option>
+              <option value="<%= list.id %>" <%= params[:obsolescence_list_id].to_i == list.id ? "selected" : "" %>><%= list.title %></option>
             <% end %>
           </select>
         </div>
+
+        <!-- ✅ Garde les valeurs des filtres de garantie -->
+        <input type="hidden" name="expiration" value="<%= params[:expiration] %>">
+        <input type="hidden" name="warranty_category" value="<%= params[:warranty_category] %>">
+        <input type="hidden" name="warranty_condition" value="<%= params[:warranty_condition] %>">
+        <input type="hidden" name="warranty_list_id" value="<%= params[:warranty_list_id] %>">
 
         <div class="filter-sort-actions">
           <button type="submit" class="apply-button btn btn-secondary shiny-cta">Apply</button>
@@ -133,24 +154,36 @@
     </div>
   </div>
 
-  <!-- 📌 Afficher les items dont l'obsolescence approche -->
-  <% if @filtered_obsolete.any? %>
-    <div class="alerts-section">
-      <h2 class="alert-title">⏳ Items Approaching Obsolescence</h2>
-      <ul class="alert-list">
-        <% @filtered_obsolete.each do |entry| %>
-          <li class="alert-item">
-            <strong>
-              <%= link_to entry[:item].title, item_path(entry[:item]), class: "item-link" %>
-            </strong>
-            (Category: <%= entry[:item].category %>) - Purchased on <%= entry[:item].purchase_date.strftime("%d %B %Y") %>.
-            <br>⏳ Expected end of life: <%= (entry[:item].purchase_date + entry[:lifespan].years).strftime("%d %B %Y") %>.
-          </li>
-        <% end %>
-      </ul>
-    </div>
-  <% else %>
-    <p class="no-alerts">✅ No items at risk of obsolescence.</p>
-  <% end %>
+<!-- 📌 Afficher les items dont l'obsolescence approche -->
+<% if @filtered_obsolete.any? %>
+  <div class="alerts-section">
+    <h2 class="alert-title">⏳ Items obsolete / approaching obsolescence</h2>
+    <ul class="alert-list">
+      <% @filtered_obsolete.each do |entry| %>
+        <% end_of_life_date = entry[:item].purchase_date + entry[:lifespan].years %>
+        <% days_until_obsolescence = (end_of_life_date - Date.today).to_i %>
+
+        <li class="alert-item">
+          <strong>
+            <%= link_to entry[:item].title, item_path(entry[:item]), class: "item-link" %>
+          </strong>
+          (Category: <%= entry[:item].category %>)
+
+          <br>📅 Purchased on <%= entry[:item].purchase_date.strftime("%d %B %Y") %>
+          (<%= entry[:years_old] %> years old).
+
+          <br>⏳ Expected end of life: <%= end_of_life_date.strftime("%d %B %Y") %>
+          <% if days_until_obsolescence.positive? %>
+            (in <%= days_until_obsolescence %> days).
+          <% else %>
+            (⚠️ <%= days_until_obsolescence.abs %> days overdue).
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+<% else %>
+  <p class="no-alerts">✅ No items at risk of obsolescence.</p>
+<% end %>
 
 </div>
