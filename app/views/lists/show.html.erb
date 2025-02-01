@@ -91,65 +91,64 @@
     <div class="filter-sort-container">
       <div class="filter-sort-box">
         <form class="filter-sort-form" method="get">
-          <!-- Sorting Options -->
-          <div class="sort-options">
-            <label for="sort">Sort by</label>
-            <select name="sort" id="sort" class="form-select">
-              <option value="" <%= params[:sort].blank? ? "selected" : "" %>>Select</option>
-              <option value="price_asc" <%= params[:sort] == "price_asc" ? "selected" : "" %>>Price: Low to High</option>
-              <option value="price_desc" <%= params[:sort] == "price_desc" ? "selected" : "" %>>Price: High to Low</option>
-              <option value="newest" <%= params[:sort] == "newest" ? "selected" : "" %>>Most Recent</option>
-              <option value="oldest" <%= params[:sort] == "oldest" ? "selected" : "" %>>Oldest First</option>
-            </select>
-          </div>
+        <!-- Sorting Options -->
+        <div class="sort-options">
+          <label for="sort">Sort by</label>
+          <select name="sort" id="sort" class="form-select">
+            <option value="" <%= params[:sort].blank? ? "selected" : "" %>>Select</option>
+            <option value="price_asc" <%= params[:sort] == "price_asc" ? "selected" : "" %>>Price: Low to High</option>
+            <option value="price_desc" <%= params[:sort] == "price_desc" ? "selected" : "" %>>Price: High to Low</option>
+            <option value="newest_first" <%= params[:sort] == "newest_first" ? "selected" : "" %>>Newest first</option>
+            <option value="oldest_first" <%= params[:sort] == "oldest_first" ? "selected" : "" %>>Oldest first</option>
+          </select>
+        </div>
 
-          <!-- Filter by Issuer -->
-          <div class="filter-options">
-            <label for="issuer">Issuer</label>
-            <select name="issuer" id="issuer" class="form-select">
-              <option value="" <%= params[:issuer].blank? ? "selected" : "" %>>All Issuers</option>
-              <% @list.items.distinct.pluck(:issuer).sort.each do |issuer| %>
-                <option value="<%= issuer %>" <%= params[:issuer] == issuer ? "selected" : "" %>><%= issuer %></option>
-              <% end %>
-            </select>
-          </div>
+        <!-- Filter by Issuer -->
+        <div class="filter-options">
+          <label for="issuer">Issuer</label>
+          <select name="issuer" id="issuer" class="form-select">
+            <option value="" <%= params[:issuer].blank? ? "selected" : "" %>>All Issuers</option>
+            <% @items_in_list.where.not(issuer: nil).pluck(:issuer).uniq.sort.each do |issuer| %>
+              <option value="<%= issuer %>" <%= params[:issuer] == issuer ? "selected" : "" %>><%= issuer %></option>
+            <% end %>
+          </select>
+        </div>
 
-          <!-- Filter by Category -->
-          <div class="filter-options">
-            <label for="category">Category</label>
-            <select name="category" id="category" class="form-select">
-              <option value="" <%= params[:category].blank? ? "selected" : "" %>>All Categories</option>
-              <% @list.items.distinct.pluck(:category).sort.each do |category| %>
-                <option value="<%= category %>" <%= params[:category] == category ? "selected" : "" %>><%= category %></option>
-              <% end %>
-            </select>
-          </div>
+        <!-- Filter by Category -->
+        <div class="filter-options">
+          <label for="category">Category</label>
+          <select name="category" id="category" class="form-select">
+            <option value="" <%= params[:category].blank? ? "selected" : "" %>>All Categories</option>
+            <% @items_in_list.where.not(category: nil).pluck(:category).uniq.sort.each do |category| %>
+              <option value="<%= category %>" <%= params[:category] == category ? "selected" : "" %>><%= category %></option>
+            <% end %>
+          </select>
+        </div>
 
-          <!-- Filter by Condition -->
-          <div class="filter-options">
-            <label for="condition">Condition</label>
-            <select name="condition" id="condition" class="form-select">
-              <option value="" <%= params[:condition].blank? ? "selected" : "" %>>All Conditions</option>
-              <% @list.items.distinct.pluck(:condition).compact.sort.each do |condition| %>
-                <option value="<%= condition %>" <%= params[:condition] == condition ? "selected" : "" %>>
-                  <%= condition.capitalize %>
-                </option>
-              <% end %>
-            </select>
-          </div>
+        <!-- Filter by Condition -->
+        <div class="filter-options">
+          <label for="condition">Condition</label>
+          <select name="condition" id="condition" class="form-select">
+            <option value="" <%= params[:condition].blank? ? "selected" : "" %>>All Conditions</option>
+            <% @items_in_list.where.not(condition: nil).pluck(:condition).uniq.sort.each do |condition| %>
+              <option value="<%= condition %>" <%= params[:condition] == condition ? "selected" : "" %>><%= condition.capitalize %></option>
+            <% end %>
+          </select>
+        </div>
 
-          <!-- Buttons -->
-          <div class="filter-sort-actions">
-            <button type="submit" class="apply-button btn btn-secondary shiny-cta">Apply</button>
-            <%= link_to 'Reset', list_path(@list), class: 'btn-reset btn btn-reset' %>
-          </div>
+        <!-- Buttons -->
+        <div class="filter-sort-actions">
+          <button type="submit" class="apply-button btn btn-secondary shiny-cta">Apply</button>
+          <%= link_to 'Reset', list_path(@list), class: 'btn-reset btn btn-reset' %>
+        </div>
+
         </form>
       </div>
     </div>
 
-    <% if @list.items.any? %>
+    <% if @items_in_list.any? %>
       <div class="items-list">
-        <% @list.items.each do |item| %>
+        <% @items_in_list.each do |item| %>
           <div class="item-card">
             <%= link_to item_path(item), class: "item-link" do %>
               <div class="item-image">

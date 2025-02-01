@@ -1,12 +1,5 @@
 <div class="back-button">
-  <% back_path = if request.referer&.include?(new_item_path)
-                  items_path  # ✅ Après création d’un item, renvoie à l’index
-                else
-                  request.referer || items_path  # ✅ Sinon, revient à la page précédente (liste ou index)
-                end
-  %>
-
-  <%= link_to back_path, class: "back-link" do %>
+  <%= link_to request.referer || root_path, class: "back-link" do %>
     <i class="back-arrow"></i>
     Back
   <% end %>
@@ -61,6 +54,12 @@
         </div>
       <% end %>
 
+      <% if @item.condition.present? %>
+        <div class="info-box">
+          <p><strong>Condition:</strong> <%= @item.condition.capitalize %></p>
+        </div>
+      <% end %>
+
       <% if @item.purchase_date.present? %>
         <div class="info-box">
           <p><strong>Purchase Date:</strong> <%= @item.purchase_date %></p>
@@ -69,9 +68,16 @@
 
       <% if @item.warranty_expiry_date.present? %>
         <div class="info-box">
-          <p><strong>Warranty Expiry Date:</strong> <%= @item.warranty_expiry_date %></p>
+          <p>
+            <strong>Warranty Expiry Date:</strong>
+            <%= @item.warranty_expiry_date %>
+            <% if @item.warranty_expiry_date < Date.today %>
+              <span class="expired-text"> (EXPIRED) </span>
+            <% end %>
+          </p>
         </div>
       <% end %>
+
     </div>
 
     <!-- Colonne droite : Image et facture -->

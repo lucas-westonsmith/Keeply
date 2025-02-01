@@ -5,7 +5,7 @@
   <% end %>
 </div>
 
-<div class="form-container">
+<div class="form-container" data-controller="category">
   <h1 class="form-title"><span class="text-gradient angry-underline-blue" style="color: #3699e0; font-weight: bold;">Modify the item</span></h1>
   <p class="form-description">Make changes to the item details below.</p>
 
@@ -56,7 +56,7 @@
         </div>
 
         <!-- Add to Lists -->
-        <div id="lists-container" data-dynamic-lists-target="listsContainer">
+        <div id="lists-container" data-category-target="listSelect">
           <%= render partial: "items/lists", locals: { filtered_lists: @filtered_lists, form: f, item_lists: @item.lists.pluck(:id) } %>
         </div>
       </div>
@@ -64,9 +64,8 @@
       <!-- Colonne droite -->
       <div class="form-column">
         <!-- Category -->
-        <div class="form-group">
-          <%= f.label :category, "Category", class: "form-label", style: "font-weight: bold;" %>
-          <%= f.input :category, as: :string, placeholder: "e.g., Electronics, Furniture", label: false, class: "form-input" %>
+        <div id="categories-container" data-category-target="categoriesContainer">
+          <%= render partial: "items/categories", locals: { f: f, categories: @categories } %>
         </div>
 
         <!-- Condition -->
@@ -78,13 +77,22 @@
         <!-- Purchase Date -->
         <div class="form-group">
           <%= f.label :purchase_date, "Purchase date", class: "form-label", style: "font-weight: bold;" %>
-          <%= f.input :purchase_date, as: :date, label: false, class: "form-input" %>
+          <%= f.input :purchase_date, as: :string, label: false, input_html: {
+                type: "date",
+                class: "form-input",
+                value: @item.purchase_date.presence || Date.today.strftime("%Y-%m-%d")
+              } %>
         </div>
 
         <!-- Warranty Expiry Date -->
         <div class="form-group">
           <%= f.label :warranty_expiry_date, "Warranty expiry date", class: "form-label", style: "font-weight: bold;" %>
-          <%= f.input :warranty_expiry_date, as: :date, label: false, class: "form-input" %>
+          <%= f.input :warranty_expiry_date, as: :string, label: false, input_html: {
+                type: "date",
+                class: "form-input",
+                placeholder: "YYYY-MM-DD",
+                value: @item.warranty_expiry_date.presence
+              } %>
         </div>
 
         <!-- Upload a picture -->

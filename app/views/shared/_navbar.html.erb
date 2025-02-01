@@ -24,6 +24,8 @@
           <div class="nav-separator"></div>
           <%= link_to "All items", items_path, class: "nav-link #{'active' if current_page?(items_path)}" %>
           <%= link_to "Add item", new_item_path, class: "nav-link #{'active' if current_page?(new_item_path)}" %>
+          <div class="nav-separator"></div>
+          <%= link_to "Alerts", alerts_items_path, class: "nav-link #{'active' if current_page?(alerts_items_path)}" %>
         </div>
       <% end %>
     </div>
