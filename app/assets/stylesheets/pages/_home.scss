@@ -683,3 +683,12 @@
     }
   }
 }
+
+.hero {
+  overflow: hidden; // ✅ Empêche les animations de dépasser
+  .animate-text, .animate-button {
+    opacity: 0; // ✅ Cache les éléments avant l’animation
+    visibility: hidden;
+  }
+}
+
