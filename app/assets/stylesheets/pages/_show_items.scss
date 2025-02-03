@@ -206,88 +206,131 @@
   }
 
   /* 📱 Responsive */
-  @media (max-width: 1024px) {
-    .item-content-wrapper {
+
+/* ✅ Ajustements pour tablettes */
+@media (max-width: 1024px) {
+  .item-content-wrapper {
+    flex-direction: column;
+    align-items: center;
+
+    .item-info-cards {
+      max-width: 100%;
+    }
+
+    .item-media {
+      max-width: 100%;
+
+      .invoice-preview-container {
+        max-width: 100%;
+      }
+    }
+  }
+}
+
+/* ✅ Ajustements pour mobiles (768px et moins) */
+@media (max-width: 768px) {
+  .single-item-title {
+    font-size: 2rem;
+  }
+
+  .single-item-description {
+    font-size: 1rem;
+  }
+
+  .item-actions .action-button {
+    font-size: 0.9rem;
+    padding: 0.4rem 0.8rem;
+  }
+
+  .item-content-wrapper {
+    gap: 10px;
+
+    .item-media {
+      .invoice-preview-container {
+        max-width: 100%;
+      }
+
+      .invoice-preview .invoice-preview-image {
+        max-width: 350px;
+      }
+
+      .invoice-preview .invoice-pages {
+        flex-wrap: wrap;
+      }
+    }
+  }
+
+  /* ✅ Correction du centrage de "Download Invoice" et de la facture */
+  .invoice-preview {
+    text-align: center;
+    width: 100%; /* ✅ S'assurer que l'élément prend toute la largeur */
+
+    .download-section {
+      display: flex;
+      justify-content: center; /* ✅ Centre le bouton Download */
+      margin-bottom: 15px;
+    }
+
+    .invoice-preview-container {
+      display: flex;
       flex-direction: column;
       align-items: center;
+      max-width: 100%;
+      margin: 0 auto;
+    }
 
-      .item-info-cards {
-        max-width: 100%;
+    .invoice-preview-image {
+      max-width: 90%; /* ✅ Ajustement pour éviter le débordement */
+      height: auto;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      margin-bottom: 10px;
+    }
+  }
+}
+
+/* ✅ Ajustements pour petits écrans (480px et moins) */
+@media (max-width: 480px) {
+  .single-item-title {
+    font-size: 1.5rem;
+  }
+
+  .single-item-description {
+    font-size: 0.9rem;
+  }
+
+  .item-actions .action-button {
+    font-size: 0.85rem;
+    padding: 0.3rem 0.6rem;
+  }
+
+  .item-content-wrapper {
+    gap: 5px;
+
+    .item-media {
+      .invoice-preview .invoice-preview-image {
+        max-width: 300px;
       }
 
-      .item-media {
-        max-width: 100%;
+      .invoice-preview .invoice-pages {
+        gap: 5px;
+      }
 
-        .invoice-preview-container {
-          max-width: 100%;
-        }
+      .invoice-preview .invoice-page-thumb {
+        width: 50px;
       }
     }
   }
 
-  @media (max-width: 768px) {
-    .single-item-title {
-      font-size: 2rem;
+  /* ✅ Correction pour le centrage complet de la facture */
+  .invoice-preview {
+    .invoice-preview-container {
+      align-items: center;
     }
 
-    .single-item-description {
-      font-size: 1rem;
-    }
-
-    .item-actions .action-button {
-      font-size: 0.9rem;
-      padding: 0.4rem 0.8rem;
-    }
-
-    .item-content-wrapper {
-      gap: 10px;
-
-      .item-media {
-        .invoice-preview-container {
-          max-width: 100%;
-        }
-
-        .invoice-preview .invoice-preview-image {
-          max-width: 350px;
-        }
-
-        .invoice-preview .invoice-pages {
-          flex-wrap: wrap;
-        }
-      }
+    .invoice-preview-image {
+      max-width: 85%;
     }
   }
-
-  @media (max-width: 480px) {
-    .single-item-title {
-      font-size: 1.5rem;
-    }
-
-    .single-item-description {
-      font-size: 0.9rem;
-    }
-
-    .item-actions .action-button {
-      font-size: 0.85rem;
-      padding: 0.3rem 0.6rem;
-    }
-
-    .item-content-wrapper {
-      gap: 5px;
-
-      .item-media {
-        .invoice-preview .invoice-preview-image {
-          max-width: 300px;
-        }
-
-        .invoice-preview .invoice-pages {
-          gap: 5px;
-        }
-
-        .invoice-preview .invoice-page-thumb {
-          width: 50px;
-        }
-      }
-    }
-  }
+}
 }

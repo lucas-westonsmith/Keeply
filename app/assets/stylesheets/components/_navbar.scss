@@ -140,32 +140,76 @@
     }
   }
 
+  /* ✅ Masque complètement le menu dès le chargement */
+.collapse.navbar-collapse {
+  display: none !important; /* 🚀 FORÇAGE TOTAL du masquage */
+}
+
+/* ✅ Quand Bootstrap l'affiche, on applique la transition proprement */
+.collapse.navbar-collapse.show {
+  display: flex !important; /* 🚀 Réactive proprement */
+  flex-direction: column;
+  align-items: flex-start;
+  background-color: rgba(0, 0, 0, 0.9);
+  padding: 10px 15px;
+  width: 100%;
+  position: absolute;
+  top: 80px;
+  left: 0;
+  z-index: 999;
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
   @media (max-width: 768px) {
     .navbar-toggler {
       display: block;
     }
 
     .collapse.navbar-collapse {
-      display: none;
+      display: none; /* ✅ Masque immédiatement */
+      flex-direction: column;
+      align-items: flex-start;
+      background-color: rgba(0, 0, 0, 0.9);
+      padding: 10px 15px;
+      width: 100%;
+      position: absolute;
+      top: 80px;
+      left: 0;
+      z-index: 999;
+
+      /* ✅ Ajoute une transition fluide uniquement quand il est activé */
+      transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
 
       &.show {
+        display: flex; /* ✅ S'assure que la transition fonctionne */
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .navbar-center {
         display: flex;
         flex-direction: column;
-        align-items: flex-start;
-        background-color: #313131;
-        padding: 10px 0;
+        width: 100%;
+        gap: 15px;
       }
 
       .nav-link {
         width: 100%;
         text-align: left;
-        padding: 0.5rem 1rem;
+        padding: 10px 15px;
         color: #fff;
+        font-size: 16px;
 
         &:hover {
           color: #1899e0;
           background-color: rgba(255, 255, 255, 0.1);
         }
+      }
+
+      .nav-separator {
+        display: none;
       }
     }
   }
