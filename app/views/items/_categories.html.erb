@@ -1,33 +1,54 @@
 <% categories ||= { specific: [], common: [] } %>
 
-<div class="form-group" data-category-target="categoriesContainer">
+<div class="form-group custom-select-wrapper full-width" data-controller="custom-select">
   <% if local_assigns[:f] %>
-    <%= f.label :category, "Category", class: "form-label", style: "font-weight: bold;" %>
+    <%= f.label :category, "Category", class: "form-label font-bold" %> <!-- ✅ Rétabli le gras -->
   <% else %>
-    <label class="form-label" style="font-weight: bold;">Category</label>
+    <label class="form-label font-bold">Category</label>
   <% end %>
 
-  <select class="form-select" name="item[category]" id="item_category">
-    <!-- ✅ Option vide par défaut -->
-    <option value="" <%= @item&.category.blank? ? "selected" : "" %>>Select a category</option>
+  <div class="custom-select">
+    <span class="custom-select-trigger">
+      <% category_options = {} %>
 
-    <% if categories[:specific].any? %>
-      <optgroup label="Specific to selected lists">
+      <% if categories[:specific].any? %>
         <% categories[:specific].each do |category| %>
-          <option value="<%= category %>" <%= @item&.category == category ? "selected" : "" %>><%= category %></option>
+          <% category_options[category] = category %>
         <% end %>
-      </optgroup>
-    <% end %>
+      <% end %>
 
-    <% if categories[:common].any? %>
-      <optgroup label="Common categories">
+      <% if categories[:common].any? %>
         <% categories[:common].each do |category| %>
-          <option value="<%= category %>" <%= @item&.category == category ? "selected" : "" %>><%= category %></option>
+          <% category_options[category] = category %>
         <% end %>
-      </optgroup>
-    <% end %>
+      <% end %>
 
-    <!-- ✅ Garde "Other category" bien positionné et évite les sélections vides -->
-    <option value="other" <%= @item&.category == "other" ? "selected" : "" %>>Other category</option>
-  </select>
+      <!-- Ajout de "Other category" à la liste -->
+      <% category_options["other"] = "Other category" %>
+
+      <%= category_options[@item&.category] || "Select a category" %>
+    </span>
+
+    <div class="custom-options">
+      <span class="custom-option" data-value="">Select a category</span>
+
+      <% if categories[:specific].any? %>
+        <div class="custom-optgroup">Specific to selected lists</div>
+        <% categories[:specific].each do |category| %>
+          <span class="custom-option" data-value="<%= category %>"><%= category %></span>
+        <% end %>
+      <% end %>
+
+      <% if categories[:common].any? %>
+        <div class="custom-optgroup">Common categories</div>
+        <% categories[:common].each do |category| %>
+          <span class="custom-option" data-value="<%= category %>"><%= category %></span>
+        <% end %>
+      <% end %>
+
+      <span class="custom-option" data-value="other">Other category</span>
+    </div>
+  </div>
+
+  <input type="hidden" name="item[category]" id="item_category" value="<%= @item&.category %>">
 </div>

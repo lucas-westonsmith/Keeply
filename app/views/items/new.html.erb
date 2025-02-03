@@ -69,9 +69,26 @@
         </div>
 
         <!-- Condition -->
-        <div class="form-group">
-          <%= f.label :condition, "Condition", class: "form-label", style: "font-weight: bold;" %>
-          <%= f.input :condition, as: :select, collection: ['Poor', 'Okay', 'Good', 'Excellent'], include_blank: "Select condition", label: false, class: "form-select" %>
+        <div class="form-group custom-select-wrapper full-width" data-controller="custom-select">
+          <%= f.label :condition, "Condition", class: "form-label font-bold" %> <!-- ✅ Rétabli le gras -->
+          <div class="custom-select">
+            <span class="custom-select-trigger">
+              <% condition_options = {
+                "Poor" => "Poor",
+                "Okay" => "Okay",
+                "Good" => "Good",
+                "Excellent" => "Excellent"
+              } %>
+              <%= condition_options[f.object.condition] || "Select condition" %>
+            </span>
+            <div class="custom-options">
+              <span class="custom-option" data-value="">Select condition</span>
+              <% condition_options.each do |value, label| %>
+                <span class="custom-option" data-value="<%= value %>"><%= label %></span>
+              <% end %>
+            </div>
+          </div>
+          <input type="hidden" name="item[condition]" id="item_condition" value="<%= f.object.condition %>">
         </div>
 
         <!-- Purchase Date -->

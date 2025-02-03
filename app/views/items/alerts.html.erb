@@ -7,48 +7,79 @@
     <div class="filter-sort-box">
       <form class="filter-sort-form" method="get">
         <input type="hidden" name="filter_type" value="warranty"> <!-- ✅ Indique qu'on filtre les garanties -->
-        <div class="filter-options">
+
+        <!-- Expiration -->
+        <div class="filter-options custom-select-wrapper" data-controller="custom-select">
           <label for="expiration">Expiration</label>
-          <select name="expiration" id="expiration" class="form-select">
-            <option value="expired" <%= params[:expiration] == "expired" ? "selected" : "" %>>Expired</option>
-            <option value="1_month" <%= params[:expiration] == "1_month" ? "selected" : "" %>>Within 1 month</option>
-            <option value="3_months" <%= params[:expiration].blank? || params[:expiration] == "3_months" ? "selected" : "" %>>Within 3 months</option>
-            <option value="6_months" <%= params[:expiration] == "6_months" ? "selected" : "" %>>Within 6 months</option>
-            <option value="1_year" <%= params[:expiration] == "1_year" ? "selected" : "" %>>Within 1 year</option>
-          </select>
+          <div class="custom-select">
+            <span class="custom-select-trigger">
+              <% expiration_options = {
+                "expired" => "Expired",
+                "1_month" => "Within 1 month",
+                "3_months" => "Within 3 months",
+                "6_months" => "Within 6 months",
+                "1_year" => "Within 1 year"
+              } %>
+              <%= expiration_options[params[:expiration]] || "Select expiration" %>
+            </span>
+            <div class="custom-options">
+              <% expiration_options.each do |value, label| %>
+                <span class="custom-option" data-value="<%= value %>"><%= label %></span>
+              <% end %>
+            </div>
+          </div>
+          <input type="hidden" name="expiration" id="expiration" value="<%= params[:expiration] %>">
         </div>
 
         <!-- Filter by Category -->
-        <div class="filter-options">
+        <div class="filter-options custom-select-wrapper" data-controller="custom-select">
           <label for="warranty_category">Category</label>
-          <select name="warranty_category" id="warranty_category" class="form-select">
-            <option value="" <%= params[:warranty_category].to_s.strip.empty? ? "selected" : "" %>>All Categories</option>
-            <% current_user.items.where.not(category: nil).distinct.pluck(:category).sort.each do |category| %>
-              <option value="<%= category %>" <%= params[:warranty_category] == category ? "selected" : "" %>><%= category %></option>
-            <% end %>
-          </select>
+          <div class="custom-select">
+            <span class="custom-select-trigger">
+              <%= params[:warranty_category].present? ? params[:warranty_category] : "All Categories" %>
+            </span>
+            <div class="custom-options">
+              <span class="custom-option" data-value="">All Categories</span>
+              <% current_user.items.where.not(category: nil).distinct.pluck(:category).sort.each do |category| %>
+                <span class="custom-option" data-value="<%= category %>"><%= category %></span>
+              <% end %>
+            </div>
+          </div>
+          <input type="hidden" name="warranty_category" id="warranty_category" value="<%= params[:warranty_category] %>">
         </div>
 
         <!-- Filter by Condition -->
-        <div class="filter-options">
+        <div class="filter-options custom-select-wrapper" data-controller="custom-select">
           <label for="warranty_condition">Condition</label>
-          <select name="warranty_condition" id="warranty_condition" class="form-select">
-            <option value="" <%= params[:warranty_condition].blank? ? "selected" : "" %>>All Conditions</option>
-            <% current_user.items.distinct.pluck(:condition).compact.sort.each do |condition| %>
-              <option value="<%= condition %>" <%= params[:warranty_condition] == condition ? "selected" : "" %>><%= condition.capitalize %></option>
-            <% end %>
-          </select>
+          <div class="custom-select">
+            <span class="custom-select-trigger">
+              <%= params[:warranty_condition].present? ? params[:warranty_condition].capitalize : "All Conditions" %>
+            </span>
+            <div class="custom-options">
+              <span class="custom-option" data-value="">All Conditions</span>
+              <% current_user.items.distinct.pluck(:condition).compact.sort.each do |condition| %>
+                <span class="custom-option" data-value="<%= condition %>"><%= condition.capitalize %></span>
+              <% end %>
+            </div>
+          </div>
+          <input type="hidden" name="warranty_condition" id="warranty_condition" value="<%= params[:warranty_condition] %>">
         </div>
 
         <!-- Filter by List -->
-        <div class="filter-options">
+        <div class="filter-options custom-select-wrapper" data-controller="custom-select">
           <label for="warranty_list_id">List</label>
-          <select name="warranty_list_id" id="warranty_list_id" class="form-select">
-            <option value="" <%= params[:warranty_list_id].blank? ? "selected" : "" %>>All Lists</option>
-            <% current_user.lists.joins(:items).distinct.order(title: :asc).each do |list| %>
-              <option value="<%= list.id %>" <%= params[:warranty_list_id].to_i == list.id ? "selected" : "" %>><%= list.title %></option>
-            <% end %>
-          </select>
+          <div class="custom-select">
+            <span class="custom-select-trigger">
+              <%= params[:warranty_list_id].present? ? List.find_by(id: params[:warranty_list_id])&.title : "All Lists" %>
+            </span>
+            <div class="custom-options">
+              <span class="custom-option" data-value="">All Lists</span>
+              <% current_user.lists.joins(:items).distinct.order(title: :asc).each do |list| %>
+                <span class="custom-option" data-value="<%= list.id %>"><%= list.title %></span>
+              <% end %>
+            </div>
+          </div>
+          <input type="hidden" name="warranty_list_id" id="warranty_list_id" value="<%= params[:warranty_list_id] %>">
         </div>
 
         <!-- ✅ Garde les valeurs des filtres d'obsolescence -->
@@ -102,48 +133,79 @@
     <div class="filter-sort-box">
       <form class="filter-sort-form" method="get">
         <input type="hidden" name="filter_type" value="obsolescence"> <!-- ✅ Indique qu'on filtre l'obsolescence -->
-        <div class="filter-options">
+
+        <!-- Obsolescence -->
+        <div class="filter-options custom-select-wrapper" data-controller="custom-select">
           <label for="obsolescence">Obsolescence</label>
-          <select name="obsolescence" id="obsolescence" class="form-select">
-            <option value="obsolete" <%= params[:obsolescence] == "obsolete" ? "selected" : "" %>>Obsolete</option>
-            <option value="1_month" <%= params[:obsolescence] == "1_month" ? "selected" : "" %>>Within 1 month</option>
-            <option value="3_months" <%= params[:obsolescence].blank? || params[:obsolescence] == "3_months" ? "selected" : "" %>>Within 3 months</option>
-            <option value="6_months" <%= params[:obsolescence] == "6_months" ? "selected" : "" %>>Within 6 months</option>
-            <option value="1_year" <%= params[:obsolescence] == "1_year" ? "selected" : "" %>>Within 1 year</option>
-          </select>
+          <div class="custom-select">
+            <span class="custom-select-trigger">
+              <% obsolescence_options = {
+                "obsolete" => "Obsolete",
+                "1_month" => "Within 1 month",
+                "3_months" => "Within 3 months",
+                "6_months" => "Within 6 months",
+                "1_year" => "Within 1 year"
+              } %>
+              <%= obsolescence_options[params[:obsolescence]] || "Select obsolescence" %>
+            </span>
+            <div class="custom-options">
+              <% obsolescence_options.each do |value, label| %>
+                <span class="custom-option" data-value="<%= value %>"><%= label %></span>
+              <% end %>
+            </div>
+          </div>
+          <input type="hidden" name="obsolescence" id="obsolescence" value="<%= params[:obsolescence] %>">
         </div>
 
         <!-- Filter by Category -->
-        <div class="filter-options">
+        <div class="filter-options custom-select-wrapper" data-controller="custom-select">
           <label for="obsolescence_category">Category</label>
-          <select name="obsolescence_category" id="obsolescence_category" class="form-select">
-            <option value="" <%= params[:obsolescence_category].to_s.strip.empty? ? "selected" : "" %>>All Categories</option>
-            <% current_user.items.where.not(category: nil).distinct.pluck(:category).sort.each do |category| %>
-              <option value="<%= category %>" <%= params[:obsolescence_category] == category ? "selected" : "" %>><%= category %></option>
-            <% end %>
-          </select>
+          <div class="custom-select">
+            <span class="custom-select-trigger">
+              <%= params[:obsolescence_category].present? ? params[:obsolescence_category] : "All Categories" %>
+            </span>
+            <div class="custom-options">
+              <span class="custom-option" data-value="">All Categories</span>
+              <% current_user.items.where.not(category: nil).distinct.pluck(:category).sort.each do |category| %>
+                <span class="custom-option" data-value="<%= category %>"><%= category %></span>
+              <% end %>
+            </div>
+          </div>
+          <input type="hidden" name="obsolescence_category" id="obsolescence_category" value="<%= params[:obsolescence_category] %>">
         </div>
 
         <!-- Filter by Condition -->
-        <div class="filter-options">
+        <div class="filter-options custom-select-wrapper" data-controller="custom-select">
           <label for="obsolescence_condition">Condition</label>
-          <select name="obsolescence_condition" id="obsolescence_condition" class="form-select">
-            <option value="" <%= params[:obsolescence_condition].blank? ? "selected" : "" %>>All Conditions</option>
-            <% current_user.items.distinct.pluck(:condition).compact.sort.each do |condition| %>
-              <option value="<%= condition %>" <%= params[:obsolescence_condition] == condition ? "selected" : "" %>><%= condition.capitalize %></option>
-            <% end %>
-          </select>
+          <div class="custom-select">
+            <span class="custom-select-trigger">
+              <%= params[:obsolescence_condition].present? ? params[:obsolescence_condition].capitalize : "All Conditions" %>
+            </span>
+            <div class="custom-options">
+              <span class="custom-option" data-value="">All Conditions</span>
+              <% current_user.items.distinct.pluck(:condition).compact.sort.each do |condition| %>
+                <span class="custom-option" data-value="<%= condition %>"><%= condition.capitalize %></span>
+              <% end %>
+            </div>
+          </div>
+          <input type="hidden" name="obsolescence_condition" id="obsolescence_condition" value="<%= params[:obsolescence_condition] %>">
         </div>
 
         <!-- Filter by List -->
-        <div class="filter-options">
+        <div class="filter-options custom-select-wrapper" data-controller="custom-select">
           <label for="obsolescence_list_id">List</label>
-          <select name="obsolescence_list_id" id="obsolescence_list_id" class="form-select">
-            <option value="" <%= params[:obsolescence_list_id].blank? ? "selected" : "" %>>All Lists</option>
-            <% current_user.lists.joins(:items).distinct.order(title: :asc).each do |list| %>
-              <option value="<%= list.id %>" <%= params[:obsolescence_list_id].to_i == list.id ? "selected" : "" %>><%= list.title %></option>
-            <% end %>
-          </select>
+          <div class="custom-select">
+            <span class="custom-select-trigger">
+              <%= params[:obsolescence_list_id].present? ? List.find_by(id: params[:obsolescence_list_id])&.title : "All Lists" %>
+            </span>
+            <div class="custom-options">
+              <span class="custom-option" data-value="">All Lists</span>
+              <% current_user.lists.joins(:items).distinct.order(title: :asc).each do |list| %>
+                <span class="custom-option" data-value="<%= list.id %>"><%= list.title %></span>
+              <% end %>
+            </div>
+          </div>
+          <input type="hidden" name="obsolescence_list_id" id="obsolescence_list_id" value="<%= params[:obsolescence_list_id] %>">
         </div>
 
         <!-- ✅ Garde les valeurs des filtres de garantie -->
