@@ -1,5 +1,6 @@
 class Item < ApplicationRecord
-  belongs_to :user
+  belongs_to :user # Celui qui crée l'item
+  belongs_to :buyer, class_name: "User", optional: true # Celui qui achète l'item (optionnel)
   has_many :item_lists, dependent: :destroy
   has_many :lists, through: :item_lists
   has_one_attached :photo
@@ -9,6 +10,8 @@ class Item < ApplicationRecord
   validates :issuer, presence: true
   validates :price, numericality: { greater_than_or_equal_to: 0 }
   enum condition: { poor: 'Poor', okay: 'Okay', good: 'Good', excellent: 'Excellent' }
+
+  scope :for_sale, -> { where(for_sale: true) } # Permet de récupérer uniquement les items en vente
 
   before_save :normalize_blank_values
 

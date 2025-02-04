@@ -26,6 +26,15 @@
           <%= link_to "Add item", new_item_path, class: "nav-link #{'active' if current_page?(new_item_path)}" %>
           <div class="nav-separator"></div>
           <%= link_to "Alerts", alerts_items_path, class: "nav-link #{'active' if current_page?(alerts_items_path)}" %>
+
+          <!-- Separator before Marketplace -->
+          <div class="nav-separator"></div>
+          <%= link_to "Marketplace", marketplace_path, class: "nav-link #{'active' if current_page?(marketplace_path)}" %>
+        </div>
+      <% else %>
+        <!-- ✅ Ajout de Pricing pour les utilisateurs non connectés -->
+        <div class="navbar-center">
+          <%= link_to "Pricing", pricing_path, class: "nav-link #{'active' if current_page?(pricing_path)}" %>
         </div>
       <% end %>
     </div>
@@ -38,7 +47,6 @@
         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdown">
           <li><a class="dropdown-item no-underline" href="#">English</a></li>
           <li><a class="dropdown-item no-underline" href="#">French</a></li>
-          <li><a class="dropdown-item no-underline" href="#">Spanish</a></li>
         </ul>
       </div>
 
@@ -66,6 +74,8 @@
         <% end %>
         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="avatarDropdown">
           <%= link_to "Profile", profile_path, class: "dropdown-item no-underline" %>
+          <!-- ✅ Ajout de Pricing ici -->
+          <%= link_to "Pricing", pricing_path, class: "dropdown-item no-underline" %>
           <%= link_to "Log out", destroy_user_session_path, class: "dropdown-item no-underline", data: { turbo_method: :delete } %>
         </div>
       <% else %>

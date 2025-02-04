@@ -1,6 +1,7 @@
 class ListsController < ApplicationController
   before_action :set_list, only: [:show, :edit, :update, :destroy, :remove_item, :add_existing_item]
   before_action :authenticate_user!
+  before_action :authorize_user!, only: [:show]
 
   # Afficher toutes les listes de l'utilisateur
   def index
@@ -113,5 +114,11 @@ class ListsController < ApplicationController
 
   def list_params
     params.require(:list).permit(:title, :description, :photo, :super_list_id)
+  end
+
+  def authorize_user!
+    unless @list.user == current_user || @list.users.include?(current_user)
+      redirect_to lists_path, alert: "You do not have access to this list."
+    end
   end
 end

@@ -1,0 +1,179 @@
+<div class="container my-5 items-index">
+  <h1 class="page-title text-gradient angry-underline-kaki">Marketplace</h1>
+  <p class="page-description">Discover and purchase items from other users.</p>
+
+  <% if @items.any? %>
+    <!-- Section de tri et filtrage -->
+    <div class="filter-sort-container">
+      <div class="filter-sort-box">
+        <form class="filter-sort-form" method="get">
+          <!-- Sorting Options -->
+          <div class="filter-options custom-select-wrapper" data-controller="custom-select">
+            <label for="sort">Sort by</label>
+            <div class="custom-select">
+              <span class="custom-select-trigger">
+              <% sort_options = {
+                "" => "Select",
+                "price_asc" => "Price: low to high",
+                "price_desc" => "Price: high to low",
+                "newest_first" => "Newest first",
+                "oldest_first" => "Oldest first"
+              } %>
+                <%= sort_options[params[:sort]] || "Select" %>
+              </span>
+              <div class="custom-options">
+                <% sort_options.each do |value, label| %>
+                  <span class="custom-option" data-value="<%= value %>"><%= label %></span>
+                <% end %>
+              </div>
+            </div>
+            <input type="hidden" name="sort" id="sort" value="<%= params[:sort] %>">
+          </div>
+
+          <!-- Filter by Issuer -->
+          <div class="filter-options custom-select-wrapper" data-controller="custom-select">
+            <label for="issuer">Issuer</label>
+            <div class="custom-select">
+              <span class="custom-select-trigger">
+                <%= params[:issuer].present? ? params[:issuer] : "All Issuers" %>
+              </span>
+              <div class="custom-options">
+                <span class="custom-option" data-value="">All Issuers</span>
+                <% Item.for_sale.where.not(issuer: nil).distinct.pluck(:issuer).sort.each do |issuer| %>
+                  <span class="custom-option" data-value="<%= issuer %>"><%= issuer %></span>
+                <% end %>
+              </div>
+            </div>
+            <input type="hidden" name="issuer" id="issuer" value="<%= params[:issuer] %>">
+          </div>
+
+          <!-- Filter by Category -->
+          <div class="filter-options custom-select-wrapper" data-controller="custom-select">
+            <label for="category">Category</label>
+            <div class="custom-select">
+              <span class="custom-select-trigger">
+                <%= params[:category].present? ? params[:category] : "All Categories" %>
+              </span>
+              <div class="custom-options">
+                <span class="custom-option" data-value="">All Categories</span>
+                <% Item.for_sale.where.not(category: nil).distinct.pluck(:category).sort.each do |category| %>
+                  <span class="custom-option" data-value="<%= category %>"><%= category %></span>
+                <% end %>
+              </div>
+            </div>
+            <input type="hidden" name="category" id="category" value="<%= params[:category] %>">
+          </div>
+
+          <!-- Filter by Condition -->
+          <div class="filter-options custom-select-wrapper" data-controller="custom-select">
+            <label for="condition">Condition</label>
+            <div class="custom-select">
+              <span class="custom-select-trigger">
+                <%= params[:condition].present? ? params[:condition].capitalize : "All Conditions" %>
+              </span>
+              <div class="custom-options">
+                <span class="custom-option" data-value="">All Conditions</span>
+                <% Item.for_sale.distinct.pluck(:condition).compact.sort.each do |condition| %>
+                  <span class="custom-option" data-value="<%= condition %>"><%= condition.capitalize %></span>
+                <% end %>
+              </div>
+            </div>
+            <input type="hidden" name="condition" id="condition" value="<%= params[:condition] %>">
+          </div>
+
+          <!-- Filter by Selling Status -->
+          <div class="filter-options custom-select-wrapper" data-controller="custom-select">
+            <label for="selling_status">Selling Status</label>
+            <div class="custom-select">
+              <span class="custom-select-trigger">
+                <% selling_options = {
+                  "" => "All items",
+                  "my_items" => "Items I'm selling",
+                  "others_items" => "Items from others"
+                } %>
+                <%= selling_options[params[:selling_status]] || "All items" %>
+              </span>
+              <div class="custom-options">
+                <% selling_options.each do |value, label| %>
+                  <span class="custom-option" data-value="<%= value %>"><%= label %></span>
+                <% end %>
+              </div>
+            </div>
+            <input type="hidden" name="selling_status" id="selling_status" value="<%= params[:selling_status] %>">
+          </div>
+
+          <!-- Buttons -->
+          <div class="filter-sort-actions">
+            <button type="submit" class="apply-button btn btn-secondary shiny-cta">Apply</button>
+            <%= link_to 'Reset', marketplace_path, class: 'btn-reset btn btn-reset' %>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Liste des items en vente -->
+    <div class="items-list">
+      <% @items.each do |item| %>
+        <div class="item-card">
+          <%= link_to item_path(item), class: "item-link" do %>
+            <!-- Image -->
+            <div class="item-image">
+              <% item_photo_url = cloudinary_item_photo_url(item) %>
+
+              <% if item_photo_url.present? %>
+                <%= image_tag item_photo_url, alt: "Item photo", class: "item-photo" %>
+              <% else %>
+                <%= image_tag item.default_image, alt: "Default item photo", class: "item-photo" %>
+              <% end %>
+            </div>
+
+            <!-- Title -->
+            <div class="item-title">
+              <h3><%= truncate(item.title, length: 25, omission: "...") %></h3>
+            </div>
+          <% end %>
+
+          <!-- Détails de l'item -->
+          <div class="item-details">
+            <% if item.selling_price.present? %>
+              <p class="item-price"><strong>Selling price:</strong> <%= item.selling_price %>€</p>
+            <% end %>
+
+            <% if item.issuer.present? %>
+              <p class="item-issuer"><strong>Issuer:</strong> <%= item.issuer %></p>
+            <% end %>
+
+            <% if item.category.present? %>
+              <p class="item-category"><strong>Category:</strong> <%= item.category %></p>
+            <% end %>
+
+            <% if item.condition.present? %>
+              <p class="item-condition"><strong>Condition:</strong> <%= item.condition.capitalize %></p>
+            <% end %>
+          </div>
+
+          <!-- Boutons d'actions (Buy) -->
+            <div class="item-actions">
+              <% if user_signed_in? %>
+                <% if item.buyer == current_user %>
+                  <p class="text-owner-message">You currently own this item.</p>
+                <% elsif item.for_sale? %>
+                  <%= form_with url: buy_item_path(item), method: :post, class: "d-inline" do %>
+                    <%= button_tag type: "submit", class: "btn buy-item-button shiny-cta" do %>
+                      Buy this item
+                    <% end %>
+                  <% end %>
+                <% end %>
+              <% end %>
+            </div>
+        </div>
+      <% end %>
+    </div>
+
+  <% else %>
+    <div class="no-items-message">
+      <h3>😢 No items for sale right now!</h3>
+      <p>Check back later or list your own items for sale.</p>
+    </div>
+  <% end %>
+</div>

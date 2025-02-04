@@ -1,0 +1,66 @@
+<div class="pricing-container">
+  <h1 class="pricing-title">Choose your plan</h1>
+  <p class="pricing-subtitle">Find the plan that suits you best.</p>
+
+  <div class="pricing-cards">
+    <!-- Free Plan -->
+    <div class="pricing-card">
+      <h2 class="pricing-plan-title">Free</h2>
+      <p class="pricing-price">0€ / month</p>
+      <ul class="pricing-features">
+        <li>✔️ Store up to 50 items</li>
+        <li>✔️ Basic warranty tracking</li>
+        <li>✔️ Limited access to marketplace</li>
+        <li>❌ No advanced tracking</li>
+        <li>❌ Commission on sales</li>
+        <li>❌ No priority support</li>
+        <li>❌ No marketplace discounts</li>
+      </ul>
+      <%= link_to "Get started", user_signed_in? ? profile_path : new_user_session_path, class: "pricing-button" %>
+    </div>
+
+    <!-- Monthly Plan -->
+    <div class="pricing-card">
+      <h2 class="pricing-plan-title">Premium monthly</h2>
+      <p class="pricing-price">2,99€ / month</p>
+      <ul class="pricing-features">
+        <li>✔️ Unlimited items</li>
+        <li>✔️ Advanced warranty & obsolescence tracking</li>
+        <li>✔️ No marketplace commission</li>
+        <li>✔️ Priority support</li>
+        <li>❌ No early access to new features</li>
+        <li>❌ No yearly discount</li>
+      </ul>
+      <%= link_to "Choose plan", user_signed_in? ? profile_path : new_user_session_path, class: "pricing-button" %>
+    </div>
+
+    <!-- Yearly Plan (Encadré en bleu) -->
+    <div class="pricing-card featured">
+      <h2 class="pricing-plan-title">Premium yearly</h2>
+      <p class="pricing-price">29,99€ / year</p>
+      <ul class="pricing-features">
+        <li>✔️ Unlimited items</li>
+        <li>✔️ Advanced warranty & obsolescence tracking</li>
+        <li>✔️ No marketplace commission</li>
+        <li>✔️ Early access to new features</li>
+        <li>✔️ Dedicated priority support</li>
+        <li>✔️ Save 16% vs monthly</li>
+      </ul>
+      <%= link_to "Best deal", user_signed_in? ? profile_path : new_user_session_path, class: "pricing-button best-deal" %>
+    </div>
+
+    <!-- Business Plan -->
+    <div class="pricing-card business">
+      <h2 class="pricing-plan-title">Business</h2>
+      <p class="pricing-price">Contact sales</p>
+      <ul class="pricing-features">
+        <li>✔️ Everything in Premium</li>
+        <li>✔️ Connect to purchase platforms</li>
+        <li>✔️ Team management tools</li>
+        <li>✔️ API & custom integrations</li>
+        <li>✔️ Personalized onboarding</li>
+      </ul>
+      <%= link_to "Contact sales", user_signed_in? ? profile_path : new_user_session_path, class: "pricing-button contact-sales" %>
+    </div>
+  </div>
+</div>

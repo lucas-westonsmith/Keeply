@@ -136,7 +136,7 @@
       border-radius: 8px;
       text-align: center;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      min-height: 300px;
+      min-height: 250px;
 
       i {
         margin-bottom: 1.5rem;
@@ -258,7 +258,7 @@
       width: 45%;
       text-align: center;
       border-radius: 5px;
-      padding: 2rem;
+      padding: 1.5rem;
 
       &.title-container {
         background: linear-gradient(to right, #effdf2, #e3e8fe);
@@ -283,7 +283,6 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 2rem;
 
         .item-left,
         .item {
@@ -322,8 +321,8 @@
 
       .card-divider {
         border: none;
-        border-top: 2px solid #a9a9a9;
-        margin: 1.5rem 0;
+        border-top: 3px solid #a9a9a9;
+        margin: 1.2rem 0;
       }
     }
   }
@@ -420,6 +419,29 @@
 
     z-index: 2;
     background: asset-url('angry-underline-blackos.svg') no-repeat center center;
+    background-size: cover;
+  }
+
+  span {
+    position: relative;
+    z-index: 1;
+  }
+}
+
+.angry-underline-kaki {
+  position: relative;
+  display: inline-block;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -0.4rem;
+    left: -0.5rem;
+    right: -0.5rem;
+    height: 0.5rem;
+
+    z-index: 2;
+    background: asset-url('angry-underline-kaki.svg') no-repeat center center;
     background-size: cover;
   }
 
@@ -694,4 +716,63 @@
   .animate-text, .animate-button {
     opacity: 0; // ✅ Cache les éléments avant l’animation
   }
+}
+
+/* ✅ Styles pour les nouveaux boutons dans Preview, Longevity et FAQ sections */
+.cta-button {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  font-size: 1.25rem;
+  font-weight: bold;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+  text-align: center;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+  }
+}
+
+/* 🎨 Couleurs spécifiques */
+.cta-preview {
+  background-color: #F8CCB0;
+  color: #222;
+  border: none;
+  text-decoration: none;
+
+  &:hover {
+    background-color: darken(#F8CCB0, 10%);
+    text-decoration: none;
+  }
+}
+
+.cta-longevity {
+  background-color: #B8D7E3;
+  color: #222;
+  border: none;
+  text-decoration: none;
+
+  &:hover {
+    background-color: darken(#B8D7E3, 10%);
+    text-decoration: none;
+  }
+}
+
+.cta-faq {
+  background-color: #1899e0;
+  color: white;
+  border: none;
+  text-decoration: none;
+
+  &:hover {
+    background-color: darken(#1899e0, 10%);
+    text-decoration: none;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
 }

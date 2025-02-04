@@ -3,10 +3,10 @@
     <h1 class="animate-text"><strong>All your stuff, one place <span class="text-gradient">– <span class="text-gradient angry-underline-blue">Keeply</span></span></strong></h1>
     <h2 class="animate-text">We help individuals centralize their receipts, track their purchases and warranties, and manage their belongings effortlessly on one seamless platform.</h2>
     <div class="hero-buttons">
-      <a href="/users/sign_up" class="btn btn-primary shiny-cta animate-button">
+      <a href="<%= user_signed_in? ? menu_path : new_user_registration_path %>" class="btn btn-primary shiny-cta animate-button">
         <span>Get started</span>
       </a>
-      <a href="/users/sign_up" class="btn btn-secondary shiny-cta animate-button">
+      <a href="#preview-section" class="btn btn-secondary shiny-cta animate-button">
         Learn more
       </a>
     </div>
@@ -32,26 +32,54 @@
     <h2><span class="angry-underline-blue">Features</span></h2>
     <p>Discover how Keeply simplifies your life</p>
   </div>
+
   <div class="feature-cards container my-5">
     <div class="feature-card">
       <i class="fa-solid fa-receipt fa-2xl" style="color: #3599E0;"></i>
       <h3>Centralized receipts</h3>
       <p>Securely store all your invoices and receipts for quick access.</p>
     </div>
+
     <div class="feature-card">
       <i class="fa-solid fa-box-archive fa-2xl" style="color: #3599E0;"></i>
-      <h3>Smart inventory</h3>
-      <p>Track belongings effortlessly with photos and categorized details.</p>
+      <h3>Optimized inventory</h3>
+      <p>Track belongings easily with photos and categorized details.</p>
     </div>
+
     <div class="feature-card">
       <i class="fa-solid fa-sync-alt fa-2xl" style="color: #3599E0;"></i>
       <h3>Seamless integration</h3>
       <p>Sync receipts automatically from partnered merchants.</p>
     </div>
+
     <div class="feature-card">
       <i class="fa-solid fa-bell fa-2xl" style="color: #3599E0;"></i>
       <h3>Warranty management</h3>
       <p>Never miss a warranty deadline with our smart reminders.</p>
+    </div>
+
+    <div class="feature-card">
+      <i class="fa-solid fa-shopping-cart fa-2xl" style="color: #3599E0;"></i>
+      <h3>Instant-click reselling</h3>
+      <p>List your items in one click and reach buyers effortlessly.</p>
+    </div>
+
+    <div class="feature-card">
+      <i class="fa-solid fa-id-card fa-2xl" style="color: #3599E0;"></i>
+      <h3>Unified loyalty pass</h3>
+      <p>Keeply loyalty card unifies rewards and tracks purchases.</p>
+    </div>
+
+    <div class="feature-card">
+      <i class="fa-solid fa-shield-alt fa-2xl" style="color: #3599E0;"></i>
+      <h3>Verified authenticity</h3>
+      <p>Get certified proof of authenticity for your high-value items.</p>
+    </div>
+
+    <div class="feature-card">
+      <i class="fa-solid fa-chart-line fa-2xl" style="color: #3599E0;"></i>
+      <h3>Intelligent depreciation</h3>
+      <p>Track the real-time value of your items and know when to sell.</p>
     </div>
   </div>
 </div>
@@ -69,7 +97,9 @@
       <h2>Your organized digital hub</h2>
       <p>With Keeply, managing your belongings has never been easier.</p>
       <p>Store invoices, track purchases, and easily organize everything in one secure, smart, and connected place.</p>
+      <p>With one click, your items can be listed for sale, making decluttering more rewarding than ever.</p>
       <p>Everything you need, always at your fingertips.</p>
+      <a href="<%= user_signed_in? ? menu_path : new_user_registration_path %>" class="cta-button cta-preview">Start organizing</a>
     </div>
   </div>
 </div>
@@ -105,6 +135,7 @@
       <p>With Keeply, you’ll never lose track of warranties and can anticipate obsolescence.</p>
       <p>We help you maximize the lifespan of your items through proactive warranty tracking and smart obsolescence insights.</p>
       <p>Stay ahead of maintenance needs and ensure your possessions remain in top condition.</p>
+      <a href="<%= user_signed_in? ? menu_path : new_user_registration_path %>" class="cta-button cta-longevity">Extend item lifespan</a>
     </div>
     <!-- Zone des images -->
     <div class="longevity-images">
@@ -123,10 +154,10 @@
   <!-- Titles for Columns -->
   <div class="titles container my-5">
     <div class="title-container">
-      <h2 class="title-explanation">What you'll get</h2>
+      <h2>What you'll get</h2>
     </div>
     <div class="title-container-right">
-      <h2 class="title-explanation">How to use it</h2>
+      <h2>How to use it</h2>
     </div>
   </div>
 
@@ -197,7 +228,23 @@
       </div>
       <hr class="card-divider">
 
-      <!-- Row 5 -->
+      <!-- Row 5 - -->
+      <div class="card-row">
+        <div class="item-left">
+          <i class="fa-solid fa-store fa-2xl" style="color:#C0E6FB;"></i>
+          <p>A built-in marketplace to sell and buy second-hand items effortlessly.</p>
+        </div>
+        <div class="arrow">
+          <i class="fa-solid fa-circle-arrow-right fa-2xl" style="color:#E6F679;"></i>
+        </div>
+        <div class="item">
+          <i class="fa-solid fa-tag fa-2xl" style="color:#F7B2A8;"></i>
+          <p>List items in one click with auto-filled details and find verified buyers instantly.</p>
+        </div>
+      </div>
+      <hr class="card-divider">
+
+      <!-- Row 6 -->
       <div class="card-row">
         <div class="item-left">
           <i class="fa-solid fa-id-card fa-2xl" style="color:#C0E6FB;"></i>
@@ -249,6 +296,9 @@
       { question: "Can I use Keeply on my mobile device?",
         answer: "Yes! Keeply is fully optimized for mobile use. You can access your account from any device through a web browser, and we're working on a dedicated mobile app for an even better experience." },
 
+      { question: "How do I sell an item?",
+        answer: "Simply go to your items and select 'Sell'. Keeply will auto-fill all the details, so you just set a price, and it's live!" },
+
       { question: "How does the loyalty card feature work?",
         answer: "The Keeply loyalty card syncs purchases automatically when used at checkout with partnered merchants. This means you don’t have to manually add receipts—your purchases will be saved in Keeply instantly." }
     ] %>
@@ -265,5 +315,8 @@
         <hr class="faq-divider">
       </div>
     <% end %>
+  </div>
+  <div class="faq-signup">
+  <a href="<%= user_signed_in? ? menu_path : new_user_registration_path %>" class="cta-button cta-faq">Try Keeply today</a>
   </div>
 </div>

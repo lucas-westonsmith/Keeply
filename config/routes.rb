@@ -10,6 +10,9 @@ Rails.application.routes.draw do
   get '/menu/everyday-life', to: 'super_lists#show', defaults: { title: 'Everyday life' }, as: :menu_everyday_life
   get '/menu/administrative-papers', to: 'super_lists#show', defaults: { title: 'Administrative papers' }, as: :menu_administrative_papers
 
+  get '/marketplace', to: 'items#marketplace', as: :marketplace
+  get '/pricing', to: 'pages#pricing', as: :pricing # ✅ Ajout de la route Pricing
+
   resources :lists, shallow: true do
     resources :items, only: [:new, :create, :index, :edit, :update]
     resources :list_users, only: [:create, :destroy]
@@ -22,6 +25,12 @@ Rails.application.routes.draw do
       get :update_lists
       get :alerts  # ✅ Ajoute la page d'alertes
       get :update_categories  # ✅ Ajout de la mise à jour AJAX des catégories
+    end
+
+    member do
+      post :sell # ✅ Ajoute la route pour mettre un item en vente
+      post :unsell # 👈 Nouvelle route pour annuler la mise en vente
+      post :buy
     end
   end
 
