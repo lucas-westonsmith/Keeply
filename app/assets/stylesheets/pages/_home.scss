@@ -3,7 +3,7 @@
   background: linear-gradient(0deg, rgba(249, 156, 160, 1) 0%, rgba(243, 251, 192, 1) 100%);
   color: black;
   text-align: center;
-  padding: 8rem 2rem;
+  padding: 6rem 2rem;
 
   h1 {
     margin-bottom: 2rem;
@@ -451,6 +451,29 @@
   }
 }
 
+.angry-underline-white {
+  position: relative;
+  display: inline-block;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -0.4rem;
+    left: -0.5rem;
+    right: -0.5rem;
+    height: 0.5rem;
+
+    z-index: 2;
+    background: asset-url('angry-underline-white.svg') no-repeat center center;
+    background-size: cover;
+  }
+
+  span {
+    position: relative;
+    z-index: 1;
+  }
+}
+
 .faq-section {
   background: rgb(243, 251, 192);
   background: linear-gradient(0deg, rgba(243, 251, 192, 1) 0%, rgba(249, 156, 160, 1) 100%);  padding: 5rem 2rem;
@@ -775,4 +798,85 @@
 
 html {
   scroll-behavior: smooth;
+}
+
+.painpoints-section {
+  background: rgb(249, 156, 160);
+  padding: 4rem 0;
+  text-align: center;
+
+  .container {
+    max-width: 85vw; // ✅ Élargit légèrement pour éviter trop d’espace vide
+    margin: 0 auto;
+  }
+
+  h2 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: white;
+    margin-bottom: 2rem;
+  }
+
+  .painpoints-grid {
+    display: flex;
+    justify-content: center; // ✅ Centrage parfait
+    text-align: center;
+    gap: 2.5rem; // ✅ Espacement homogène
+    margin-bottom: 2rem;
+    flex-wrap: wrap; // ✅ Adaptabilité aux petits écrans
+
+    .painpoints-column {
+      flex: 1;
+      max-width: 300px; // ✅ Augmente légèrement la largeur pour éviter le retour à la ligne
+      min-width: 240px;
+      padding: 0.5rem; // ✅ Réduction du padding pour éviter d’étirer les colonnes inutilement
+
+      p {
+        font-size: 1.5rem; // ✅ Taille réduite légèrement pour éviter les lignes en trop
+        font-weight: bold;
+        color: white;
+        margin-bottom: 1rem;
+        display: flex;
+        flex-direction: column; // ✅ Garde la structure Question au-dessus / Réponse en dessous
+        align-items: center;
+
+        span {
+          color: #FF6B6B; // ✅ Rouge vif pour mettre en avant la réponse
+          font-weight: bold;
+          font-size: 1.5rem; // ✅ Réduit légèrement la taille des réponses pour éviter trop d’espace
+          display: block;
+        }
+      }
+    }
+  }
+
+  .painpoints-subtext {
+    max-width: 800px;
+    margin: 2rem auto 0;
+    font-size: 1.4rem;
+    color: white;
+    font-weight: normal;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 1100px) {
+    .container {
+      max-width: 90vw;
+    }
+
+    .painpoints-grid {
+      gap: 2rem;
+    }
+  }
+
+  @media (max-width: 900px) {
+    .painpoints-grid {
+      flex-direction: column;
+      align-items: center;
+
+      .painpoints-column {
+        max-width: 100%;
+      }
+    }
+  }
 }
