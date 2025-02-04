@@ -29,10 +29,12 @@
 
       <div class="list-shared">
         <h3>Shared with:</h3>
-        <% shared_users = @list.list_users.map(&:user).reject { |user| user == @list.user } %>
+        <% all_users = @list.list_users.map(&:user) + [@list.user] %> <!-- Inclut le propriétaire -->
+        <% shared_users = all_users.uniq.reject { |user| user == current_user } %>
+
         <% if shared_users.any? %>
           <p>
-            <%= shared_users.map { |user| "#{user.first_name} #{user.last_name}" }.join(", ") %>
+            <%= shared_users.map { |user| user == @list.user ? "#{user.first_name} #{user.last_name} (owner)" : "#{user.first_name} #{user.last_name}" }.join(", ") %>
           </p>
         <% else %>
           <p>No users have been invited to this list yet.</p>
@@ -207,12 +209,6 @@
                 <% end %>
                 <% if item.condition.present? %>
                   <p class="item-condition"><strong>Condition:</strong> <%= item.condition.capitalize %></p>
-                <% end %>
-                <% if item.lists.any? %>
-                  <p class="item-list">
-                    <strong><%= item.lists.count > 1 ? "Lists" : "List" %>:</strong>
-                    <%= item.lists.map { |list| link_to list.title, list_path(list), class: "list-link" }.join(", ").html_safe %>
-                  </p>
                 <% end %>
               </div>
             <% end %>

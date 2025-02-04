@@ -16,8 +16,29 @@
 
   <!-- Boutons sous la description -->
   <div class="item-actions">
-    <%= link_to 'Edit', edit_item_path(@item), class: 'btn btn-primary action-button' %>
-    <%= link_to 'Delete', item_path(@item), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: 'btn btn-danger action-button' %>
+    <% if @item.buyer == current_user %>
+      <%= link_to 'Edit', edit_item_path(@item), class: 'btn btn-primary action-button' %>
+
+      <% if @item.for_sale? %>
+        <p class="text-listed-for-sale">
+          This item is listed for sale!
+          <% if @item.selling_price.present? %>
+            at <%= @item.selling_price %>€
+          <% end %>
+        </p>
+          <%= form_with url: unsell_item_path(@item), method: :post, class: "d-inline" do %>
+          <button type="submit" class="btn cancel-sale-button">Cancel sale</button>
+        <% end %>
+      <% else %>
+        <button class="btn btn-warning action-button" data-action="click->sell-popup#openPopup">Sell this item</button>
+      <% end %>
+
+      <%= link_to 'Delete', item_path(@item), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: 'btn btn-danger action-button' %>
+    <% elsif @item.for_sale? %>
+      <%= form_with url: buy_item_path(@item), method: :post, class: "d-inline" do %>
+        <button type="submit" class="btn btn-warning action-button">Buy this item</button>
+      <% end %>
+    <% end %>
   </div>
 
   <!-- Ligne grise pleine largeur -->
@@ -27,11 +48,21 @@
   <div class="item-content-wrapper d-flex gap-4 mt-4">
     <!-- Colonne gauche : Informations -->
     <div class="item-info-cards">
-      <% if @item.price.present? %>
-        <div class="info-box">
-          <p><strong>Price:</strong> <%= @item.price %>€</p>
-        </div>
-      <% end %>
+  <% if @item.buyer == current_user %>
+    <!-- ✅ Affichage du prix d'achat uniquement pour le propriétaire -->
+    <% if @item.price.present? %>
+      <div class="info-box">
+        <p><strong>Price:</strong> <%= @item.price %>€</p>
+      </div>
+    <% end %>
+  <% else %>
+    <!-- ✅ Affichage du prix de vente uniquement pour les autres utilisateurs -->
+    <% if @item.selling_price.present? %>
+      <div class="info-box">
+        <p><strong>Selling price:</strong> <%= @item.selling_price %>€</p>
+      </div>
+    <% end %>
+  <% end %>
 
       <% if @item.issuer.present? %>
         <div class="info-box">
@@ -43,7 +74,13 @@
         <div class="info-box">
           <p>
             <strong><%= @item.lists.count > 1 ? "Lists:" : "List:" %></strong>
-            <%= @item.lists.map { |list| link_to list.title, list_path(list), class: "list-link" }.join(", ").html_safe %>
+            <% if @item.buyer == current_user %>
+              <!-- ✅ Le propriétaire actuel peut cliquer -->
+              <%= @item.lists.map { |list| link_to list.title, list_path(list), class: "list-link" }.join(", ").html_safe %>
+            <% else %>
+              <!-- ❌ Les autres utilisateurs voient le nom de la liste mais ne peuvent pas cliquer -->
+              <%= @item.lists.map(&:title).join(", ") %>
+            <% end %>
           </p>
         </div>
       <% end %>
@@ -132,17 +169,16 @@
           <% invoice_url = cloudinary_invoice_url(@item) %>
 
           <% if invoice_url.present? %>
-            <!-- ✅ Lien de téléchargement avec espacement -->
             <div class="download-section">
               <%= link_to 'Download Invoice', invoice_url, target: "_blank", class: 'invoice-link' %>
             </div>
 
-            <!-- ✅ Prévisualisation -->
+            <!-- ✅ Prévisualisation complète -->
             <div class="invoice-preview-container">
               <% pdf_preview_url = invoice_url.sub('.pdf', '.jpg') + "?pg=1&w=700" %>
               <img id="invoice-preview-image" src="<%= pdf_preview_url %>" class="invoice-preview-image" alt="Invoice Image">
 
-              <!-- ✅ Miniatures affichées uniquement si plusieurs pages -->
+              <!-- ✅ Miniatures pour plusieurs pages -->
               <% total_pages = @item.invoice.blob.metadata["pages"].to_i %>
               <% if total_pages > 1 %>
                 <div class="invoice-pages">
@@ -164,9 +200,21 @@
   </div>
 </div>
 
-<!-- ✅ Script pour changer la prévisualisation -->
 <script>
   function updatePreview(url) {
     document.getElementById('invoice-preview-image').src = url;
   }
 </script>
+
+<!-- Pop-up pour entrer le prix de vente -->
+<div id="sell-popup" class="sell-popup hidden" data-controller="sell-popup" data-sell-popup-target="popup" data-action="click->sell-popup#clickOutsideToClose">
+  <div class="sell-popup-content">
+    <h2>Set a selling price</h2>
+    <form id="sell-form" action="<%= sell_item_path(@item) %>" method="post">
+      <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+      <input type="number" name="selling_price" id="selling_price" placeholder="Enter price (€)" required min="1" step="0.01">
+      <button type="submit" class="btn btn-success">Confirm</button>
+      <button type="button" class="btn btn-secondary" data-action="click->sell-popup#closePopup">Cancel</button>
+    </form>
+  </div>
+</div>

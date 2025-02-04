@@ -1,36 +1,68 @@
 class ItemsController < ApplicationController
-  before_action :set_item, only: [:show, :edit, :update, :destroy]
+  before_action :set_item, only: [:show, :edit, :update, :destroy, :sell, :unsell, :buy]
   before_action :set_list, only: [:new, :create]
   before_action :authenticate_user!
 
   # Afficher tous les objets de l'utilisateur
   def index
-    @items = current_user.items
+    # Items que l'utilisateur possède (où il est buyer)
+    owned_items = Item.where("buyer_id = ? OR (buyer_id IS NULL AND user_id = ?)", current_user.id, current_user.id)
 
-    # Tri
+    # Items des listes où il a été invité
+    invited_list_ids = current_user.list_users.pluck(:list_id) # Récupère les listes où l'utilisateur est invité
+    shared_items = Item.joins(:lists).where(lists: { id: invited_list_ids }).distinct
+
+    # Fusion des résultats et suppression des doublons
+    @items = (owned_items + shared_items).uniq
+
+    # Debugging logs
+    puts "👤 Utilisateur: #{current_user.email} (ID: #{current_user.id})"
+    puts "🔍 Lists invitées: #{invited_list_ids.inspect}"
+    puts "📦 Items possédés: #{owned_items.pluck(:id, :title)}"
+    puts "📦 Items partagés: #{shared_items.pluck(:id, :title)}"
+    puts "✅ Tous les items affichés: #{@items.pluck(:id, :title)}"
+
+    # Appliquer les filtres et tris
     case params[:sort]
     when 'price_asc'
-      @items = @items.order(price: :asc)
+      @items = @items.sort_by(&:price)
     when 'price_desc'
-      @items = @items.order(price: :desc)
+      @items = @items.sort_by(&:price).reverse
     when 'newest_first'
-      @items = @items.order(created_at: :desc)
+      @items = @items.sort_by(&:created_at).reverse
     when 'oldest_first'
-      @items = @items.order(created_at: :asc)
-    else
-      # 🌟 Appliquer le tri par défaut SEULEMENT si aucun tri n'est défini
-      @items = @items.order(created_at: :desc) if params[:sort].blank?
+      @items = @items.sort_by(&:created_at)
     end
 
-    # Filtres
-    @items = @items.where(category: params[:category]) if params[:category].present?
-    @items = @items.where(condition: params[:condition]) if params[:condition].present?
-    @items = @items.where(issuer: params[:issuer]) if params[:issuer].present?
-    @items = @items.joins(:lists).where(lists: { id: params[:list_id] }) if params[:list_id].present?
+    # Filtres supplémentaires
+    @items = @items.select { |item| item.category == params[:category] } if params[:category].present?
+    @items = @items.select { |item| item.condition == params[:condition] } if params[:condition].present?
+    @items = @items.select { |item| item.issuer == params[:issuer] } if params[:issuer].present?
+    @items = @items.select { |item| item.lists.exists?(id: params[:list_id]) } if params[:list_id].present?
   end
 
-  # Afficher un objet spécifique
-  def show; end
+# Afficher un objet spécifique
+def show
+  return if @item.for_sale? # ✅ Accessible si l'objet est en vente
+  return if @item.buyer == current_user # ✅ Accessible au buyer actuel
+
+  # 🔥 Récupère TOUTES les listes accessibles par l'utilisateur (celles créées + celles où il est invité)
+  user_lists = current_user.lists.pluck(:id) + current_user.list_users.pluck(:list_id)
+  item_lists = @item.lists.pluck(:id)
+
+  puts "🔍 Debug: User Lists (owned + invited) -> #{user_lists.inspect}"
+  puts "🔍 Debug: Item Lists -> #{item_lists.inspect}"
+  puts "🔍 Debug: Intersection -> #{(user_lists & item_lists).inspect}"
+
+  if (user_lists & item_lists).any?
+    puts "✅ Access granted!"
+    return
+  else
+    puts "❌ Access denied!"
+  end
+
+  redirect_to items_path, alert: "You do not have access to this item."
+end
 
   # Formulaire pour créer un objet
   def new
@@ -57,6 +89,7 @@ class ItemsController < ApplicationController
   # Créer un objet
   def create
     @item = current_user.items.build(item_params)
+    @item.buyer = current_user # ✅ Le créateur devient le premier acheteur
 
     if @item.save
       if params[:item][:list_ids].present?
@@ -193,6 +226,85 @@ class ItemsController < ApplicationController
       end
 
       render partial: "items/categories", locals: { categories: categories }
+    end
+  end
+
+  def sell
+    if current_user == @item.buyer
+      selling_price = params[:selling_price].to_f
+
+      if selling_price > 0
+        if @item.update(for_sale: true, selling_price: selling_price)
+          redirect_to @item, notice: "Your item is now listed for sale at #{selling_price}€!"
+        else
+          redirect_to @item, alert: "Something went wrong. Please try again."
+        end
+      else
+        redirect_to @item, alert: "Please specify a valid selling price."
+      end
+    else
+      redirect_to items_path, alert: "You can't sell an item you don't own!"
+    end
+  end
+
+  def marketplace
+    @items = Item.for_sale
+
+    # Appliquer le filtre de vente
+    if params[:selling_status] == "my_items"
+      @items = @items.where(buyer_id: current_user.id)
+    elsif params[:selling_status] == "others_items"
+      @items = @items.where.not(buyer_id: current_user.id)
+    end
+
+    # Appliquer le tri
+    case params[:sort]
+    when 'price_asc'
+      @items = @items.order(selling_price: :asc)
+    when 'price_desc'
+      @items = @items.order(selling_price: :desc)
+    when 'newest_first'
+      @items = @items.order(created_at: :desc)
+    when 'oldest_first'
+      @items = @items.order(created_at: :asc)
+    end
+
+    # Appliquer les autres filtres
+    @items = @items.where(category: params[:category]) if params[:category].present?
+    @items = @items.where(condition: params[:condition]) if params[:condition].present?
+    @items = @items.where(issuer: params[:issuer]) if params[:issuer].present?
+
+    render :marketplace
+  end
+
+  def buy
+    if @item.buyer == current_user
+      redirect_to marketplace_path, alert: "You already own this item."
+    elsif @item.for_sale?
+      ActiveRecord::Base.transaction do
+        @item.update!(
+          buyer: current_user,       # ✅ Le nouvel acheteur devient le propriétaire
+          price: @item.selling_price, # ✅ Le selling_price devient le price d'achat
+          selling_price: nil,        # ✅ Réinitialisation du prix de vente
+          for_sale: false,           # ✅ L'item n'est plus en vente
+          list_ids: []               # ✅ L'objet est retiré de ses anciennes listes
+        )
+      end
+      redirect_to @item, notice: "You have successfully purchased this item! You can now manage it."
+    else
+      redirect_to marketplace_path, alert: "Something went wrong. Try again."
+    end
+  rescue ActiveRecord::RecordInvalid
+    redirect_to marketplace_path, alert: "An error occurred while processing the purchase."
+  end
+
+  def unsell
+    if @item.buyer != current_user
+      redirect_to @item, alert: "You are not the owner of this item."
+    elsif @item.update(for_sale: false)
+      redirect_to @item, notice: "The item is no longer for sale."
+    else
+      redirect_to @item, alert: "Something went wrong. Try again."
     end
   end
 

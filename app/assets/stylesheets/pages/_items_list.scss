@@ -97,6 +97,10 @@
 
     .item-actions {
       margin-top: 15px;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 10px;
 
       .remove-item-button {
         padding: 0.5rem 1.25rem;
@@ -118,6 +122,37 @@
           text-decoration: none;
         }
       }
+
+      .buy-item-button {
+        background-color: #abad82; /* Couleur demandée */
+        color: white;
+        font-size: 1rem;
+        padding: 0.5rem 1.25rem;
+        border-radius: 0.5rem;
+        font-weight: 600;
+        transition: all 0.2s ease-in-out;
+        border: none;
+        text-decoration: none;
+        display: inline-block;
+      }
+
+      .buy-item-button:hover {
+        background-color: darken(#abad82, 10%);
+      }
+
+      .text-owner-message {
+        font-weight: bold;
+        color: #abad82; /* Même couleur que le bouton */
+        text-align: center;
+        margin-top: 8px;
+      }
+    }
+
+    .text-listed-for-sale {
+      font-weight: bold;
+      color: #abad82; /* Même couleur que btn-warning */
+      text-align: center;
+      margin-top: 8px;
     }
   }
 

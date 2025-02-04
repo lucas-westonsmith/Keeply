@@ -9,7 +9,7 @@ class List < ApplicationRecord
   has_one_attached :photo
 
   # Validations
-  validates :title, presence: true, uniqueness: { scope: :user, message: "You already have a list with this title" }
+  validates :title, presence: true
   validates :super_list, presence: true
 
   # Méthodes

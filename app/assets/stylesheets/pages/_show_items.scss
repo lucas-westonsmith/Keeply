@@ -34,6 +34,7 @@
   /* ✅ Boutons sous la description */
   .item-actions {
     display: flex;
+    align-items: center; /* Aligne verticalement le texte avec les boutons */
     justify-content: center;
     gap: 10px;
     margin-bottom: 1rem;
@@ -65,7 +66,42 @@
           background-color: darken(#F7B2A8, 10%);
         }
       }
+
+      &.btn-warning {
+        background-color: #abad82; // Jaune orangé
+        color: #fff;
+
+        &:hover {
+          background-color: darken(#abad82, 10%);
+        }
+      }
     }
+  }
+
+
+  .cancel-sale-button {
+    background-color: #abad82; /* Même couleur que "This item is listed for sale" */
+    color: white;
+    font-size: 1rem;
+    padding: 0.5rem 1.25rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    transition: all 0.2s ease-in-out;
+    border: none;
+    display: block;
+    margin: 10px auto; /* Centrage sous le texte */
+  }
+
+  .cancel-sale-button:hover {
+    background-color: darken(#abad82, 10%);
+  }
+
+  .text-listed-for-sale {
+    font-weight: bold;
+    color: #abad82; /* Même couleur que btn-warning */
+    font-size: 1rem; /* Ajuste la taille si besoin */
+    text-align: center;
+    margin-top: 17px; /* Ajuste l'espacement vertical pour l'aligner */
   }
 
   /* ✅ Conteneur principal */

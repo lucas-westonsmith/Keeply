@@ -19,14 +19,14 @@ html, body {
 .footer {
   background: #313131; /* Fond noir */
   color: rgba(255, 255, 255, 0.8); /* Texte blanc semi-transparent */
-  padding: 1rem 3rem; /* Ajustez le padding selon vos besoins */
+  padding: 0.5rem 2rem; /* Ajustez le padding selon vos besoins */
   width: 100%;
 
   .footer-content {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    gap: 2rem;
+    gap: 1rem;
 
     .footer-left,
     .footer-right {
@@ -76,7 +76,7 @@ html, body {
   }
 
   .footer-bottom {
-    margin-top: 2rem;
+    margin-top: 1rem;
     text-align: center;
 
     p {
@@ -127,7 +127,7 @@ html, body {
   }
 
   @media (max-width: 480px) {
-    padding: 0.5rem 1rem;
+    padding: 0.25rem 0.5rem;
 
     .footer-content {
       gap: 1rem;
