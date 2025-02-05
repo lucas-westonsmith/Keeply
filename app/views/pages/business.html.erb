@@ -1,0 +1,79 @@
+<div class="business-hero">
+  <div class="container">
+    <h1 class="text-gradient">Keeply for Business</h1>
+    <h2>Enhance customer experience, reduce friction, and streamline receipts, warranties, and ownership verification.</h2>
+    <a href="#contact" class="btn btn-primary shiny-cta">Partner with Keeply</a>
+  </div>
+</div>
+
+<div class="business-sectors">
+  <div class="container">
+    <h2 class="text-gradient angry-underline-blue">Who can benefit?</h2>
+
+    <div class="sectors-grid">
+      <div class="sector-card">
+        <h3><i class="fa-solid fa-store"></i> Retail & E-commerce</h3>
+        <ul>
+          <li>✅ <strong>Reduction of paper costs:</strong> No need to print receipts, everything is stored in Keeply.</li>
+          <li>✅ <strong>Enhanced customer experience:</strong> Buyers can easily retrieve their receipts and warranties.</li>
+          <li>✅ <strong>Encourages repeat purchases:</strong> Detailed purchase tracking helps target renewal offers.</li>
+          <li>✅ <strong>Unified loyalty cards:</strong> No need to scan multiple cards, Keeply centralizes all points.</li>
+          <li>✅ <strong>Automated benefit tracking:</strong> Purchases sync with loyalty programs, reducing lost points.</li>
+          <li>✅ <strong>Purchase incentives:</strong> Users tracking their assets are more likely to buy via targeted promotions.</li>
+        </ul>
+      </div>
+
+      <div class="sector-card">
+        <h3><i class="fa-solid fa-shield-alt"></i> Insurance & Banking</h3>
+        <ul>
+          <li>✅ <strong>Simplifies procedures:</strong> Clients can instantly prove ownership (Keeply stores receipts).</li>
+          <li>✅ <strong>Fraud reduction:</strong> Keeply ensures document authenticity, preventing fake claims.</li>
+          <li>✅ <strong>Optimized customer service:</strong> Less administrative work to retrieve required documents.</li>
+          <li>✅ <strong>Faster reimbursements:</strong> Centralized data allows for quick claim verification.</li>
+        </ul>
+      </div>
+
+      <div class="sector-card">
+        <h3><i class="fa-solid fa-tools"></i> Authorized Repair Services</h3>
+        <ul>
+          <li>✅ <strong>More repairs:</strong> Users receive reminders before warranty expiration, encouraging repair over replacement.</li>
+          <li>✅ <strong>Quick access to invoices:</strong> Repair shops can verify device eligibility without paperwork.</li>
+          <li>✅ <strong>Lead generation:</strong> Keeply recommends authorized repair services when warranties expire.</li>
+        </ul>
+      </div>
+
+      <div class="sector-card">
+        <h3><i class="fa-solid fa-recycle"></i> Second-hand Marketplaces</h3>
+        <ul>
+          <li>✅ <strong>Proof of authenticity and ownership:</strong> Products with a certified Keeply receipt have higher value.</li>
+          <li>✅ <strong>Buyer reassurance:</strong> Verify the origin and remaining warranty before purchase.</li>
+          <li>✅ <strong>Encourages resale:</strong> List a product instantly with pre-filled details.</li>
+          <li>✅ <strong>Fraud prevention:</strong> Keeply checks help limit counterfeit and stolen goods.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="contact" class="business-contact">
+  <div class="container">
+    <h2 class="text-gradient angry-underline-white">Partner with Keeply</h2>
+    <p>Let’s work together. Fill out the form, and our team will reach out to you.</p>
+
+    <%= simple_form_for :business_contact, url: business_contact_path, method: :post do |f| %>
+      <div class="form-group">
+        <%= f.input :company, label: "Company Name", required: true %>
+      </div>
+      <div class="form-group">
+        <%= f.input :industry, label: "Industry", required: true %>
+      </div>
+      <div class="form-group">
+        <%= f.input :email, label: "Email", required: true %>
+      </div>
+      <div class="form-group">
+        <%= f.input :message, label: "How can Keeply help you?", as: :text, required: true %>
+      </div>
+      <%= f.submit "Get in touch", class: "btn btn-primary shiny-cta" %>
+    <% end %>
+  </div>
+</div>

@@ -34,7 +34,10 @@
       <% else %>
         <!-- ✅ Ajout de Pricing pour les utilisateurs non connectés -->
         <div class="navbar-center">
+          <%= link_to "Discover Keeply", root_path, class: "nav-link #{'active' if current_page?(root_path)}" %>
           <%= link_to "Pricing", pricing_path, class: "nav-link #{'active' if current_page?(pricing_path)}" %>
+          <div class="nav-separator"></div>
+          <%= link_to "Keeply for Business", business_path, class: "nav-link #{'active' if current_page?(business_path)}" %>
         </div>
       <% end %>
     </div>
