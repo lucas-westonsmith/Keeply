@@ -1,0 +1,219 @@
+/* ✅ Styles pour la section Business */
+.business-hero {
+  text-align: center;
+  padding: 4rem 0;
+  background: linear-gradient(135deg, #3699E0, #1E5FA8);
+  color: white;
+
+  h1 {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+  }
+
+  h2 {
+    font-size: 1.8rem;
+    max-width: 1000px;
+    margin: 0 auto 2rem;
+  }
+
+  .btn {
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding: 0.75rem 2rem;
+    border-radius: 8px;
+    transition: all 0.3s ease-in-out;
+    display: inline-block;
+    text-decoration: none;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
+    &:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    }
+  }
+
+  .shiny-cta {
+    background: #F99CA0;
+    color: white;
+    &:hover {
+      background: darken(#F99CA0, 10%);
+    }
+  }
+}
+
+/* ✅ Ajustements pour le container */
+.business-sectors {
+  padding: 4rem 0;
+  .container {
+    max-width: 1200px; // ✅ Rapproche les côtés de l’écran
+    margin: 0 auto;
+  }
+
+  h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 3rem;
+  }
+
+  .sector {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    margin-bottom: 2rem;
+    transition: all 0.3s ease-in-out;
+    max-width: 100%;
+
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    h3 {
+      font-size: 1.8rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+
+      i {
+        margin-right: 0.5rem;
+        font-size: 2rem;
+        color: #3699E0;
+      }
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+
+      li {
+        font-size: 1.2rem;
+        margin-bottom: 0.75rem;
+        display: flex;
+        align-items: center;
+
+        strong {
+          font-weight: bold;
+        }
+
+        &:before {
+          content: "✅";
+          margin-right: 0.5rem;
+          font-size: 1.2rem;
+          color: #1E5FA8;
+        }
+      }
+    }
+  }
+
+  /* ✅ Adapter les cards pour qu'elles soient plus larges */
+  .sector {
+    max-width: 100%;
+  }
+}
+
+/* ✅ Formulaire de contact */
+.business-contact {
+  background: #F99CA0;
+  padding: 4rem 0;
+  text-align: center;
+  color: white;
+
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  h2 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+  }
+
+  p {
+    font-size: 1.4rem;
+    margin-bottom: 2rem;
+  }
+
+  /* ✅ Styliser le formulaire Simple Form */
+  form {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    text-align: left;
+
+    .form-group {
+      margin-bottom: 1.5rem;
+
+      label {
+        display: block;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 0.5rem;
+        text-align: left; // ✅ Alignement des labels à gauche
+      }
+
+      input,
+      textarea {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-size: 1.1rem;
+        outline: none;
+        transition: border 0.2s ease-in-out;
+
+        &:focus {
+          border-color: #3699E0;
+        }
+      }
+
+      textarea {
+        height: 120px;
+      }
+    }
+
+    /* ✅ Nouveau design des boutons */
+    .btn {
+      font-size: 1.25rem;
+      font-weight: bold;
+      padding: 0.75rem 2rem;
+      border-radius: 8px;
+      text-decoration: none;
+      text-align: center;
+      transition: all 0.3s ease-in-out;
+      display: block;
+      width: 100%;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
+      &:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+      }
+    }
+
+    .shiny-cta {
+      background: #3699E0;
+      color: white;
+      &:hover {
+        background: darken(#3699E0, 10%);
+      }
+    }
+  }
+}
+
+/* ✅ Responsive */
+@media (max-width: 1024px) {
+  .business-sectors .sector {
+    padding: 1.5rem;
+  }
+
+  .business-contact .container {
+    max-width: 90%;
+  }
+}

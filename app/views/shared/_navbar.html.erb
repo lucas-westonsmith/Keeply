@@ -34,21 +34,24 @@
       <% else %>
         <!-- ✅ Ajout de Pricing pour les utilisateurs non connectés -->
         <div class="navbar-center">
+          <%= link_to "Discover Keeply", root_path, class: "nav-link #{'active' if current_page?(root_path)}" %>
           <%= link_to "Pricing", pricing_path, class: "nav-link #{'active' if current_page?(pricing_path)}" %>
+          <div class="nav-separator"></div>
+          <%= link_to "Keeply for Business", business_path, class: "nav-link #{'active' if current_page?(business_path)}" %>
         </div>
       <% end %>
     </div>
 
     <!-- Right Section -->
     <div class="d-flex align-items-center ms-auto">
-      <!-- Language Switcher -->
+      <%# <!-- Language Switcher -->
       <div class="dropdown me-3">
         <i class="fa-solid fa-globe fa-xl dropdown-toggle language-icon" id="languageDropdown" data-bs-toggle="dropdown" aria-expanded="false"></i>
         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdown">
           <li><a class="dropdown-item no-underline" href="#">English</a></li>
           <li><a class="dropdown-item no-underline" href="#">French</a></li>
         </ul>
-      </div>
+      </div> %>
 
       <% if user_signed_in? %>
         <!-- Avatar -->

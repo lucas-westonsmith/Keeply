@@ -5,15 +5,21 @@
   <% end %>
 </div>
 
-<div class="form-container" data-controller="category">
-  <h1 class="form-title"><span class="text-gradient angry-underline-blue" style="color: #3699e0; font-weight: bold;">Add a new item</span></h1>
+<div class="form-container" data-controller="category toggle-details">
+  <h1 class="form-title">
+    <span class="text-gradient angry-underline-blue" style="color: #3699e0; font-weight: bold;">
+      Add a new item
+    </span>
+  </h1>
   <p class="form-description">Fill out the details below to add a new item to your collection.</p>
 
   <%= simple_form_for (@list ? [@list, @item] : @item), local: true, html: { id: "item-form", data: { controller: "dynamic-lists", "dynamic-lists-url-value" => update_lists_items_path } } do |f| %>
+
+    <!-- ✅ Champ caché pour super_list_id -->
     <%= hidden_field_tag :super_list_id, @super_list_id, id: "hidden-super-list-id" %>
 
     <div class="form-columns">
-      <!-- Colonne gauche -->
+      <!-- Première section visible -->
       <div class="form-column">
         <!-- Title -->
         <div class="form-group">
@@ -23,26 +29,20 @@
           <%= f.input :title, as: :string, placeholder: "Enter the item's title", label: false, required: true, class: "form-input" %>
         </div>
 
-        <!-- Description -->
-        <div class="form-group">
-          <%= f.label :description, "Description", class: "form-label", style: "font-weight: bold;" %>
-          <%= f.input :description, as: :text, placeholder: "Provide a short description of the item", label: false, class: "form-input" %>
-        </div>
-
         <!-- Price / Amount -->
         <div class="form-group">
           <%= f.label :price, class: "form-label", style: "font-weight: bold;" do %>
             Price / Amount (€) <span style="font-weight: normal;">(required)</span>
           <% end %>
-          <%= f.input :price, as: :decimal, placeholder: "Enter the price or amount in euros", label: false, required: true, class: "form-input" %>
+          <%= f.input :price, as: :decimal, placeholder: "Enter the price in euros", label: false, required: true, class: "form-input" %>
         </div>
+      </div>
 
-        <!-- Issuer -->
+      <div class="form-column">
+        <!-- Upload Invoice -->
         <div class="form-group">
-          <%= f.label :issuer, class: "form-label", style: "font-weight: bold;" do %>
-            Issuer <span style="font-weight: normal;">(required)</span>
-          <% end %>
-          <%= f.input :issuer, as: :string, placeholder: "Enter the issuer name (e.g., EDF, Super U)", label: false, required: true, class: "form-input" %>
+          <%= f.label :invoice, "Upload invoice (PDF or image)", class: "form-label", style: "font-weight: bold;" %>
+          <%= f.input :invoice, as: :file, label: false, class: "form-input-file" %>
         </div>
 
         <!-- Pick a family -->
@@ -54,77 +54,94 @@
               options_for_select(current_user.super_lists.pluck(:title, :id), @super_list_id),
               { class: "form-select", required: true, data: { action: "change->dynamic-lists#updateLists" } } %>
         </div>
-
-        <!-- Add to Lists -->
-        <div id="lists-container" data-category-target="listSelect">
-          <%= render partial: "items/lists", locals: { filtered_lists: @filtered_lists, form: f, item_lists: [] } %>
-        </div>
       </div>
+    </div>
 
-      <!-- Colonne droite -->
-      <div class="form-column">
-        <!-- Category -->
-        <div id="categories-container" data-category-target="categoriesContainer">
-          <%= render partial: "items/categories", locals: { f: f, categories: @categories } %>
-        </div>
-
-        <!-- Condition -->
-        <div class="form-group custom-select-wrapper full-width" data-controller="custom-select">
-          <%= f.label :condition, "Condition", class: "form-label font-bold" %> <!-- ✅ Rétabli le gras -->
-          <div class="custom-select">
-            <span class="custom-select-trigger">
-              <% condition_options = {
-                "Poor" => "Poor",
-                "Okay" => "Okay",
-                "Good" => "Good",
-                "Excellent" => "Excellent"
-              } %>
-              <%= condition_options[f.object.condition] || "Select condition" %>
-            </span>
-            <div class="custom-options">
-              <span class="custom-option" data-value="">Select condition</span>
-              <% condition_options.each do |value, label| %>
-                <span class="custom-option" data-value="<%= value %>"><%= label %></span>
-              <% end %>
-            </div>
+    <!-- Section cachée qui se déplie -->
+    <div id="more-details" class="hidden-details" data-toggle-details-target="details">
+      <div class="form-columns">
+        <div class="form-column">
+          <!-- Description -->
+          <div class="form-group">
+            <%= f.label :description, "Description", class: "form-label", style: "font-weight: bold;" %>
+            <%= f.input :description, as: :text, placeholder: "Provide a short description", label: false, class: "form-input" %>
           </div>
-          <input type="hidden" name="item[condition]" id="item_condition" value="<%= f.object.condition %>">
+
+          <!-- Issuer -->
+          <div class="form-group">
+            <%= f.label :issuer, class: "form-label", style: "font-weight: bold;" %>
+            <%= f.input :issuer, as: :string, placeholder: "Enter issuer name", label: false, class: "form-input" %>
+          </div>
+
+          <!-- Condition -->
+          <div class="form-group custom-select-wrapper full-width" data-controller="custom-select">
+            <%= f.label :condition, "Condition", class: "form-label font-bold" %> <!-- ✅ Rétabli le gras -->
+            <div class="custom-select">
+              <span class="custom-select-trigger">
+                <% condition_options = {
+                  "Poor" => "Poor",
+                  "Okay" => "Okay",
+                  "Good" => "Good",
+                  "Excellent" => "Excellent"
+                } %>
+                <%= condition_options[f.object.condition] || "Select condition" %>
+              </span>
+              <div class="custom-options">
+                <span class="custom-option" data-value="">Select condition</span>
+                <% condition_options.each do |value, label| %>
+                  <span class="custom-option" data-value="<%= value %>"><%= label %></span>
+                <% end %>
+              </div>
+            </div>
+            <input type="hidden" name="item[condition]" id="item_condition" value="<%= f.object.condition %>">
+          </div>
+
+          <!-- Upload a picture -->
+          <div class="form-group">
+            <%= f.label :photo, "Upload a picture", class: "form-label", style: "font-weight: bold;" %>
+            <%= f.input :photo, as: :file, label: false, class: "form-input-file" %>
+          </div>
         </div>
 
-        <!-- Purchase Date -->
-        <div class="form-group">
-          <%= f.label :purchase_date, "Purchase date", class: "form-label", style: "font-weight: bold;" %>
-          <%= f.input :purchase_date, as: :string, label: false, input_html: {
-                type: "date",
-                class: "form-input",
-                value: @item.purchase_date.presence || Date.today.strftime("%Y-%m-%d")
-              } %>
-        </div>
+        <div class="form-column">
+          <!-- Add to Lists -->
+          <div id="lists-container" data-category-target="listSelect">
+            <%= render partial: "items/lists", locals: { filtered_lists: @filtered_lists, form: f, item_lists: [] } %>
+          </div>
 
-        <!-- Warranty Expiry Date -->
-        <div class="form-group">
-          <%= f.label :warranty_expiry_date, "Warranty expiry date", class: "form-label", style: "font-weight: bold;" %>
-          <%= f.input :warranty_expiry_date, as: :string, label: false, input_html: {
-                type: "date",
-                class: "form-input",
-                placeholder: "YYYY-MM-DD",
-                value: @item.warranty_expiry_date.presence
-              } %>
-        </div>
+          <!-- Category -->
+          <div id="categories-container" data-category-target="categoriesContainer">
+            <%= render partial: "items/categories", locals: { f: f, categories: @categories } %>
+          </div>
 
-        <!-- Upload a picture -->
-        <div class="form-group">
-          <%= f.label :photo, "Upload a picture of the item", class: "form-label", style: "font-weight: bold;" %>
-          <%= f.input :photo, as: :file, label: false, class: "form-input-file" %>
-        </div>
+          <!-- Purchase Date -->
+          <div class="form-group">
+            <%= f.label :purchase_date, "Purchase date", class: "form-label", style: "font-weight: bold;" %>
+            <%= f.input :purchase_date, as: :string, label: false, input_html: {
+                  type: "date",
+                  class: "form-input",
+                  value: @item.purchase_date.presence || Date.today.strftime("%Y-%m-%d")
+                } %>
+          </div>
 
-        <!-- Upload Invoice -->
-        <div class="form-group">
-          <%= f.label :invoice, "Upload invoice (PDF or image)", class: "form-label", style: "font-weight: bold;" %>
-          <%= f.input :invoice, as: :file, label: false, class: "form-input-file" %>
+          <!-- Warranty Expiry Date -->
+          <div class="form-group">
+            <%= f.label :warranty_expiry_date, "Warranty expiry date", class: "form-label", style: "font-weight: bold;" %>
+            <%= f.input :warranty_expiry_date, as: :string, label: false, input_html: {
+                  type: "date",
+                  class: "form-input",
+                  placeholder: "YYYY-MM-DD",
+                  value: @item.warranty_expiry_date.presence
+                } %>
+          </div>
         </div>
       </div>
     </div>
+
+    <!-- Bouton More Details -->
+    <button type="button" class="toggle-details-btn" data-action="toggle-details#toggle" data-toggle-details-target="button">
+      More details
+    </button>
 
     <!-- Submit and Cancel Buttons -->
     <div class="form-actions d-flex justify-content-center gap-3">
