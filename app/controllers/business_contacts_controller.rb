@@ -1,4 +1,6 @@
 class BusinessContactsController < ApplicationController
+  skip_before_action :authenticate_user!, only: [:create] # ✅ Permet l'envoi du formulaire sans être connecté
+
   def create
     @contact = params[:business_contact]
 

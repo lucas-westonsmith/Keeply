@@ -206,16 +206,15 @@
       flex-direction: column; /* ✅ Met Login et Sign up l’un au-dessus de l’autre */
       align-items: flex-end;
       order: 2; /* ✅ Place après la langue */
-      gap: 5px;
     }
 
     .nav-link.text-white.login {
       font-size: 14px;
-      padding: 5px 10px;
+      padding-top: 5px;
+      padding-left: 5px;
     }
 
     .btn-primary {
-      padding: 6px 12px;
       font-size: 14px;
     }
   }

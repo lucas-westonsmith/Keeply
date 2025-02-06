@@ -5,89 +5,96 @@
   <% end %>
 </div>
 
-<div class="form-container">
-  <h1 class="form-title"><span class="angry-underline-blue">Sign up</span></h1>
+<div class="form-container" data-controller="toggle-details">
+  <h1 class="form-title">
+    <span class="angry-underline-blue">Sign up</span>
+  </h1>
 
   <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
     <%= f.error_notification %>
 
     <div class="form-columns">
-      <!-- Colonne de gauche -->
+      <!-- Première section visible -->
       <div class="form-column">
+        <!-- Email -->
         <div class="form-group">
-          <%= f.label :first_name, class: "form-label" do %>
-            <span style="font-weight: bold;">First name</span>
-          <% end %>
-          <%= f.input :first_name, required: true, autofocus: true, label: false, class: "form-input" %>
+          <%= f.label :email, class: "form-label", style: "font-weight: bold;" %>
+          <%= f.input :email, required: true, autofocus: true, label: false, class: "form-input" %>
         </div>
 
+        <!-- First name -->
         <div class="form-group">
-          <%= f.label :last_name, class: "form-label" do %>
-            <span style="font-weight: bold;">Last name</span>
-          <% end %>
-          <%= f.input :last_name, required: true, label: false, class: "form-input" %>
-        </div>
-
-        <div class="form-group">
-          <%= f.label :email, class: "form-label" do %>
-            <span style="font-weight: bold;">Email</span>
-          <% end %>
-          <%= f.input :email, required: true, label: false, class: "form-input" %>
-        </div>
-
-        <div class="form-group">
-          <%= f.label :password, class: "form-label" do %>
-            <span style="font-weight: bold;">Password</span>
-          <% end %>
-          <%= f.input :password, required: true, hint: "#{@minimum_password_length} characters minimum", label: false, class: "form-input" %>
-        </div>
-
-        <div class="form-group">
-          <%= f.label :password_confirmation, class: "form-label" do %>
-            <span style="font-weight: bold;">Confirm password</span>
-          <% end %>
-          <%= f.input :password_confirmation, required: true, label: false, class: "form-input" %>
+          <%= f.label :first_name, class: "form-label", style: "font-weight: bold;" %>
+          <%= f.input :first_name, required: true, label: false, class: "form-input" %>
         </div>
       </div>
 
-      <!-- Colonne de droite -->
       <div class="form-column">
+        <!-- Password -->
         <div class="form-group">
-        <!-- Date of Birth Field -->
-          <%= f.label :date_of_birth, "Date of birth", class: "form-label", style: "font-weight: bold;" %>
-          <%= f.input :date_of_birth, as: :string, placeholder: "YYYY-MM-DD", label: false, input_html: { type: "date", class: "form-input", min: "1900-01-01", max: "#{Date.today}" } %>
+          <%= f.label :password, class: "form-label", style: "font-weight: bold;" %>
+          <%= f.input :password, required: true, hint: "#{@minimum_password_length} characters minimum", label: false, class: "form-input" %>
         </div>
 
+        <!-- Confirm password -->
         <div class="form-group">
-          <%= f.label :country, class: "form-label" do %>
-            <span style="font-weight: bold;">Country</span>
-          <% end %>
-          <%= f.input :country, as: :string, label: false, class: "form-input" %>
-        </div>
-
-        <div class="form-group">
-          <%= f.label :phone_number, class: "form-label" do %>
-            <span style="font-weight: bold;">Phone number</span>
-          <% end %>
-          <%= f.input :phone_number, label: false, class: "form-input" %>
-        </div>
-
-        <div class="form-group">
-          <%= f.label :preferred_language, class: "form-label" do %>
-            <span style="font-weight: bold;">Preferred language</span>
-          <% end %>
-          <%= f.input :preferred_language, as: :select, collection: ['English', 'French', 'Spanish'], include_blank: true, label: false, class: "form-select" %>
-        </div>
-
-        <div class="form-group">
-          <%= f.label :avatar, class: "form-label" do %>
-            <span style="font-weight: bold;">Picture (Avatar)</span>
-          <% end %>
-          <%= f.input :avatar, as: :file, label: false, class: "form-input-file" %>
+          <%= f.label :password_confirmation, class: "form-label", style: "font-weight: bold;" %>
+          <%= f.input :password_confirmation, required: true, label: false, class: "form-input" %>
         </div>
       </div>
     </div>
 
+    <!-- Section cachée qui se déplie -->
+    <div id="more-details" class="hidden-details" data-toggle-details-target="details">
+      <div class="form-columns">
+        <div class="form-column">
+          <!-- Last name -->
+          <div class="form-group">
+            <%= f.label :last_name, class: "form-label", style: "font-weight: bold;" %>
+            <%= f.input :last_name, required: false, label: false, class: "form-input" %>
+          </div>
+
+          <!-- Date of birth -->
+          <div class="form-group">
+            <%= f.label :date_of_birth, "Date of birth", class: "form-label", style: "font-weight: bold;" %>
+            <%= f.input :date_of_birth, as: :string, placeholder: "YYYY-MM-DD", label: false, input_html: { type: "date", class: "form-input", min: "1900-01-01", max: "#{Date.today}" } %>
+          </div>
+
+          <!-- Phone number -->
+          <div class="form-group">
+            <%= f.label :phone_number, class: "form-label", style: "font-weight: bold;" %>
+            <%= f.input :phone_number, label: false, class: "form-input" %>
+          </div>
+        </div>
+
+        <div class="form-column">
+          <!-- Country -->
+          <div class="form-group">
+            <%= f.label :country, class: "form-label", style: "font-weight: bold;" %>
+            <%= f.input :country, as: :string, label: false, class: "form-input" %>
+          </div>
+
+          <!-- Preferred language -->
+          <div class="form-group">
+            <%= f.label :preferred_language, class: "form-label", style: "font-weight: bold;" %>
+            <%= f.input :preferred_language, as: :select, collection: ['English', 'French', 'Spanish'], include_blank: true, label: false, class: "form-select" %>
+          </div>
+
+          <!-- Picture (Avatar) -->
+          <div class="form-group">
+            <%= f.label :avatar, class: "form-label", style: "font-weight: bold;" %>
+            <%= f.input :avatar, as: :file, label: false, class: "form-input-file" %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bouton More Details -->
+    <button type="button" class="toggle-details-btn" data-action="toggle-details#toggle" data-toggle-details-target="button">
+      More details
+    </button>
+
+    <!-- Submit Button -->
     <div class="form-actions">
       <%= f.button :submit, "Sign up", class: "btn btn-primary action-button" %>
     </div>
