@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_02_04_082400) do
+ActiveRecord::Schema[7.1].define(version: 2025_02_06_162530) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -91,6 +91,16 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_04_082400) do
     t.index ["user_id"], name: "index_lists_on_user_id"
   end
 
+  create_table "loyalty_cards", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "card_number"
+    t.string "barcode_data"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["card_number"], name: "index_loyalty_cards_on_card_number", unique: true
+    t.index ["user_id"], name: "index_loyalty_cards_on_user_id"
+  end
+
   create_table "super_lists", force: :cascade do |t|
     t.string "title"
     t.text "description"
@@ -129,5 +139,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_04_082400) do
   add_foreign_key "list_users", "users"
   add_foreign_key "lists", "super_lists"
   add_foreign_key "lists", "users"
+  add_foreign_key "loyalty_cards", "users"
   add_foreign_key "super_lists", "users"
 end

@@ -1,0 +1,118 @@
+.loyalty-card-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; // ❌ Plus de centrage vertical pour réduire l'espace
+  padding: 2rem 1rem;
+  background-color: #f8f9fa; // Léger fond gris clair
+}
+
+/* ✅ TITRE Keeply Loyalty Card en dehors du cadre blanc */
+.page-title {
+  font-size: 3rem; // 48px en rem
+  font-weight: bold;
+  color: black; // Harmonisé avec les autres titres
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.page-description {
+  font-size: 1.2rem;
+  color: $text-secondary;
+  text-align: center;
+  margin-top: 2rem; // ✅ Espace léger sous la carte
+  max-width: 600px; // ✅ Évite que le texte soit trop large
+}
+
+.loyalty-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 1.5rem; // ⬅️ Réduit le padding
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  text-align: center;
+  max-width: 350px;
+  width: 100%;
+  position: relative;
+}
+
+/* ✅ Nom utilisateur */
+.user-name {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+/* ✅ Cadre du code-barre */
+.barcode-container {
+  margin-top: 0.5rem;
+  padding: 0.8rem;
+  background: #f4f4f4;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  img {
+    width: 100%;
+    max-width: 280px;
+    height: auto;
+  }
+
+  .card-number {
+    font-size: 1.3rem;
+    font-weight: bold;
+    letter-spacing: 1.5px;
+    margin-top: 0.3rem;
+    color: #333;
+  }
+}
+
+/* ✅ Bouton Retour */
+.back-button {
+  margin-bottom: 1rem; // Ajoute un peu d'espace entre le bouton et le titre
+  a {
+    text-decoration: none;
+    font-weight: bold;
+    color: #3699e0;
+    padding: 8px 12px;
+    border-radius: 6px;
+    transition: all 0.2s;
+    display: inline-block;
+
+    &:hover {
+      background-color: rgba(54, 153, 224, 0.1);
+    }
+  }
+}
+
+/* ✅ Supprime toute barre grise moche en bas */
+body {
+  overflow-x: hidden; // Empêche tout débordement horizontal
+}
+
+/* 📱 Responsive - Ajustements pour mobile */
+@media (max-width: 768px) {
+  .loyalty-card-container {
+    padding: 1rem;
+  }
+
+  .loyalty-card {
+    padding: 1.2rem;
+  }
+
+  .page-title {
+    font-size: 2.2rem;
+  }
+
+  .user-name {
+    font-size: 1.1rem;
+  }
+
+  .barcode-container img {
+    max-width: 250px;
+  }
+
+  .card-number {
+    font-size: 1.1rem;
+  }
+}

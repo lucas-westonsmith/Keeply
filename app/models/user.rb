@@ -11,16 +11,23 @@ class User < ApplicationRecord
   has_many :super_lists, dependent: :destroy # Association avec les sur-listes
 
   has_one_attached :avatar
+  has_one :loyalty_card, dependent: :destroy
 
   # Validations
-  validates :first_name, :last_name, presence: true
+  validates :first_name, presence: true
   validates :phone_number, format: { with: /\A\+?\d{10,15}\z/, message: "must be a valid phone number" }, allow_blank: true
   validates :country, length: { maximum: 50 }, allow_blank: true
 
   # Callbacks
   after_create :create_default_super_lists
+  after_create :create_loyalty_card
 
   private
+
+  # Crée la carte de fidélité après la création de l'utilisateur
+  def create_loyalty_card
+    LoyaltyCard.create(user: self)
+  end
 
   # Crée les 3 sur-listes par défaut après la création de l'utilisateur
   def create_default_super_lists

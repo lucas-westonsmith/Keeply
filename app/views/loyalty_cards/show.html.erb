@@ -1,0 +1,25 @@
+<div class="back-button">
+  <%= link_to menu_path, class: "back-link" do %>
+    <i class="back-arrow"></i>
+    Back
+  <% end %>
+</div>
+
+<div class="loyalty-card-container">
+  <h1 class="page-title text-gradient angry-underline-blue">Keeply Loyalty Card</h1> <!-- ✅ En dehors du cadre blanc -->
+
+  <div class="loyalty-card">
+    <p class="user-name"><%= current_user.first_name %> <%= current_user.last_name %></p>
+    <p class="user-name"><%= current_user.email %></p>
+
+    <div class="barcode-container">
+      <img src="data:image/png;base64,<%= @loyalty_card.barcode %>" alt="Loyalty Card Barcode">
+      <p class="card-number"><%= @loyalty_card.card_number %></p>
+    </div>
+  </div>
+
+  <p class="page-description">
+  Thanks to your Keeply loyalty card, your receipts sync automatically with partnered merchants,
+  unifying rewards and tracking your purchases effortlessly.
+</p>
+</div>

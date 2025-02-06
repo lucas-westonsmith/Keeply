@@ -52,6 +52,10 @@ gem "simple_form", github: "heartcombo/simple_form"
 gem "sassc-rails"
 gem "flatpickr"
 gem "cloudinary"
+gem 'barby'
+gem 'rqrcode'
+gem 'chunky_png' # Nécessaire pour l’export d’image
+
 
 group :development, :test do
   gem "dotenv-rails"

@@ -77,6 +77,7 @@
         <% end %>
         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="avatarDropdown">
           <%= link_to "Profile", profile_path, class: "dropdown-item no-underline" %>
+          <%= link_to "Loyalty card", loyalty_card_path, class: "dropdown-item no-underline" %>
           <!-- ✅ Ajout de Pricing ici -->
           <%= link_to "Pricing", pricing_path, class: "dropdown-item no-underline" %>
           <%= link_to "Log out", destroy_user_session_path, class: "dropdown-item no-underline", data: { turbo_method: :delete } %>

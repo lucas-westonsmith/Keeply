@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  get 'business_contacts/create'
   devise_for :users
 
   root to: "pages#home"
@@ -15,6 +14,8 @@ Rails.application.routes.draw do
   get '/pricing', to: 'pages#pricing', as: :pricing # ✅ Ajout de la route Pricing
   get '/business', to: 'pages#business', as: :business # ✅ Ajout de la route Business
   post '/business_contact', to: 'business_contacts#create', as: :business_contact # ✅ Ajout de la route pour le formulaire de contact
+
+  resource :loyalty_card, only: [:show] # ✅ Route RESTful pour afficher la carte de fidélité
 
   resources :lists, shallow: true do
     resources :items, only: [:new, :create, :index, :edit, :update]
