@@ -122,7 +122,7 @@ end
   def update
     if @item.update(item_params)
       @item.lists = List.where(id: params[:item][:list_ids].reject(&:blank?)) if params[:item][:list_ids].present?
-      redirect_to @item, notice: 'The item has been successfully updated.'
+      redirect_to item_path(@item), allow_other_host: true, notice: 'The item has been successfully updated.'
     else
       flash.now[:alert] = "Unable to update the item. Please check the form."
       render :edit
