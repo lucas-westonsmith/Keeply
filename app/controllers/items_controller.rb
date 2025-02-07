@@ -98,7 +98,7 @@ end
           ItemList.find_or_create_by(item_id: @item.id, list_id: list_id)
         end
       end
-      redirect_to @item, notice: 'The item has been successfully added.'
+      redirect_to item_path(@item), allow_other_host: true, notice: 'The item has been successfully added.'
     else
       flash.now[:alert] = "Unable to save the item. Please check the form."
       render :new
