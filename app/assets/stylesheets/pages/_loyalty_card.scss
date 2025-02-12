@@ -16,7 +16,7 @@
   margin-bottom: 3rem;
 }
 
-.page-description {
+.page-description-loyalty {
   font-size: 1.2rem;
   color: $text-secondary;
   text-align: center;
@@ -64,24 +64,6 @@
     letter-spacing: 1.5px;
     margin-top: 0.3rem;
     color: #333;
-  }
-}
-
-/* ✅ Bouton Retour */
-.back-button {
-  margin-bottom: 1rem; // Ajoute un peu d'espace entre le bouton et le titre
-  a {
-    text-decoration: none;
-    font-weight: bold;
-    color: #3699e0;
-    padding: 8px 12px;
-    border-radius: 6px;
-    transition: all 0.2s;
-    display: inline-block;
-
-    &:hover {
-      background-color: rgba(54, 153, 224, 0.1);
-    }
   }
 }
 

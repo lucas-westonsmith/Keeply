@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   get '/pricing', to: 'pages#pricing', as: :pricing # ✅ Ajout de la route Pricing
   get '/business', to: 'pages#business', as: :business # ✅ Ajout de la route Business
   post '/business_contact', to: 'business_contacts#create', as: :business_contact # ✅ Ajout de la route pour le formulaire de contact
+  post "items/extract_invoice_data", to: "items#extract_invoice_data"
 
   resource :loyalty_card, only: [:show] # ✅ Route RESTful pour afficher la carte de fidélité
 

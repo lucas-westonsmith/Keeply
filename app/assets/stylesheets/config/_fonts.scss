@@ -6,10 +6,14 @@
 $body-font: 'Inter', 'Helvetica', 'sans-serif';
 $headers-font: 'Inter', 'Helvetica', 'sans-serif';
 
-html, body {
-  overflow-x: hidden; // Supprime le scroll horizontal
+html {
   width: 100%;
   max-width: 100vw;
+}
+
+body {
+  overflow-x: hidden !important; /* ✅ Supprime le scroll horizontal SANS affecter fixed */
+  position: relative; /* ✅ Garde le contenu stable */
 }
 
 // Define font sizes

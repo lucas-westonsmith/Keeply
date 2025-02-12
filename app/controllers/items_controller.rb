@@ -41,28 +41,158 @@ class ItemsController < ApplicationController
     @items = @items.select { |item| item.lists.exists?(id: params[:list_id]) } if params[:list_id].present?
   end
 
-# Afficher un objet spécifique
-def show
-  return if @item.for_sale? # ✅ Accessible si l'objet est en vente
-  return if @item.buyer == current_user # ✅ Accessible au buyer actuel
+  # Afficher un objet spécifique
+  def show
+    return if @item.for_sale? # ✅ Accessible si l'objet est en vente
+    return if @item.buyer == current_user # ✅ Accessible au buyer actuel
 
-  # 🔥 Récupère TOUTES les listes accessibles par l'utilisateur (celles créées + celles où il est invité)
-  user_lists = current_user.lists.pluck(:id) + current_user.list_users.pluck(:list_id)
-  item_lists = @item.lists.pluck(:id)
+    # 🔥 Récupère TOUTES les listes accessibles par l'utilisateur (celles créées + celles où il est invité)
+    user_lists = current_user.lists.pluck(:id) + current_user.list_users.pluck(:list_id)
+    item_lists = @item.lists.pluck(:id)
 
-  puts "🔍 Debug: User Lists (owned + invited) -> #{user_lists.inspect}"
-  puts "🔍 Debug: Item Lists -> #{item_lists.inspect}"
-  puts "🔍 Debug: Intersection -> #{(user_lists & item_lists).inspect}"
+    puts "🔍 Debug: User Lists (owned + invited) -> #{user_lists.inspect}"
+    puts "🔍 Debug: Item Lists -> #{item_lists.inspect}"
+    puts "🔍 Debug: Intersection -> #{(user_lists & item_lists).inspect}"
 
-  if (user_lists & item_lists).any?
-    puts "✅ Access granted!"
-    return
-  else
-    puts "❌ Access denied!"
+    if (user_lists & item_lists).any?
+      puts "✅ Access granted!"
+      return
+    else
+      puts "❌ Access denied!"
+    end
+
+    redirect_to items_path, alert: "You do not have access to this item."
   end
 
-  redirect_to items_path, alert: "You do not have access to this item."
-end
+  def extract_invoice_data
+    return render json: { error: "No file uploaded" }, status: :unprocessable_entity unless params[:invoice]
+
+    file = params[:invoice]
+    tempfile = file.tempfile.path
+
+    # 📂 Convertir le PDF en image si nécessaire
+    if file.content_type == "application/pdf"
+      image_path = "#{tempfile}.png"
+      system("magick convert -density 300 #{tempfile}[0] -quality 100 #{image_path}")
+
+      return render json: { error: "PDF conversion failed" }, status: :unprocessable_entity unless File.exist?(image_path)
+
+      tempfile = image_path
+    end
+
+    # 🔍 Extraction OCR
+    extracted_text = RTesseract.new(tempfile).to_s
+    puts "🔎 OCR Extracted Text (Lignes séparées) :"
+    extracted_text.each_line { |line| puts "👉 #{line.strip}" }
+
+    # 💰 **EXTRACTION DU PRIX TOTAL (Total TTC en priorité)**
+    total_regex = /
+      (?:Total\s*(?:\(TTC\)|amount|due|Grand\s*Total|including\s*tax|Final\s*Price|Net\s*à\s*payer))
+      \s*[:]?[\s\n]*
+      (€|EUR|\$|USD|£|GBP|CHF|JPY|CAD|AUD)?
+      \s*
+      ([\d,.]+)
+    /ix
+
+    price_match = extracted_text.scan(total_regex)
+    best_price = nil
+
+    if price_match.any?
+      best_price_data = price_match.last
+      price_currency = best_price_data[0] || "€"
+      price_value = best_price_data[1]
+
+      price_value = price_value.gsub(/(?<=\d)[.,](?=\d{3}\b)/, "")
+      price_value = price_value.gsub(",", ".") if price_value.count(",") == 1
+
+      numeric_price = price_value.to_f
+      best_price = "#{numeric_price.round(2)} #{price_currency}"
+      puts "✅ Correct Price Extraction: #{best_price}"
+    else
+      puts "❌ AUCUN PRIX TROUVÉ VIA TOTAL TTC, ON DÉBUGUE :"
+      total_lines = extracted_text.lines.select { |line| line.match?(/Total/i) }
+      puts "🔎 LIGNES CONTENANT 'TOTAL' :"
+      total_lines.each { |line| puts "👉 #{line.strip}" }
+
+      price_matches = extracted_text.scan(/(€|EUR|\$|USD|£|GBP|CHF|JPY|CAD|AUD)?\s*([\d,.]+)/i)
+      if price_matches.any?
+        prices = price_matches.map do |match|
+          currency = match[0] || "€"
+          amount = match[1].gsub(/(?<=\d)[.,](?=\d{3}\b)/, "").gsub(",", ".").to_f
+          [amount, currency]
+        end
+
+        puts "🔍 Tous les prix trouvés (y compris sans devise) : #{prices.inspect}"
+        filtered_prices = prices.select { |amount, _| amount > 5 && amount < 10000 } # ✅ Exclusion des valeurs absurdes (évite 2025.0 €)
+        if filtered_prices.any?
+          best_price_value = filtered_prices.max_by { |amount, _| amount }
+          best_price = "#{best_price_value[0].round(2)} #{best_price_value[1]}"
+        end
+        puts "🔎 Fallback Price Extraction: #{best_price}"
+      else
+        best_price = nil
+      end
+    end
+
+    # 🏢 **Détection de l'Issuer (Ajout de `Émetteur : ...` en plus des autres formats)**
+    issuer_regex = /(?:Company Name|Issued by|Fournisseur|Vendeur|Seller Details|Émetteur)\s*[:]?[\s\n]*(.+)/i
+    issuer = extracted_text.match(issuer_regex)&.captures&.first&.strip if extracted_text.match(issuer_regex)
+
+    puts "✅ Issuer Extraction: #{issuer}" if issuer
+
+    # 📄 **Titre de l'Invoice**
+    invoice_number_regex = /(?:Invoice Number|Facture|Commande|n°)\s*[:#]?\s*(\S+)/i
+    invoice_number = extracted_text.match(invoice_number_regex)&.captures&.first
+
+    title = if invoice_number && issuer
+      "Invoice ##{invoice_number} - #{issuer}"
+    elsif invoice_number
+      "Invoice ##{invoice_number}"
+    elsif issuer
+      "Invoice - #{issuer}"
+    else
+      nil
+    end
+
+    # 📆 **Détection des Dates (Achat & Expiration garantie)**
+    purchase_date_regex = /(?:Purchase Date|Date d'achat|Payment Date|Date)\s*[:]?[\s]?(\d{1,2}\s+\w+\s+\d{4}|\d{1,2}[-\/.]\d{1,2}[-\/.]\d{2,4}|\w+\s+\d{1,2},\s+\d{4})/i
+    warranty_expiry_regex = /(?:Warranty Expiry Date|Date d'expiration de garantie|Valid until)\s*[:]?[\s]?(\d{1,2}\s+\w+\s+\d{4}|\d{1,2}[-\/.]\d{1,2}[-\/.]\d{2,4}|\w+\s+\d{1,2},\s+\d{4})/i
+
+    purchase_date = extracted_text.match(purchase_date_regex)&.captures&.first
+    warranty_expiry_date = extracted_text.match(warranty_expiry_regex)&.captures&.first
+
+    def convert_date(date_string)
+      return nil unless date_string
+      begin
+        Date.strptime(date_string, "%d/%m/%Y").strftime("%Y-%m-%d")
+      rescue ArgumentError
+        begin
+          Date.strptime(date_string, "%m-%d-%Y").strftime("%Y-%m-%d")
+        rescue ArgumentError
+          begin
+            Date.strptime(date_string, "%d %B %Y").strftime("%Y-%m-%d")
+          rescue ArgumentError
+            begin
+              Date.strptime(date_string, "%B %d, %Y").strftime("%Y-%m-%d")
+            rescue ArgumentError
+              nil
+            end
+          end
+        end
+      end
+    end
+
+    purchase_date = convert_date(purchase_date)
+    warranty_expiry_date = convert_date(warranty_expiry_date)
+
+    render json: {
+      price: best_price,
+      issuer: issuer,
+      title: title,
+      purchase_date: purchase_date,
+      warranty_expiry_date: warranty_expiry_date
+    }
+  end
 
   # Formulaire pour créer un objet
   def new

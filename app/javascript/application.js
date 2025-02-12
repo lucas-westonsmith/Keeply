@@ -7,18 +7,24 @@ import "bootstrap";  // Bootstrap JS
 
 console.log("✅ Application JS chargé avec Bootstrap et Stimulus!");
 
-// ✅ S'assurer que les scripts s'exécutent après navigation avec Turbo
 document.addEventListener("turbo:load", () => {
   console.log("🔥 Turbo:load fired, réinitialisation des animations!");
 
-  // ✅ Forcer le rechargement des animations GSAP après chaque navigation
-  if (window.gsap && window.ScrollTrigger) {
-    ScrollTrigger.refresh();
-  }
+  // ✅ Gestion du back-button au scroll avec fade-out progressif
+  const backButton = document.querySelector(".back-button");
+  if (backButton) {
+    let lastScrollY = window.scrollY;
 
-  // ✅ Relancer les animations Stimulus si nécessaire
-  if (window.Stimulus) {
-    Stimulus.start();
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 50 && lastScrollY < window.scrollY) {
+        backButton.classList.add("fading"); // Déclenche le fade-out
+        setTimeout(() => backButton.classList.add("hidden"), 500); // Disparition après le fade
+      } else {
+        backButton.classList.remove("hidden");
+        backButton.classList.remove("fading"); // Réaffichage avec fade-in
+      }
+      lastScrollY = window.scrollY;
+    });
   }
 });
 

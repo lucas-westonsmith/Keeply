@@ -13,6 +13,58 @@ class Item < ApplicationRecord
   scope :for_sale, -> { where(for_sale: true) } # Permet de récupérer uniquement les items en vente
 
   before_save :normalize_blank_values
+  after_save :extract_invoice_data, if: -> { invoice.attached? }
+
+  def extract_invoice_data
+    return unless invoice.content_type.in?(%w[image/png image/jpg image/jpeg application/pdf])
+
+    tempfile = Tempfile.new(['invoice', File.extname(invoice.filename.to_s)])
+    tempfile.binmode
+    tempfile.write(invoice.download)
+    tempfile.rewind
+
+    # 📂 Conversion du PDF en image si nécessaire
+    if invoice.content_type == "application/pdf"
+      begin
+        image_path = "#{tempfile}.png"
+        MiniMagick::Tool::Convert.new do |convert|
+          convert.density(300)
+          convert << tempfile
+          convert << "-quality" << "100"
+          convert << image_path
+        end
+        tempfile = image_path
+      rescue => e
+        Rails.logger.error "Failed to convert PDF: #{e.message}"
+        return
+      end
+    end
+
+    # 🔍 Extraction OCR
+    extracted_text = RTesseract.new(tempfile).to_s
+
+    # 💰 Extraction du Prix
+    price_regex = /\b(\d{1,3}(?:[.,]\d{3})*(?:[.,]\d{2})?)\s?(€|EUR|\$|USD|£|GBP|CHF|JPY|CAD|AUD)\b/i
+    self.price = extracted_text.match(price_regex)&.captures&.join(" ")&.gsub(",", ".")
+
+    # 🏢 Extraction de l'Issuer
+    issuer_regex = /\b(#{issuer_list.join("|")})\b/i
+    self.issuer = extracted_text.match(issuer_regex)&.captures&.first
+
+    # 📄 Extraction du Titre
+    invoice_number_regex = /(?:Facture|Invoice|Commande)\s*n°\s*(\S+)/i
+    invoice_number = extracted_text.match(invoice_number_regex)&.captures&.first
+    self.title = invoice_number || (self.issuer ? "Invoice - #{self.issuer}" : nil)
+
+    # 📆 Extraction des dates
+    purchase_date_regex = /(?:Date d'achat|Purchase Date)\s*[:]?(\d{1,2}[-\/.]\d{1,2}[-\/.]\d{2,4})/i
+    warranty_expiry_regex = /(?:Date d'expiration de garantie|Warranty Expiry Date)\s*[:]?(\d{1,2}[-\/.]\d{1,2}[-\/.]\d{2,4})/i
+
+    self.purchase_date = convert_date(extracted_text.match(purchase_date_regex)&.captures&.first)
+    self.warranty_expiry_date = convert_date(extracted_text.match(warranty_expiry_regex)&.captures&.first)
+
+    save
+  end
 
   CATEGORY_MAPPING = {
     # 🏡 Home Items (avec catégories communes)
