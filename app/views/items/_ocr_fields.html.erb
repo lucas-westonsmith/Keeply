@@ -1,0 +1,12 @@
+<div class="form-group custom-file-wrapper">
+  <%= f.label :invoice, "Upload invoice (PDF or image)", class: "form-label", style: "font-weight: bold;" %>
+  <div class="custom-file-input-wrapper">
+    <label for="file-upload" class="custom-file-label">Choose a file</label>
+    <%= f.file_field :invoice, class: "form-input-file", id: "file-upload", data: { ocr_target: "fileInput" } %>
+    <span class="file-name" data-ocr-target="fileName">
+      <%= @item.invoice.attached? ? @item.invoice.filename.to_s : "No file chosen" %>
+    </span>
+  </div>
+  <p class="loading hidden" data-ocr-target="loading">⏳ Processing invoice...</p>
+  <p class="message" data-ocr-target="message"></p>
+</div>

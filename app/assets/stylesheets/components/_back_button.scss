@@ -1,7 +1,8 @@
+/* ✅ Back-button stable avec fade-out progressif */
 .back-button {
-  position: absolute;
-  top: 100px; /* Position par défaut */
-  left: 120px;
+  position: fixed !important; /* ✅ Reste fixé */
+  top: 100px !important; /* ✅ Toujours en haut */
+  left: 120px !important; /* ✅ Toujours aligné */
   z-index: 1000;
   display: flex;
   align-items: center;
@@ -9,6 +10,16 @@
   font-size: 1.1rem;
   font-weight: bold;
   cursor: pointer;
+  transition: opacity 0.5s ease-in-out, visibility 0.6s ease-in-out; /* ✅ Transition plus fluide */
+
+  &.fading {
+    opacity: 0; /* Commence le fade-out */
+  }
+
+  &.hidden {
+    visibility: hidden; /* Disparaît totalement après le fade */
+    pointer-events: none;
+  }
 
   .back-link {
     display: flex;
@@ -34,39 +45,21 @@
     }
   }
 
-  /* Styles spécifiques pour la page "lists-show" */
+  /* ✅ Styles spécifiques pour la page "lists-show" */
   .list-show-container & {
-    top: 400px; /* Ajuste la position spécifique pour le show de listes */
+    top: 400px !important; /* ✅ Ajuste pour le show de listes */
   }
 
-  /* Responsive adjustments */
+  /* 📱 Responsive adjustments */
   @media (max-width: 768px) {
-    top: 80px;
-    left: 20px;
+    top: 80px !important;
+    left: 20px !important;
     font-size: 1rem;
-
-    .back-link {
-      gap: 8px;
-
-      .back-arrow {
-        width: 12px;
-        height: 12px;
-      }
-    }
   }
 
   @media (max-width: 480px) {
-    top: 60px;
-    left: 10px;
+    top: 60px !important;
+    left: 10px !important;
     font-size: 0.9rem;
-
-    .back-link {
-      gap: 6px;
-
-      .back-arrow {
-        width: 10px;
-        height: 10px;
-      }
-    }
   }
 }
